@@ -22,11 +22,11 @@
             <div class="form-group">
                 <label for="login-password">Password</label>
                 <input id="login-password" type="password" class="form-control" value="••••••••">
-                <div style="text-align: right; margin-top: 8px; font-size: 0.8rem; color: var(--text-secondary); cursor: pointer;">Forgot password?</div>
+                <div style="text-align: right; margin-top: 8px; font-size: 0.8rem; color: var(--color-dark-500); cursor: pointer;">Forgot password?</div>
             </div>
             <div style="margin: 24px 0;">
-                <div style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 8px;">New here?</div>
-                <div style="border: 1px solid var(--border-color); padding: 12px; border-radius: 6px; font-size: 0.8rem; color: var(--text-secondary);">
+                <div style="font-size: 0.85rem; color: var(--color-dark-500); margin-bottom: 8px;">New here?</div>
+                <div style="border: 1px solid var(--color-light-gray-200); padding: 12px; border-radius: 6px; font-size: 0.8rem; color: var(--color-dark-500);">
                     Sign up creates an employee account.<br>Admin roles are assigned later by your administrator.
                 </div>
             </div>
@@ -65,15 +65,15 @@
                 <div class="card-grid">
                     <div class="card">
                         <div class="card-title">Available</div>
-                        <div class="card-value" style="color: var(--accent-green);">128</div>
+                        <div class="card-value" style="color: var(--color-success);">128</div>
                     </div>
                     <div class="card">
                         <div class="card-title">Allocated</div>
-                        <div class="card-value" style="color: var(--accent-blue);">35</div>
+                        <div class="card-value" style="color: var(--color-info);">35</div>
                     </div>
                     <div class="card">
                         <div class="card-title">Under Maintenance</div>
-                        <div class="card-value" style="color: var(--accent-yellow);">4</div>
+                        <div class="card-value" style="color: var(--color-warning);">4</div>
                     </div>
                 </div>
 
@@ -105,15 +105,15 @@
                 <h3>Recent Activity</h3>
                 <div class="activity-feed">
                     <div class="activity-item">
-                        <span><span style="color: var(--accent-blue); margin-right: 8px;">●</span>Laptop AF-0114 — allocated to Priya Shah — IT dept</span>
+                        <span><span style="color: var(--color-info); margin-right: 8px;">●</span>Laptop AF-0114 — allocated to Priya Shah — IT dept</span>
                         <span class="activity-time">2m ago</span>
                     </div>
                     <div class="activity-item">
-                        <span><span style="color: var(--text-secondary); margin-right: 8px;">●</span>Room B2 — booking confirmed — 2:00 to 3:00 PM</span>
+                        <span><span style="color: var(--color-dark-500); margin-right: 8px;">●</span>Room B2 — booking confirmed — 2:00 to 3:00 PM</span>
                         <span class="activity-time">15m ago</span>
                     </div>
                     <div class="activity-item">
-                        <span><span style="color: var(--accent-green); margin-right: 8px;">●</span>Projector AF-0092 — maintenance resolved</span>
+                        <span><span style="color: var(--color-success); margin-right: 8px;">●</span>Projector AF-0092 — maintenance resolved</span>
                         <span class="activity-time">1h ago</span>
                     </div>
                 </div>
@@ -123,7 +123,7 @@
             <div id="view-org-setup" class="view-container">
                 <div class="screen-header">
                     Organization Setup
-                    <button class="btn btn-success">+ Add</button>
+                    <button class="btn btn-success" onclick="demoOrgAdd(this)">+ Add</button>
                 </div>
                 <div class="tabs" id="org-tabs">
                     <div class="tab active">Departments</div>
@@ -143,7 +143,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <div style="margin-top: 12px; font-size: 0.85rem; color: var(--text-secondary);">Adding a department here also drives the picklists in Asset Registration and Allocation forms.</div>
+                    <div style="margin-top: 12px; font-size: 0.85rem; color: var(--color-dark-500);">Adding a department here also drives the picklists in Asset Registration and Allocation forms.</div>
                 </div>
 
                 <!-- Tab Panel: Categories -->
@@ -179,24 +179,24 @@
             <div id="view-assets" class="view-container">
                 <div class="screen-header">
                     Asset Registration &amp; Directory
-                    <button class="btn btn-success">+ Register Asset</button>
+                    <button class="btn btn-success" onclick="demoRegisterAsset(this)">+ Register Asset</button>
                 </div>
                 <div style="margin-bottom: 24px;">
                     <input id="asset-search-input" type="text" class="form-control" placeholder="Search by tag, name, serial or QR code..." style="margin-bottom: 12px;">
                     <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                        <button class="btn">Category</button>
-                        <button class="btn">Status</button>
-                        <button class="btn">Department</button>
+                        <button class="btn" onclick="demoToggleFilter(this)">Category</button>
+                        <button class="btn" onclick="demoToggleFilter(this)">Status</button>
+                        <button class="btn" onclick="demoToggleFilter(this)">Department</button>
                     </div>
                 </div>
                 <div class="table-container">
                     <table>
                         <thead><tr><th>Tag</th><th>Name</th><th>Category</th><th>Status</th><th>Location</th></tr></thead>
                         <tbody id="asset-table-body">
-                            <tr><td>AF-0012</td><td>Dell Laptop</td><td>Electronics</td><td><span class="badge gray">Allocated</span></td><td>Bangalore</td></tr>
-                            <tr><td>AF-0042</td><td>Epson Projector</td><td>Electronics</td><td><span class="badge yellow">Maintenance</span></td><td>HQ Floor 2</td></tr>
-                            <tr><td>AF-0201</td><td>Office Chair</td><td>Furniture</td><td><span class="badge green">Available</span></td><td>Warehouse</td></tr>
-                            <tr><td>AF-ROOM-001</td><td>Meeting Room Alpha</td><td>Meeting Rooms</td><td><span class="badge green">Available</span></td><td>First Floor</td></tr>
+                            <tr><td class=" mono\>AF-0012</td><td>Dell Laptop</td><td>Electronics</td><td><span class="badge gray">Allocated</span></td><td>Bangalore</td></tr>
+                            <tr><td class=" mono\>AF-0042</td><td>Epson Projector</td><td>Electronics</td><td><span class="badge yellow">Maintenance</span></td><td>HQ Floor 2</td></tr>
+                            <tr><td class=" mono\>AF-0201</td><td>Office Chair</td><td>Furniture</td><td><span class="badge green">Available</span></td><td>Warehouse</td></tr>
+                            <tr><td class=" mono\>AF-ROOM-001</td><td>Meeting Room Alpha</td><td>Meeting Rooms</td><td><span class="badge green">Available</span></td><td>First Floor</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -206,42 +206,40 @@
             <div id="view-allocation" class="view-container">
                 <div class="screen-header">Asset Allocation &amp; Transfer</div>
                 <div class="card">
-                    <div class="form-group">
-                        <label>Asset</label>
-                        <input type="text" class="form-control" value="AF-0114 — Dell Laptop" readonly>
-                    </div>
-                    <div class="alert-banner">
-                        ⛔ Already allocated to Priya Shah (Engineering). Direct re-allocation is blocked — submit a transfer request below.
-                    </div>
-                    <h4 style="margin: 24px 0 16px 0;">Transfer Request</h4>
                     <div style="display: flex; gap: 16px; margin-bottom: 16px; flex-wrap: wrap;">
                         <div class="form-group" style="flex: 1; min-width: 200px;">
-                            <label>From</label>
-                            <input type="text" class="form-control" value="Priya Shah" readonly>
-                        </div>
-                        <div class="form-group" style="flex: 1; min-width: 200px;">
-                            <label>To</label>
-                            <select class="form-control" id="transfer-to-select">
-                                <option value="">Select Employee...</option>
-                                <option value="jigar">Jigar Vighani — IT</option>
-                                <option value="rakshit">Rakshit Dave — Finance</option>
-                                <option value="jaydev">Jaydev Bunkar — Facilities</option>
+                            <label for="transfer-asset-select">Asset</label>
+                            <select class="form-control" id="transfer-asset-select">
+                                <option value="">Select Asset...</option>
                             </select>
                         </div>
+                        <div class="form-group" style="flex: 1; min-width: 200px;">
+                            <label for="transfer-from-select">From Employee</label>
+                            <select class="form-control" id="transfer-from-select">
+                                <option value="">Select Employee...</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="allocation-status-banner" class="alert-banner" style="display:none;"></div>
+                    <h4 style="margin: 24px 0 16px 0;">Transfer Request</h4>
+                    <div class="form-group" style="min-width: 200px;">
+                        <label for="transfer-to-select">To Employee</label>
+                        <select class="form-control" id="transfer-to-select">
+                            <option value="">Select Employee...</option>
+                        </select>
                     </div>
                     <div class="form-group">
                         <label>Reason</label>
                         <textarea class="form-control" id="transfer-reason" rows="3" placeholder="Explain why this transfer is needed..."></textarea>
                     </div>
-                    <button class="btn btn-success" id="btn-submit-transfer" onclick="submitTransferRequest()">Submit Request</button>
-                    <div id="transfer-success-note" style="display:none; margin-top: 12px; color: var(--accent-green); font-size: 0.85rem;">
+                    <button class="btn btn-success" id="btn-submit-transfer" onclick="submitTransferReal()">Submit Transfer Request</button>
+                    <div id="transfer-success-note" style="display:none; margin-top: 12px; color: var(--color-success); font-size: 0.85rem;">
                         ✓ Transfer request submitted. An Asset Manager will review and approve.
                     </div>
 
                     <h4 style="margin: 32px 0 16px 0;">Allocation History</h4>
-                    <div style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.8;">
-                        Mar 12 — Allocated to Priya Shah — Engineering<br>
-                        Jan 04 — Returned by Arjun Dev — condition: good
+                    <div id="allocation-history" style="font-size: 0.85rem; color: var(--color-dark-500); line-height: 1.8;">
+                        Loading history...
                     </div>
                 </div>
             </div>
@@ -251,45 +249,43 @@
                 <div class="screen-header">Resource Booking</div>
                 <div class="card">
                     <div class="form-group">
-                        <label>Resource</label>
-                        <input type="text" class="form-control" value="Conference Room B2 — Capacity: 8 pax" readonly>
+                        <label for="booking-asset-select">Resource / Bookable Asset</label>
+                        <select class="form-control" id="booking-asset-select">
+                            <option value="">Select a bookable resource...</option>
+                        </select>
                     </div>
 
-                    <div style="font-size: 0.85rem; font-weight: 600; color: var(--text-secondary); margin: 16px 0 8px 0; text-transform: uppercase; letter-spacing: 0.05em;">Timeline — Today</div>
-                    <div style="position: relative; margin-bottom: 24px;">
-                        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px; font-size: 0.85rem;">
-                            <div style="width: 55px; color: var(--text-secondary);">9:00</div>
-                            <div style="flex: 1; background: var(--accent-blue); padding: 8px 12px; border-radius: 4px; color: white; font-weight: 500;">Booked — Procurement Team (9:00 – 10:00)</div>
-                        </div>
-                        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px; font-size: 0.85rem;">
-                            <div style="width: 55px; color: var(--text-secondary);">10:00</div>
-                            <div style="flex: 1; border: 1px dashed var(--accent-red); padding: 8px 12px; border-radius: 4px; color: var(--accent-red); font-weight: 500;">⛔ Your request (9:30 – 11:00) — conflict, slot is unavailable</div>
-                        </div>
-                        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px; font-size: 0.85rem;">
-                            <div style="width: 55px; color: var(--text-secondary);">11:00</div>
-                            <div style="flex: 1; border: 1px dashed var(--accent-green); padding: 8px 12px; border-radius: 4px; color: var(--accent-green);">✓ Available from 11:00 onwards</div>
-                        </div>
+                    <div style="font-size: 0.85rem; font-weight: 600; color: var(--color-dark-500); margin: 16px 0 8px 0; text-transform: uppercase; letter-spacing: 0.05em;">Current Bookings for Selected Resource</div>
+                    <div id="booking-timeline" style="position: relative; margin-bottom: 24px;">
+                        Select a resource above to view its bookings.
                     </div>
 
                     <button class="btn btn-success" onclick="showBookingForm()">+ Book a Slot</button>
 
-                    <div id="booking-form-area" style="display:none; margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--border-color);">
+                    <div id="booking-form-area" style="display:none; margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--color-light-gray-200);">
                         <h4 style="margin-bottom: 16px;">New Booking</h4>
+                        <div class="form-group">
+                            <label for="booking-employee-select">Booked By (Employee)</label>
+                            <select class="form-control" id="booking-employee-select">
+                                <option value="">Select Employee...</option>
+                            </select>
+                        </div>
                         <div style="display: flex; gap: 16px; flex-wrap: wrap;">
                             <div class="form-group" style="flex: 1; min-width: 160px;">
                                 <label>Start Time</label>
-                                <input type="datetime-local" class="form-control" value="2026-07-12T11:00">
+                                <input type="datetime-local" class="form-control" id="booking-start">
                             </div>
                             <div class="form-group" style="flex: 1; min-width: 160px;">
                                 <label>End Time</label>
-                                <input type="datetime-local" class="form-control" value="2026-07-12T12:00">
+                                <input type="datetime-local" class="form-control" id="booking-end">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label>Purpose</label>
-                            <input type="text" class="form-control" placeholder="e.g. Sprint review, client meeting...">
+                            <label>Purpose / Title</label>
+                            <input type="text" class="form-control" id="booking-purpose" placeholder="e.g. Sprint review, client meeting...">
                         </div>
-                        <button class="btn btn-success">Confirm Booking</button>
+                        <div id="booking-error" style="display:none; color: var(--color-danger); font-size: 0.85rem; margin-bottom: 8px;"></div>
+                        <button class="btn btn-success" id="btn-confirm-booking" onclick="submitBookingReal(this)">Confirm Booking</button>
                     </div>
                 </div>
             </div>
@@ -298,90 +294,89 @@
             <div id="view-maintenance" class="view-container">
                 <div class="screen-header">Maintenance Management</div>
                 <div class="kanban-board">
-                    <div class="kanban-column">
+                    <div class="kanban-column" id="mnt-pending">
                         <div class="kanban-header">Pending</div>
-                        <div class="kanban-card">
-                            <div class="kanban-card-title">AF-MNT-00062</div>
-                            <div style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 4px;">Projector bulb not turning on</div>
-                            <div style="margin-top: 8px;"><span class="badge yellow">Normal</span></div>
-                        </div>
                     </div>
-                    <div class="kanban-column">
-                        <div class="kanban-header">Approved</div>
-                        <div class="kanban-card">
-                            <div class="kanban-card-title">AF-MNT-00113</div>
-                            <div style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 4px;">AC unit noisy compressor</div>
-                            <div style="margin-top: 8px;"><span class="badge red">Critical</span></div>
-                        </div>
-                    </div>
-                    <div class="kanban-column">
-                        <div class="kanban-header">Technician Assigned</div>
-                        <div class="kanban-card">
-                            <div class="kanban-card-title">AF-MNT-00098</div>
-                            <div style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 4px;">Forklift needs oil service</div>
-                            <div style="margin-top: 8px;"><span class="badge gray">Low</span></div>
-                        </div>
-                    </div>
-                    <div class="kanban-column">
+                    <div class="kanban-column" id="mnt-in_progress">
                         <div class="kanban-header">In Progress</div>
-                        <div class="kanban-card">
-                            <div class="kanban-card-title">AF-MNT-00192</div>
-                            <div style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 4px;">Printer jam, parts ordered</div>
-                            <div style="margin-top: 8px;"><span class="badge yellow">High</span></div>
-                        </div>
                     </div>
-                    <div class="kanban-column">
+                    <div class="kanban-column" id="mnt-resolved">
                         <div class="kanban-header">Resolved</div>
-                        <div class="kanban-card" style="border-color: rgba(16, 185, 129, 0.4);">
-                            <div class="kanban-card-title" style="color: var(--accent-green);">AF-MNT-01122</div>
-                            <div style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 4px;">Chair repair — resolved 2 Jul</div>
-                            <div style="margin-top: 8px;"><span class="badge green">Done</span></div>
-                        </div>
                     </div>
                 </div>
             </div>
 
             <!-- ==============================  AUDIT  -->
             <div id="view-audit" class="view-container">
-                <div class="screen-header">Asset Audit</div>
-                <div class="card">
-                    <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 8px; margin-bottom: 16px;">
-                        <div>
-                            <div style="font-weight: 600; font-size: 1rem;">Q3 Audit — Engineering Dept</div>
-                            <div style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 4px;">Period: 1–15 Jul 2026 | Auditors: A. Mehra, R. Rajput</div>
+                <div class="screen-header">
+                    Asset Audit
+                    <button class="btn btn-success" id="btn-new-audit" onclick="showNewAuditForm()">+ New Audit</button>
+                </div>
+
+                <!-- New Audit Form (hidden by default) -->
+                <div id="new-audit-form-area" class="card" style="display:none; margin-bottom: 24px;">
+                    <h4 style="margin-bottom: 16px;">Create New Audit</h4>
+                    <div style="display: flex; gap: 16px; flex-wrap: wrap;">
+                        <div class="form-group" style="flex: 1; min-width: 200px;">
+                            <label for="audit-name-input">Audit Name</label>
+                            <input type="text" class="form-control" id="audit-name-input" placeholder="e.g. Q3 Audit — Engineering">
                         </div>
-                        <span class="badge yellow">In Progress</span>
+                        <div class="form-group" style="flex: 1; min-width: 200px;">
+                            <label for="audit-dept-select">Department</label>
+                            <select class="form-control" id="audit-dept-select">
+                                <option value="">All Departments</option>
+                            </select>
+                        </div>
                     </div>
+                    <div style="display: flex; gap: 16px; flex-wrap: wrap;">
+                        <div class="form-group" style="flex: 1; min-width: 200px;">
+                            <label for="audit-auditor-select">Auditor</label>
+                            <select class="form-control" id="audit-auditor-select">
+                                <option value="">Select Auditor...</option>
+                            </select>
+                        </div>
+                        <div class="form-group" style="flex: 1; min-width: 200px;">
+                            <label for="audit-planned-date">Planned Date</label>
+                            <input type="date" class="form-control" id="audit-planned-date">
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 8px;">
+                        <button class="btn btn-success" onclick="createAuditReal()">Create Audit</button>
+                        <button class="btn" onclick="document.getElementById('new-audit-form-area').style.display='none'">Cancel</button>
+                    </div>
+                </div>
+
+                <!-- Audit Selector + Detail -->
+                <div class="card">
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 16px;">
+                        <div class="form-group" style="flex: 1; min-width: 220px; margin-bottom: 0;">
+                            <label for="audit-select">Select Audit</label>
+                            <select class="form-control" id="audit-select" onchange="onAuditSelect()">
+                                <option value="">Choose an audit...</option>
+                            </select>
+                        </div>
+                        <span class="badge yellow" id="audit-state-badge">–</span>
+                    </div>
+                    <div id="audit-detail-header" style="font-size: 0.85rem; color: var(--color-dark-500); margin-bottom: 16px;"></div>
 
                     <div class="table-container" style="margin-bottom: 24px;">
                         <table>
-                            <thead><tr><th>Asset</th><th>Expected Location</th><th>Verification</th></tr></thead>
-                            <tbody>
-                                <tr>
-                                    <td>AF-0114 Dell Laptop</td><td>Desk 402</td>
-                                    <td><button class="badge gray" data-state="verified" style="border: 1px solid var(--accent-green); color: var(--accent-green); background: transparent; cursor: pointer;" onclick="toggleVerification(this)">Verified</button></td>
-                                </tr>
-                                <tr>
-                                    <td>AF-0221 Office Chair</td><td>Desk 402</td>
-                                    <td><button class="badge gray" data-state="discrepancy" style="border: 1px solid var(--accent-red); color: var(--accent-red); background: transparent; cursor: pointer;" onclick="toggleVerification(this)">Missing/Damaged</button></td>
-                                </tr>
-                                <tr>
-                                    <td>AF-9822 Monitor</td><td>Desk 403</td>
-                                    <td><button class="badge gray" data-state="pending" style="cursor: pointer;" onclick="toggleVerification(this)">Pending</button></td>
-                                </tr>
+                            <thead><tr><th>Asset</th><th>Expected Holder</th><th>Verification</th></tr></thead>
+                            <tbody id="audit-table-body">
+                                <tr><td colspan="3">Select an audit above to view its lines.</td></tr>
                             </tbody>
                         </table>
                     </div>
 
-                    <div id="audit-discrepancy-banner" class="alert-banner" style="background: rgba(245,158,11,0.1); border-color: rgba(245,158,11,0.3); color: #fbbf24;">
-                        ⚠ <span id="audit-disc-count">1 asset flagged — discrepancy report generated automatically</span>
+                    <div id="audit-discrepancy-banner" class="alert-banner" style="display:none; background: rgba(245,158,11,0.1); border-color: rgba(245,158,11,0.3); color: var(--color-warning);">
+                        ⚠ <span id="audit-disc-count">0 assets flagged</span>
                     </div>
 
                     <div style="margin-top: 24px; display: flex; gap: 12px; flex-wrap: wrap;">
                         <button class="btn btn-success" id="btn-close-audit" onclick="closeAuditCycle()">Close Audit Cycle</button>
                     </div>
-                    <div id="audit-close-note" style="display:none; margin-top: 12px; color: var(--accent-green); font-size: 0.85rem;">
-                        ✓ Audit cycle closed. Discrepancy report filed. Flagged assets updated to "Lost" state.
+                    <div id="audit-close-note" style="display:none; margin-top: 12px; color: var(--color-success); font-size: 0.85rem;">
+                        ✓ Audit cycle closed. Discrepancy report filed.
                     </div>
                 </div>
             </div>
@@ -395,26 +390,26 @@
                         <div class="card-title">Utilization by Department</div>
                         <div style="height: 140px; display: flex; align-items: flex-end; gap: 16px; margin-top: 16px; padding: 0 8px;">
                             <div style="display: flex; flex-direction: column; align-items: center; flex: 1; gap: 4px;">
-                                <div style="width: 100%; height: 60%; background: var(--accent-blue); border-radius: 2px 2px 0 0; transition: height 0.3s;"></div>
-                                <div style="font-size: 0.7rem; color: var(--text-secondary);">IT</div>
+                                <div style="width: 100%; height: 60%; background: var(--color-info); border-radius: 2px 2px 0 0; transition: height 0.3s;"></div>
+                                <div style="font-size: 0.7rem; color: var(--color-dark-500);">IT</div>
                             </div>
                             <div style="display: flex; flex-direction: column; align-items: center; flex: 1; gap: 4px;">
-                                <div style="width: 100%; height: 90%; background: var(--accent-blue); border-radius: 2px 2px 0 0;"></div>
-                                <div style="font-size: 0.7rem; color: var(--text-secondary);">Ops</div>
+                                <div style="width: 100%; height: 90%; background: var(--color-info); border-radius: 2px 2px 0 0;"></div>
+                                <div style="font-size: 0.7rem; color: var(--color-dark-500);">Ops</div>
                             </div>
                             <div style="display: flex; flex-direction: column; align-items: center; flex: 1; gap: 4px;">
-                                <div style="width: 100%; height: 40%; background: var(--accent-blue); border-radius: 2px 2px 0 0;"></div>
-                                <div style="font-size: 0.7rem; color: var(--text-secondary);">Finance</div>
+                                <div style="width: 100%; height: 40%; background: var(--color-info); border-radius: 2px 2px 0 0;"></div>
+                                <div style="font-size: 0.7rem; color: var(--color-dark-500);">Finance</div>
                             </div>
                             <div style="display: flex; flex-direction: column; align-items: center; flex: 1; gap: 4px;">
-                                <div style="width: 100%; height: 75%; background: var(--accent-blue); border-radius: 2px 2px 0 0;"></div>
-                                <div style="font-size: 0.7rem; color: var(--text-secondary);">Facilities</div>
+                                <div style="width: 100%; height: 75%; background: var(--color-info); border-radius: 2px 2px 0 0;"></div>
+                                <div style="font-size: 0.7rem; color: var(--color-dark-500);">Facilities</div>
                             </div>
                         </div>
                     </div>
                     <div class="card" style="flex: 1; min-width: 250px;">
                         <div class="card-title">Maintenance Frequency</div>
-                        <div style="height: 140px; margin-top: 16px; color: var(--accent-blue);">
+                        <div style="height: 140px; margin-top: 16px; color: var(--color-info);">
                             <svg width="100%" height="100%" viewBox="0 0 200 120" preserveAspectRatio="none">
                                 <defs>
                                     <linearGradient id="lineGrad" x1="0" y1="0" x2="0" y2="1">
@@ -433,16 +428,16 @@
                     <div class="card">
                         <div class="card-title" style="margin-bottom: 12px;">Most Used Assets</div>
                         <div style="font-size: 0.85rem; line-height: 2;">
-                            <div style="display: flex; justify-content: space-between;"><span>Room B2</span><span style="color: var(--accent-green);">24 bookings</span></div>
-                            <div style="display: flex; justify-content: space-between;"><span>Van AF-332</span><span style="color: var(--accent-green);">21 trips</span></div>
-                            <div style="display: flex; justify-content: space-between;"><span>Projector AF-228</span><span style="color: var(--accent-green);">18 uses</span></div>
+                            <div style="display: flex; justify-content: space-between;"><span>Room B2</span><span style="color: var(--color-success);">24 bookings</span></div>
+                            <div style="display: flex; justify-content: space-between;"><span>Van AF-332</span><span style="color: var(--color-success);">21 trips</span></div>
+                            <div style="display: flex; justify-content: space-between;"><span>Projector AF-228</span><span style="color: var(--color-success);">18 uses</span></div>
                         </div>
                     </div>
                     <div class="card">
                         <div class="card-title" style="margin-bottom: 12px;">Idle Assets (Flag for Review)</div>
                         <div style="font-size: 0.85rem; line-height: 2;">
-                            <div style="display: flex; justify-content: space-between;"><span>Scanner AF-0021</span><span style="color: var(--accent-red);">120 days</span></div>
-                            <div style="display: flex; justify-content: space-between;"><span>Chair AF-2410</span><span style="color: var(--accent-yellow);">45 days</span></div>
+                            <div style="display: flex; justify-content: space-between;"><span>Scanner AF-0021</span><span style="color: var(--color-danger);">120 days</span></div>
+                            <div style="display: flex; justify-content: space-between;"><span>Chair AF-2410</span><span style="color: var(--color-warning);">45 days</span></div>
                         </div>
                     </div>
                 </div>
@@ -462,27 +457,27 @@
                 <div class="card">
                     <div class="activity-feed" style="margin-top: 0;">
                         <div class="activity-item" data-type="approval">
-                            <span><span style="color: var(--accent-blue); margin-right: 8px;">●</span>Laptop AF-0114 assigned to Priya Shah</span>
+                            <span><span style="color: var(--color-info); margin-right: 8px;">●</span>Laptop AF-0114 assigned to Priya Shah</span>
                             <span class="activity-time">2m ago</span>
                         </div>
                         <div class="activity-item" data-type="approval">
-                            <span><span style="color: var(--accent-green); margin-right: 8px;">●</span>Maintenance request AF-0022 approved</span>
+                            <span><span style="color: var(--color-success); margin-right: 8px;">●</span>Maintenance request AF-0022 approved</span>
                             <span class="activity-time">15m ago</span>
                         </div>
                         <div class="activity-item" data-type="booking">
-                            <span><span style="color: var(--text-secondary); margin-right: 8px;">●</span>Booking confirmed: Room B2 — 2:00 to 3:00 PM</span>
+                            <span><span style="color: var(--color-dark-500); margin-right: 8px;">●</span>Booking confirmed: Room B2 — 2:00 to 3:00 PM</span>
                             <span class="activity-time">1h ago</span>
                         </div>
                         <div class="activity-item" data-type="approval">
-                            <span><span style="color: var(--accent-blue); margin-right: 8px;">●</span>Transfer approved: AF-0033 to Facilities dept</span>
+                            <span><span style="color: var(--color-info); margin-right: 8px;">●</span>Transfer approved: AF-0033 to Facilities dept</span>
                             <span class="activity-time">2h ago</span>
                         </div>
                         <div class="activity-item" data-type="alert">
-                            <span><span style="color: var(--accent-red); margin-right: 8px;">●</span>Overdue return: AF-0021 was due 3 days ago</span>
+                            <span><span style="color: var(--color-danger); margin-right: 8px;">●</span>Overdue return: AF-0021 was due 3 days ago</span>
                             <span class="activity-time">1d ago</span>
                         </div>
                         <div class="activity-item" data-type="alert">
-                            <span><span style="color: var(--accent-yellow); margin-right: 8px;">●</span>Audit discrepancy flagged: AF-0098 damaged</span>
+                            <span><span style="color: var(--color-warning); margin-right: 8px;">●</span>Audit discrepancy flagged: AF-0098 damaged</span>
                             <span class="activity-time">2d ago</span>
                         </div>
                     </div>
