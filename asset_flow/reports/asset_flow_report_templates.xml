@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_asset_flow_placeholder">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <h2>AssetFlow Report Placeholder</h2>
+                    <p>TODO: Implement report rendering for assets, departments, maintenance, audits, and bookings.</p>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

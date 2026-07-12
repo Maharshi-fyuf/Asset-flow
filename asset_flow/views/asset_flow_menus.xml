@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_asset_flow_root"
+              name="AssetFlow"
+              sequence="10"
+              groups="asset_flow.group_asset_flow_employee"/>
+
+    <menuitem id="menu_asset_flow_dashboard"
+              name="Dashboard"
+              parent="menu_asset_flow_root"
+              action="action_asset_flow_dashboard"
+              sequence="10"/>
+
+    <menuitem id="menu_asset_flow_master_data"
+              name="Master Data"
+              parent="menu_asset_flow_root"
+              sequence="20"/>
+
+    <menuitem id="menu_asset_flow_departments"
+              name="Departments"
+              parent="menu_asset_flow_master_data"
+              action="action_asset_flow_department"
+              sequence="10"/>
+
+    <menuitem id="menu_asset_flow_employees"
+              name="Employees"
+              parent="menu_asset_flow_master_data"
+              action="action_asset_flow_employee"
+              sequence="20"/>
+
+    <menuitem id="menu_asset_flow_categories"
+              name="Asset Categories"
+              parent="menu_asset_flow_master_data"
+              action="action_asset_flow_asset_category"
+              sequence="30"/>
+
+    <menuitem id="menu_asset_flow_assets_root"
+              name="Assets"
+              parent="menu_asset_flow_root"
+              sequence="30"/>
+
+    <menuitem id="menu_asset_flow_assets"
+              name="Assets"
+              parent="menu_asset_flow_assets_root"
+              action="action_asset_flow_asset"
+              sequence="10"/>
+
+    <menuitem id="menu_asset_flow_assignment_history"
+              name="Assignment History"
+              parent="menu_asset_flow_assets_root"
+              action="action_asset_flow_assignment_history"
+              sequence="20"/>
+
+    <menuitem id="menu_asset_flow_operations"
+              name="Operations"
+              parent="menu_asset_flow_root"
+              sequence="40"/>
+
+    <menuitem id="menu_asset_flow_asset_requests"
+              name="Asset Requests"
+              parent="menu_asset_flow_operations"
+              action="action_asset_flow_asset_request"
+              sequence="10"/>
+
+    <menuitem id="menu_asset_flow_resource_bookings"
+              name="Resource Bookings"
+              parent="menu_asset_flow_operations"
+              action="action_asset_flow_resource_booking"
+              sequence="20"/>
+
+    <menuitem id="menu_asset_flow_maintenance"
+              name="Maintenance"
+              parent="menu_asset_flow_operations"
+              action="action_asset_flow_maintenance"
+              sequence="30"/>
+
+    <menuitem id="menu_asset_flow_audit_root"
+              name="Audit"
+              parent="menu_asset_flow_root"
+              sequence="50"/>
+
+    <menuitem id="menu_asset_flow_audits"
+              name="Audit Cycles"
+              parent="menu_asset_flow_audit_root"
+              action="action_asset_flow_audit"
+              sequence="10"/>
+
+    <menuitem id="menu_asset_flow_audit_lines"
+              name="Audit Lines"
+              parent="menu_asset_flow_audit_root"
+              action="action_asset_flow_audit_line"
+              sequence="20"/>
+
+    <menuitem id="menu_asset_flow_reports"
+              name="Reports"
+              parent="menu_asset_flow_root"
+              action="action_asset_flow_report_wizard"
+              sequence="60"/>
+</odoo>
