@@ -81,18 +81,70 @@
         <field name="name">asset.flow.asset.kanban</field>
         <field name="model">asset.flow.asset</field>
         <field name="arch" type="xml">
-            <kanban string="Assets" default_group_by="state">
+            <kanban string="Assets" default_group_by="state"
+                    group_create="false" quick_create="false">
                 <field name="asset_tag"/>
                 <field name="name"/>
                 <field name="category_id"/>
+                <field name="department_id"/>
+                <field name="current_employee_id"/>
+                <field name="location"/>
+                <field name="condition"/>
                 <field name="state"/>
                 <templates>
                     <t t-name="kanban-box">
-                        <div class="oe_kanban_global_click">
-                            <strong><field name="name"/></strong>
-                            <div><field name="asset_tag"/></div>
-                            <div><field name="category_id"/></div>
-                            <div><field name="state"/></div>
+                        <!-- Determine left-border color by state -->
+                        <t t-set="border_color"
+                           t-value="{'available': '#10b981',
+                                     'allocated': '#3b82f6',
+                                     'reserved':  '#8b5cf6',
+                                     'maintenance': '#f59e0b',
+                                     'lost':     '#ef4444',
+                                     'retired':  '#ef4444',
+                                     'disposed': '#6b7280'}.get(record.state.raw_value, '#6b7280')"/>
+                        <div t-attf-style="border-left: 4px solid #{border_color}; padding: 8px 12px;"
+                             class="oe_kanban_global_click o_kanban_record">
+                            <!-- Header row: tag + state badge -->
+                            <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:4px;">
+                                <strong style="font-size:0.85rem; word-break:break-all;">
+                                    <field name="asset_tag"/>
+                                </strong>
+                                <span t-attf-style="font-size:0.7rem; font-weight:600; padding:2px 6px;
+                                                   border-radius:10px; white-space:nowrap;
+                                                   background:#{border_color}22;
+                                                   color:#{border_color};">
+                                    <field name="state"/>
+                                </span>
+                            </div>
+                            <!-- Asset name -->
+                            <div style="font-weight:600; margin-top:4px;">
+                                <field name="name"/>
+                            </div>
+                            <!-- Category -->
+                            <div style="font-size:0.8rem; color:#6b7280; margin-top:4px;">
+                                <i class="fa fa-tag" style="margin-right:4px;"/>
+                                <field name="category_id"/>
+                            </div>
+                            <!-- Department / Employee -->
+                            <t t-if="record.current_employee_id.value">
+                                <div style="font-size:0.8rem; color:#6b7280; margin-top:2px;">
+                                    <i class="fa fa-user" style="margin-right:4px;"/>
+                                    <field name="current_employee_id"/>
+                                </div>
+                            </t>
+                            <t t-elif="record.department_id.value">
+                                <div style="font-size:0.8rem; color:#6b7280; margin-top:2px;">
+                                    <i class="fa fa-building" style="margin-right:4px;"/>
+                                    <field name="department_id"/>
+                                </div>
+                            </t>
+                            <!-- Location -->
+                            <t t-if="record.location.value">
+                                <div style="font-size:0.75rem; color:#9ca3af; margin-top:4px;">
+                                    <i class="fa fa-map-marker" style="margin-right:4px;"/>
+                                    <field name="location"/>
+                                </div>
+                            </t>
                         </div>
                     </t>
                 </templates>

@@ -51,6 +51,12 @@
               action="action_asset_flow_assignment_history"
               sequence="20"/>
 
+    <menuitem id="menu_asset_flow_asset_analytics"
+              name="Analytics"
+              parent="menu_asset_flow_assets_root"
+              action="action_asset_flow_asset_analytics"
+              sequence="30"/>
+
     <menuitem id="menu_asset_flow_operations"
               name="Operations"
               parent="menu_asset_flow_root"

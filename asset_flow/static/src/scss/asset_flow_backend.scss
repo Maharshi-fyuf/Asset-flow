@@ -1,0 +1,58 @@
+// =============================================================
+// AssetFlow Backend Theme
+// Overrides Odoo 18 backend primary/brand variables to match
+// the AssetFlow frontend palette defined in frontend/style.css.
+// =============================================================
+
+// --- Brand colour overrides -----------------------------------
+// These SCSS variables map to Odoo's internal theming layer.
+// Odoo 18 resolves $primary → o-color(primary) in components.
+$o-brand-primary:    #3b82f6;   // --accent-blue
+$o-brand-secondary:  #10b981;   // --accent-green
+
+// Map into Odoo's functional palette so buttons, badges,
+// progress-bars and stat-buttons all pick up the brand colour.
+$primary:   $o-brand-primary;
+$success:   #10b981;   // --accent-green
+$warning:   #f59e0b;   // --accent-yellow
+$danger:    #ef4444;   // --accent-red
+$info:      #3b82f6;   // --accent-blue (same as primary)
+
+// --- Kanban column header accent ----------------------------
+// Give each column a subtle left-border matching the state
+// colour that our kanban cards already apply inline.
+.o_kanban_view .o_kanban_group_header {
+    border-top: 3px solid $o-brand-primary;
+}
+
+// --- Stat buttons (dashboard KPI tiles) ---------------------
+.o_stat_button {
+    border-left: 3px solid $o-brand-primary;
+
+    &:hover {
+        border-left-color: $o-brand-secondary;
+    }
+}
+
+// --- Statusbar active pill ----------------------------------
+.o_statusbar_status button.o_statusbar_status_button:not(.disabled).btn-primary {
+    background-color: $o-brand-primary;
+    border-color:     $o-brand-primary;
+}
+
+// --- Badge widgets -----------------------------------------
+.badge.text-bg-primary { background-color: $o-brand-primary !important; }
+.badge.text-bg-success { background-color: $success !important; }
+.badge.text-bg-warning { background-color: $warning !important; color: #fff !important; }
+.badge.text-bg-danger  { background-color: $danger  !important; }
+
+// --- Top navigation bar ------------------------------------
+.o_main_navbar {
+    background-color: darken($o-brand-primary, 10%);
+}
+
+// --- App switcher icon for AssetFlow -----------------------
+// The icon background gets the brand blue on hover.
+.o_home_menu .o_app:hover .o_app_icon {
+    box-shadow: 0 4px 16px rgba(59, 130, 246, 0.35);
+}

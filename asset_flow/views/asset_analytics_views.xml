@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ============================================================
+         ASSET ANALYTICS — Graph views on asset.flow.asset
+         Two graph views: by category and by state.
+         Exposed via an Analytics menu item under AssetFlow > Assets.
+         ============================================================ -->
+
+    <!-- Graph view: Assets grouped by Category -->
+    <record id="view_asset_flow_asset_graph_category" model="ir.ui.view">
+        <field name="name">asset.flow.asset.graph.category</field>
+        <field name="model">asset.flow.asset</field>
+        <field name="arch" type="xml">
+            <graph string="Assets by Category" type="bar" stacked="False">
+                <field name="category_id" type="row"/>
+                <field name="state" type="col"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- Graph view: Assets grouped by State (pie) -->
+    <record id="view_asset_flow_asset_graph_state" model="ir.ui.view">
+        <field name="name">asset.flow.asset.graph.state</field>
+        <field name="model">asset.flow.asset</field>
+        <field name="arch" type="xml">
+            <graph string="Assets by Status" type="pie">
+                <field name="state" type="row"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- Pivot view for tabular drill-down (bonus — pairs well with graphs) -->
+    <record id="view_asset_flow_asset_pivot" model="ir.ui.view">
+        <field name="name">asset.flow.asset.pivot</field>
+        <field name="model">asset.flow.asset</field>
+        <field name="arch" type="xml">
+            <pivot string="Asset Analytics">
+                <field name="category_id" type="row"/>
+                <field name="department_id" type="row"/>
+                <field name="state" type="col"/>
+            </pivot>
+        </field>
+    </record>
+
+    <!-- Action: opens graph view first, then pivot, then list -->
+    <record id="action_asset_flow_asset_analytics" model="ir.actions.act_window">
+        <field name="name">Asset Analytics</field>
+        <field name="res_model">asset.flow.asset</field>
+        <field name="view_mode">graph,pivot,list</field>
+        <field name="context">{'search_default_group_category': 1}</field>
+        <field name="search_view_id" ref="view_asset_flow_asset_search"/>
+    </record>
+</odoo>

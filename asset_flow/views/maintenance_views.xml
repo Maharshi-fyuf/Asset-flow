@@ -69,18 +69,75 @@
         <field name="name">asset.flow.maintenance.kanban</field>
         <field name="model">asset.flow.maintenance</field>
         <field name="arch" type="xml">
-            <kanban string="Maintenance" default_group_by="state">
+            <kanban string="Maintenance" default_group_by="state"
+                    group_create="false" quick_create="false">
                 <field name="name"/>
                 <field name="asset_id"/>
+                <field name="assigned_to_id"/>
+                <field name="department_id"/>
+                <field name="maintenance_type"/>
                 <field name="priority"/>
+                <field name="request_date"/>
                 <field name="state"/>
                 <templates>
                     <t t-name="kanban-box">
-                        <div class="oe_kanban_global_click">
-                            <strong><field name="name"/></strong>
-                            <div><field name="asset_id"/></div>
-                            <div><field name="priority"/></div>
-                            <div><field name="state"/></div>
+                        <t t-set="border_color"
+                           t-value="{'pending':    '#f59e0b',
+                                     'approved':   '#3b82f6',
+                                     'assigned':   '#8b5cf6',
+                                     'in_progress':'#f97316',
+                                     'resolved':   '#10b981',
+                                     'cancelled':  '#6b7280'}.get(record.state.raw_value, '#6b7280')"/>
+                        <t t-set="priority_color"
+                           t-value="{'critical': '#ef4444', 'high': '#f97316',
+                                     'normal': '#6b7280', 'low': '#9ca3af'}.get(record.priority.raw_value, '#6b7280')"/>
+                        <div t-attf-style="border-left: 4px solid #{border_color}; padding: 8px 12px;"
+                             class="oe_kanban_global_click o_kanban_record">
+                            <!-- Reference + state badge -->
+                            <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:4px;">
+                                <strong style="font-size:0.8rem; word-break:break-all;">
+                                    <field name="name"/>
+                                </strong>
+                                <span t-attf-style="font-size:0.7rem; font-weight:600; padding:2px 6px;
+                                                   border-radius:10px; white-space:nowrap;
+                                                   background:#{border_color}22;
+                                                   color:#{border_color};">
+                                    <field name="state"/>
+                                </span>
+                            </div>
+                            <!-- Asset -->
+                            <div style="font-size:0.85rem; font-weight:600; margin-top:6px;">
+                                <i class="fa fa-cube" style="margin-right:4px;"/>
+                                <field name="asset_id"/>
+                            </div>
+                            <!-- Maintenance type -->
+                            <div style="font-size:0.8rem; color:#6b7280; margin-top:4px;">
+                                <i class="fa fa-wrench" style="margin-right:4px;"/>
+                                <field name="maintenance_type"/>
+                            </div>
+                            <!-- Priority indicator -->
+                            <div style="margin-top:6px; display:flex; align-items:center; gap:6px;">
+                                <span t-attf-style="font-size:0.7rem; font-weight:700; padding:2px 8px;
+                                                   border-radius:10px;
+                                                   background:#{priority_color}22;
+                                                   color:#{priority_color};">
+                                    <field name="priority"/>
+                                </span>
+                            </div>
+                            <!-- Technician -->
+                            <t t-if="record.assigned_to_id.value">
+                                <div style="font-size:0.75rem; color:#9ca3af; margin-top:4px;">
+                                    <i class="fa fa-user-circle" style="margin-right:4px;"/>
+                                    <field name="assigned_to_id"/>
+                                </div>
+                            </t>
+                            <!-- Department -->
+                            <t t-if="record.department_id.value">
+                                <div style="font-size:0.75rem; color:#9ca3af; margin-top:2px;">
+                                    <i class="fa fa-building" style="margin-right:4px;"/>
+                                    <field name="department_id"/>
+                                </div>
+                            </t>
                         </div>
                     </t>
                 </templates>

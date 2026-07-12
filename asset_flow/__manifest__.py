@@ -14,6 +14,7 @@ and reports.
     "depends": [
         "base",
         "mail",
+        "web",
     ],
     "data": [
         "security/asset_flow_groups.xml",
@@ -25,6 +26,7 @@ and reports.
         "views/employee_views.xml",
         "views/asset_category_views.xml",
         "views/asset_views.xml",
+        "views/asset_analytics_views.xml",
         "views/asset_request_views.xml",
         "views/resource_booking_views.xml",
         "views/maintenance_views.xml",
@@ -38,6 +40,11 @@ and reports.
     "demo": [
         "demo/asset_flow_demo.xml",
     ],
+    "assets": {
+        "web.assets_backend": [
+            "asset_flow/static/src/scss/asset_flow_backend.scss",
+        ],
+    },
     "application": True,
     "installable": True,
 }

@@ -69,18 +69,71 @@
         <field name="name">asset.flow.asset.request.kanban</field>
         <field name="model">asset.flow.asset.request</field>
         <field name="arch" type="xml">
-            <kanban string="Asset Requests" default_group_by="state">
+            <kanban string="Asset Requests" default_group_by="state"
+                    group_create="false" quick_create="false">
                 <field name="name"/>
                 <field name="request_type"/>
                 <field name="employee_id"/>
+                <field name="department_id"/>
+                <field name="asset_id"/>
+                <field name="needed_by_date"/>
                 <field name="state"/>
                 <templates>
                     <t t-name="kanban-box">
-                        <div class="oe_kanban_global_click">
-                            <strong><field name="name"/></strong>
-                            <div><field name="request_type"/></div>
-                            <div><field name="employee_id"/></div>
-                            <div><field name="state"/></div>
+                        <t t-set="border_color"
+                           t-value="{'draft':      '#6b7280',
+                                     'submitted':  '#f59e0b',
+                                     'approved':   '#3b82f6',
+                                     'done':       '#10b981',
+                                     'rejected':   '#ef4444',
+                                     'cancelled':  '#ef4444'}.get(record.state.raw_value, '#6b7280')"/>
+                        <div t-attf-style="border-left: 4px solid #{border_color}; padding: 8px 12px;"
+                             class="oe_kanban_global_click o_kanban_record">
+                            <!-- Reference + state badge -->
+                            <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:4px;">
+                                <strong style="font-size:0.8rem; word-break:break-all;">
+                                    <field name="name"/>
+                                </strong>
+                                <span t-attf-style="font-size:0.7rem; font-weight:600; padding:2px 6px;
+                                                   border-radius:10px; white-space:nowrap;
+                                                   background:#{border_color}22;
+                                                   color:#{border_color};">
+                                    <field name="state"/>
+                                </span>
+                            </div>
+                            <!-- Request type -->
+                            <div style="font-size:0.8rem; margin-top:4px;">
+                                <i class="fa fa-exchange" style="margin-right:4px;"/>
+                                <field name="request_type"/>
+                            </div>
+                            <!-- Requested for employee -->
+                            <t t-if="record.employee_id.value">
+                                <div style="font-size:0.8rem; color:#6b7280; margin-top:2px;">
+                                    <i class="fa fa-user" style="margin-right:4px;"/>
+                                    <field name="employee_id"/>
+                                </div>
+                            </t>
+                            <!-- Department -->
+                            <t t-if="record.department_id.value">
+                                <div style="font-size:0.8rem; color:#6b7280; margin-top:2px;">
+                                    <i class="fa fa-building" style="margin-right:4px;"/>
+                                    <field name="department_id"/>
+                                </div>
+                            </t>
+                            <!-- Asset assigned -->
+                            <t t-if="record.asset_id.value">
+                                <div style="font-size:0.75rem; color:#9ca3af; margin-top:4px;">
+                                    <i class="fa fa-cube" style="margin-right:4px;"/>
+                                    <field name="asset_id"/>
+                                </div>
+                            </t>
+                            <!-- Needed by date -->
+                            <t t-if="record.needed_by_date.value">
+                                <div style="font-size:0.75rem; color:#9ca3af; margin-top:2px;">
+                                    <i class="fa fa-calendar" style="margin-right:4px;"/>
+                                    Needed by: <field name="needed_by_date"/>
+                                </div>
+                            </t>
                         </div>
                     </t>
                 </templates>

@@ -80,7 +80,11 @@ class AssetFlowAssetRequest(models.Model):
             if req.state not in ['draft', 'cancelled', 'rejected'] and req.request_type == 'allocation' and req.asset_id:
                 if req.asset_id.state in ['allocated', 'maintenance', 'lost', 'retired', 'disposed']:
                     # For a draft request, warn that asset is already occupied.
-                    raise ValidationError(f"Cannot allocate '{req.asset_id.name}' because it is currently {req.asset_id.state}. Use 'Transfer' if you wish to reassign it.")
+                    raise ValidationError(
+                        f"Cannot allocate '{req.asset_id.name}' — currently held by "
+                        f"{req.asset_id.current_employee_id.name or 'Unassigned'}. "
+                        f"Use Transfer Request instead."
+                    )
 
     def action_submit(self):
         for req in self:
