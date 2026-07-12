@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: assetflow-api
+    runtime: python
+    region: singapore   # Change to: ohio, oregon, frankfurt, or virginia if preferred
+    plan: free
+
+    # Build: install Python deps from backend/requirements.txt
+    buildCommand: pip install -r backend/requirements.txt
+
+    # Start: run uvicorn from repo root so `backend` is a package on sys.path
+    startCommand: uvicorn backend.main:app --host 0.0.0.0 --port $PORT
+
+    # Seed the database on every fresh deploy (idempotent — skips if already seeded)
+    # Render free tier has ephemeral storage, so seeding on start keeps demo data fresh
+    preDeployCommand: python -c "from backend.seed import seed_data; seed_data()"
+
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.11.0"

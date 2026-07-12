@@ -150,7 +150,11 @@ document.addEventListener('DOMContentLoaded', () => {
 // =====================================================
 // API Utilities
 // =====================================================
-const API_BASE = '/api';
+// API base URL resolution:
+//   - Locally:  relative /api  → hits the local uvicorn server (same origin)
+//   - Vercel:   relative /api  → proxied to Render by vercel.json rewrite rules
+//   - Override: set window.API_BASE = 'https://...' in a config.js before this script
+const API_BASE = (typeof window !== 'undefined' && window.API_BASE) ? window.API_BASE : '/api';
 
 async function fetchAPI(endpoint, options = {}) {
     try {

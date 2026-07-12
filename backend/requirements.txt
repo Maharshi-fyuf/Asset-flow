@@ -1,5 +1,5 @@
-fastapi
-uvicorn
-sqlalchemy
-pydantic
-python-multipart
+fastapi==0.115.5
+uvicorn[standard]==0.32.1
+sqlalchemy==2.0.36
+pydantic==2.9.2
+python-multipart==0.0.12
