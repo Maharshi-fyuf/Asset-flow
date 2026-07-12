@@ -1,4 +1,5 @@
-from odoo import fields, models
+from odoo import api, fields, models
+from odoo.exceptions import ValidationError
 
 
 class AssetFlowAssetRequest(models.Model):
@@ -52,6 +53,7 @@ class AssetFlowAssetRequest(models.Model):
     )
     request_date = fields.Datetime(default=fields.Datetime.now, required=True)
     needed_by_date = fields.Date()
+    expected_return_date = fields.Date()
     state = fields.Selection(
         [
             ("draft", "Draft"),
@@ -72,4 +74,64 @@ class AssetFlowAssetRequest(models.Model):
     )
     notes = fields.Text()
 
-    # TODO: Implement approval workflow, allocation, transfer, and return actions.
+    @api.constrains("asset_id", "request_type", "state")
+    def _check_allocation_conflict(self):
+        for req in self:
+            if req.state not in ['draft', 'cancelled', 'rejected'] and req.request_type == 'allocation' and req.asset_id:
+                if req.asset_id.state in ['allocated', 'maintenance', 'lost', 'retired', 'disposed']:
+                    # For a draft request, warn that asset is already occupied.
+                    raise ValidationError(f"Cannot allocate '{req.asset_id.name}' because it is currently {req.asset_id.state}. Use 'Transfer' if you wish to reassign it.")
+
+    def action_submit(self):
+        for req in self:
+            req.state = "submitted"
+
+    def action_approve(self):
+        for req in self:
+            req.state = "approved"
+
+    def action_reject(self):
+        for req in self:
+            req.state = "rejected"
+
+    def action_done(self):
+        for req in self:
+            if not req.asset_id:
+                raise ValidationError("An asset must be selected to complete this request.")
+            req.state = "done"
+            if req.request_type in ["allocation", "transfer"]:
+                # If transferring, close previous history
+                previous_history = self.env["asset.flow.assignment.history"].search([
+                    ("asset_id", "=", req.asset_id.id),
+                    ("state", "=", "active")
+                ])
+                for hist in previous_history:
+                    hist.write({
+                        "state": "transferred" if req.request_type == "transfer" else "returned",
+                        "returned_date": fields.Datetime.now(),
+                    })
+                
+                req.asset_id.action_set_allocated(req.employee_id.id)
+                self.env["asset.flow.assignment.history"].create({
+                    "asset_id": req.asset_id.id,
+                    "employee_id": req.employee_id.id,
+                    "department_id": req.employee_id.department_id.id,
+                    "request_id": req.id,
+                    "assigned_date": fields.Datetime.now(),
+                    "state": "active",
+                })
+            elif req.request_type == "return":
+                previous_history = self.env["asset.flow.assignment.history"].search([
+                    ("asset_id", "=", req.asset_id.id),
+                    ("state", "=", "active")
+                ])
+                for hist in previous_history:
+                    hist.write({
+                        "state": "returned",
+                        "returned_date": fields.Datetime.now(),
+                    })
+                req.asset_id.action_make_available()
+
+    def action_cancel(self):
+        for req in self:
+            req.state = "cancelled"

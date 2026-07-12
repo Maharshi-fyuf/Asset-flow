@@ -23,6 +23,14 @@
         <field name="model">asset.flow.maintenance</field>
         <field name="arch" type="xml">
             <form string="Maintenance">
+                <header>
+                    <button name="action_approve" string="Approve" type="object" class="oe_highlight" invisible="state != 'pending'"/>
+                    <button name="action_assign" string="Assign Technician" type="object" class="oe_highlight" invisible="state != 'approved'"/>
+                    <button name="action_in_progress" string="Start Work" type="object" class="oe_highlight" invisible="state != 'assigned'"/>
+                    <button name="action_resolve" string="Resolve" type="object" class="oe_highlight" invisible="state != 'in_progress'"/>
+                    <button name="action_cancel" string="Cancel" type="object" invisible="state in ('resolved', 'cancelled')"/>
+                    <field name="state" widget="statusbar" statusbar_visible="pending,approved,assigned,in_progress,resolved"/>
+                </header>
                 <sheet>
                     <group>
                         <group>
@@ -35,7 +43,6 @@
                         <group>
                             <field name="maintenance_type"/>
                             <field name="priority"/>
-                            <field name="state"/>
                             <field name="request_date"/>
                             <field name="scheduled_date"/>
                             <field name="resolved_date"/>

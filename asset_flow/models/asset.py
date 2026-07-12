@@ -33,9 +33,11 @@ class AssetFlowAsset(models.Model):
         [
             ("available", "Available"),
             ("allocated", "Allocated"),
+            ("reserved", "Reserved"),
             ("maintenance", "Under Maintenance"),
             ("retired", "Retired"),
             ("lost", "Lost"),
+            ("disposed", "Disposed"),
         ],
         default="available",
         required=True,
@@ -50,6 +52,22 @@ class AssetFlowAsset(models.Model):
     )
     notes = fields.Text()
     active = fields.Boolean(default=True)
+    is_shared = fields.Boolean(
+        string="Is Shared/Bookable",
+        default=False,
+        tracking=True,
+        help="If true, this asset can be booked by employees.",
+    )
+    condition = fields.Selection(
+        [
+            ("new", "New"),
+            ("good", "Good"),
+            ("fair", "Fair"),
+            ("poor", "Poor"),
+        ],
+        default="new",
+        tracking=True,
+    )
 
     request_ids = fields.One2many(
         "asset.flow.asset.request",
@@ -77,4 +95,29 @@ class AssetFlowAsset(models.Model):
         string="Audit Lines",
     )
 
-    # TODO: Add lifecycle transitions, QR labels, allocation checks, and automation.
+    def action_make_available(self):
+        for record in self:
+            record.state = "available"
+            record.current_employee_id = False
+
+    def action_set_maintenance(self):
+        for record in self:
+            record.state = "maintenance"
+
+    def action_set_allocated(self, employee_id):
+        for record in self:
+            record.state = "allocated"
+            record.current_employee_id = employee_id
+
+    def action_set_lost(self):
+        for record in self:
+            record.state = "lost"
+
+    def action_set_retired(self):
+        for record in self:
+            record.state = "retired"
+
+    def action_set_disposed(self):
+        for record in self:
+            record.state = "disposed"
+

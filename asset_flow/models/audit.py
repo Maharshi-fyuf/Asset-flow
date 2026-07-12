@@ -1,4 +1,4 @@
-from odoo import fields, models
+from odoo import api, fields, models
 
 
 class AssetFlowAudit(models.Model):
@@ -42,7 +42,21 @@ class AssetFlowAudit(models.Model):
     )
     notes = fields.Text()
 
-    # TODO: Implement audit cycle generation, discrepancy handling, and closure logic.
+    def action_start_audit(self):
+        for audit in self:
+            audit.state = "in_progress"
+
+    def action_close_audit(self):
+        for audit in self:
+            audit.state = "completed"
+            audit.completed_date = fields.Date.today()
+            for line in audit.line_ids:
+                if line.status == "discrepancy" and line.condition == "missing":
+                    line.asset_id.action_set_lost()
+
+    def action_cancel(self):
+        for audit in self:
+            audit.state = "cancelled"
 
 
 class AssetFlowAuditLine(models.Model):
@@ -86,4 +100,10 @@ class AssetFlowAuditLine(models.Model):
     )
     notes = fields.Text()
 
-    # TODO: Implement verification and discrepancy resolution logic.
+    @api.onchange('condition', 'actual_employee_id')
+    def _onchange_condition(self):
+        if self.condition in ['missing', 'damaged'] or (self.actual_employee_id and self.expected_employee_id and self.actual_employee_id != self.expected_employee_id):
+            self.status = "discrepancy"
+        else:
+            self.status = "verified"
+

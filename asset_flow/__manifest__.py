@@ -19,6 +19,7 @@ and reports.
         "security/asset_flow_groups.xml",
         "security/ir.model.access.csv",
         "data/asset_flow_sequence.xml",
+        "data/asset_flow_cron.xml",
         "views/department_views.xml",
         "views/employee_views.xml",
         "views/asset_category_views.xml",

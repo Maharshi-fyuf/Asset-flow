@@ -73,4 +73,27 @@ class AssetFlowMaintenance(models.Model):
     description = fields.Text()
     resolution_notes = fields.Text()
 
-    # TODO: Implement maintenance workflow, technician assignment, and asset state sync.
+    def action_approve(self):
+        for req in self:
+            req.state = "approved"
+            if req.asset_id:
+                req.asset_id.action_set_maintenance()
+
+    def action_assign(self):
+        for req in self:
+            req.state = "assigned"
+
+    def action_in_progress(self):
+        for req in self:
+            req.state = "in_progress"
+
+    def action_resolve(self):
+        for req in self:
+            req.state = "resolved"
+            req.resolved_date = fields.Datetime.now()
+            if req.asset_id:
+                req.asset_id.action_make_available()
+
+    def action_cancel(self):
+        for req in self:
+            req.state = "cancelled"

@@ -20,6 +20,12 @@
         <field name="model">asset.flow.audit</field>
         <field name="arch" type="xml">
             <form string="Audit">
+                <header>
+                    <button name="action_start_audit" string="Start Audit" type="object" class="oe_highlight" invisible="state != 'planned'"/>
+                    <button name="action_close_audit" string="Close Audit" type="object" class="oe_highlight" invisible="state != 'in_progress'"/>
+                    <button name="action_cancel" string="Cancel" type="object" invisible="state in ('completed', 'cancelled')"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,planned,in_progress,completed"/>
+                </header>
                 <sheet>
                     <group>
                         <group>
@@ -30,7 +36,6 @@
                         <group>
                             <field name="planned_date"/>
                             <field name="completed_date"/>
-                            <field name="state"/>
                         </group>
                     </group>
                     <notebook>

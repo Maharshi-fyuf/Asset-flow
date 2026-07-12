@@ -21,6 +21,12 @@
         <field name="model">asset.flow.resource.booking</field>
         <field name="arch" type="xml">
             <form string="Resource Booking">
+                <header>
+                    <button name="action_confirm" string="Confirm" type="object" class="oe_highlight" invisible="state != 'draft'"/>
+                    <button name="action_done" string="Mark as Done" type="object" class="oe_highlight" invisible="state != 'confirmed'"/>
+                    <button name="action_cancel" string="Cancel" type="object" invisible="state in ('done', 'cancelled')"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,done"/>
+                </header>
                 <sheet>
                     <group>
                         <group>
@@ -33,7 +39,6 @@
                         <group>
                             <field name="start_datetime"/>
                             <field name="end_datetime"/>
-                            <field name="state"/>
                             <field name="purpose"/>
                         </group>
                     </group>

@@ -1,4 +1,5 @@
-from odoo import fields, models
+from odoo import api, fields, models
+from odoo.exceptions import ValidationError
 
 
 class AssetFlowResourceBooking(models.Model):
@@ -51,4 +52,39 @@ class AssetFlowResourceBooking(models.Model):
     purpose = fields.Char()
     notes = fields.Text()
 
-    # TODO: Implement booking confirmation, overlap validation, and calendar rules.
+    @api.constrains("asset_id")
+    def _check_asset_is_shared(self):
+        for booking in self:
+            if booking.asset_id and not booking.asset_id.is_shared:
+                raise ValidationError(f"The asset '{booking.asset_id.name}' is not marked as shared/bookable.")
+
+    @api.constrains("start_datetime", "end_datetime", "asset_id", "state")
+    def _check_booking_overlap(self):
+        for booking in self:
+            if booking.state not in ['cancelled', 'done'] and booking.asset_id and booking.start_datetime and booking.end_datetime:
+                if booking.start_datetime >= booking.end_datetime:
+                    raise ValidationError("End time must be strictly after start time.")
+                
+                # Check for overlapping bookings
+                domain = [
+                    ("asset_id", "=", booking.asset_id.id),
+                    ("state", "in", ["confirmed", "draft"]),
+                    ("id", "!=", booking.id),
+                    ("start_datetime", "<", booking.end_datetime),
+                    ("end_datetime", ">", booking.start_datetime),
+                ]
+                overlapping = self.search(domain, limit=1)
+                if overlapping:
+                    raise ValidationError(f"Booking overlaps with an existing booking ({overlapping.name}) from {overlapping.start_datetime} to {overlapping.end_datetime}.")
+
+    def action_confirm(self):
+        for booking in self:
+            booking.state = "confirmed"
+
+    def action_done(self):
+        for booking in self:
+            booking.state = "done"
+
+    def action_cancel(self):
+        for booking in self:
+            booking.state = "cancelled"
