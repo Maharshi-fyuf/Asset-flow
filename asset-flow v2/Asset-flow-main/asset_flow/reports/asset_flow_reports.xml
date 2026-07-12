@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="report_asset_utilization" model="ir.actions.report">
+        <field name="name">Asset Utilization</field>
+        <field name="model">asset.flow.asset</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">asset_flow.report_asset_utilization_document</field>
+        <field name="report_file">asset_flow.report_asset_utilization_document</field>
+        <field name="binding_type">report</field>
+    </record>
+
+    <record id="report_department_summary" model="ir.actions.report">
+        <field name="name">Department Summary</field>
+        <field name="model">asset.flow.department</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">asset_flow.report_department_summary_document</field>
+        <field name="report_file">asset_flow.report_department_summary_document</field>
+        <field name="binding_type">report</field>
+    </record>
+
+    <record id="report_maintenance" model="ir.actions.report">
+        <field name="name">Maintenance Report</field>
+        <field name="model">asset.flow.maintenance</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">asset_flow.report_maintenance_document</field>
+        <field name="report_file">asset_flow.report_maintenance_document</field>
+        <field name="binding_type">report</field>
+    </record>
+
+    <record id="report_audit" model="ir.actions.report">
+        <field name="name">Audit Report</field>
+        <field name="model">asset.flow.audit</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">asset_flow.report_audit_document</field>
+        <field name="report_file">asset_flow.report_audit_document</field>
+        <field name="binding_type">report</field>
+    </record>
+
+    <record id="report_booking" model="ir.actions.report">
+        <field name="name">Booking Report</field>
+        <field name="model">asset.flow.resource.booking</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">asset_flow.report_booking_document</field>
+        <field name="report_file">asset_flow.report_booking_document</field>
+        <field name="binding_type">report</field>
+    </record>
+</odoo>

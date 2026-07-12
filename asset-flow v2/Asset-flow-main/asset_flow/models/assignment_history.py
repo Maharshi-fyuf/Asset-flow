@@ -1,10 +1,12 @@
-from odoo import fields, models
+from odoo import _, fields, models
+from odoo.exceptions import UserError
 
 
 class AssetFlowAssignmentHistory(models.Model):
     _name = "asset.flow.assignment.history"
     _description = "AssetFlow Assignment History"
     _inherit = ["mail.thread", "mail.activity.mixin"]
+    _rec_name = "asset_id"
     _order = "assigned_date desc, id desc"
 
     asset_id = fields.Many2one(
@@ -45,4 +47,23 @@ class AssetFlowAssignmentHistory(models.Model):
     )
     notes = fields.Text()
 
-    # TODO: Auto-create history records from allocation, transfer, and return flows.
+    def action_return(self):
+        """Mark the assignment as returned."""
+        for history in self:
+            if history.state != "active":
+                raise UserError(
+                    _("Only active assignments can be returned.")
+                )
+            history.write(
+                {
+                    "state": "returned",
+                    "returned_date": fields.Datetime.now(),
+                }
+            )
+            history.message_post(
+                body=_(
+                    "Asset '%s' returned by '%s'."
+                )
+                % (history.asset_id.name, history.employee_id.name),
+                subtype_xmlid="mail.mt_note",
+            )

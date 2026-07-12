@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="asset_flow.DashboardMain">
+        <div class="o_action">
+            <div class="container-fluid p-3">
+                <h2 class="mb-4">
+                    <i class="fa fa-tachometer"/> AssetFlow Dashboard
+                </h2>
+
+                <!-- KPI Cards Row 1 -->
+                <div class="row mb-4">
+                    <div class="col-md-3 col-sm-6 mb-3">
+                        <div class="card bg-primary text-white shadow-sm" style="cursor:pointer" t-on-click="() => this.openAssets()">
+                            <div class="card-body text-center">
+                                <h6 class="card-title">Total Assets</h6>
+                                <h2 class="mb-0"><t t-esc="state.kpis.total_assets || 0"/></h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6 mb-3">
+                        <div class="card bg-success text-white shadow-sm" style="cursor:pointer" t-on-click="() => this.openAssets('available')">
+                            <div class="card-body text-center">
+                                <h6 class="card-title">Available</h6>
+                                <h2 class="mb-0"><t t-esc="state.kpis.available_assets || 0"/></h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6 mb-3">
+                        <div class="card bg-info text-white shadow-sm" style="cursor:pointer" t-on-click="() => this.openAssets('allocated')">
+                            <div class="card-body text-center">
+                                <h6 class="card-title">Allocated</h6>
+                                <h2 class="mb-0"><t t-esc="state.kpis.allocated_assets || 0"/></h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6 mb-3">
+                        <div class="card bg-warning text-dark shadow-sm" style="cursor:pointer" t-on-click="() => this.openAssets('maintenance')">
+                            <div class="card-body text-center">
+                                <h6 class="card-title">Maintenance</h6>
+                                <h2 class="mb-0"><t t-esc="state.kpis.maintenance_assets || 0"/></h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- KPI Cards Row 2 -->
+                <div class="row mb-4">
+                    <div class="col-md-3 col-sm-6 mb-3">
+                        <div class="card border-primary shadow-sm" style="cursor:pointer" t-on-click="() => this.openRequests()">
+                            <div class="card-body text-center">
+                                <h6 class="card-title text-muted">Pending Requests</h6>
+                                <h3 class="mb-0 text-primary"><t t-esc="state.kpis.pending_requests || 0"/></h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6 mb-3">
+                        <div class="card border-success shadow-sm" style="cursor:pointer" t-on-click="() => this.openBookings()">
+                            <div class="card-body text-center">
+                                <h6 class="card-title text-muted">Active Bookings</h6>
+                                <h3 class="mb-0 text-success"><t t-esc="state.kpis.active_bookings || 0"/></h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6 mb-3">
+                        <div class="card border-warning shadow-sm" style="cursor:pointer" t-on-click="() => this.openMaintenance()">
+                            <div class="card-body text-center">
+                                <h6 class="card-title text-muted">Open Maintenance</h6>
+                                <h3 class="mb-0 text-warning"><t t-esc="state.kpis.open_maintenance || 0"/></h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6 mb-3">
+                        <div class="card border-info shadow-sm" style="cursor:pointer" t-on-click="() => this.openAudits()">
+                            <div class="card-body text-center">
+                                <h6 class="card-title text-muted">Open Audits</h6>
+                                <h3 class="mb-0 text-info"><t t-esc="state.kpis.open_audits || 0"/></h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Data Tables -->
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <div class="card shadow-sm">
+                            <div class="card-header bg-light"><strong><i class="fa fa-cubes"/> Assets by Category</strong></div>
+                            <div class="card-body p-0">
+                                <table class="table table-sm table-striped mb-0">
+                                    <thead><tr><th>Category</th><th class="text-end">Count</th></tr></thead>
+                                    <tbody>
+                                        <t t-foreach="state.assets_by_category" t-as="item" t-key="item.label">
+                                            <tr><td><t t-esc="item.label"/></td><td class="text-end"><t t-esc="item.value"/></td></tr>
+                                        </t>
+                                        <tr t-if="!state.assets_by_category.length"><td colspan="2" class="text-center text-muted">No data</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="card shadow-sm">
+                            <div class="card-header bg-light"><strong><i class="fa fa-building"/> Assets by Department</strong></div>
+                            <div class="card-body p-0">
+                                <table class="table table-sm table-striped mb-0">
+                                    <thead><tr><th>Department</th><th class="text-end">Count</th></tr></thead>
+                                    <tbody>
+                                        <t t-foreach="state.assets_by_department" t-as="item" t-key="item.label">
+                                            <tr><td><t t-esc="item.label"/></td><td class="text-end"><t t-esc="item.value"/></td></tr>
+                                        </t>
+                                        <tr t-if="!state.assets_by_department.length"><td colspan="2" class="text-center text-muted">No data</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <div class="card shadow-sm">
+                            <div class="card-header bg-light"><strong><i class="fa fa-clipboard"/> Request Status</strong></div>
+                            <div class="card-body p-0">
+                                <table class="table table-sm table-striped mb-0">
+                                    <thead><tr><th>Status</th><th class="text-end">Count</th></tr></thead>
+                                    <tbody>
+                                        <t t-foreach="state.request_by_status" t-as="item" t-key="item.label">
+                                            <tr><td><t t-esc="item.label"/></td><td class="text-end"><t t-esc="item.value"/></td></tr>
+                                        </t>
+                                        <tr t-if="!state.request_by_status.length"><td colspan="2" class="text-center text-muted">No data</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="card shadow-sm">
+                            <div class="card-header bg-light"><strong><i class="fa fa-wrench"/> Maintenance Status</strong></div>
+                            <div class="card-body p-0">
+                                <table class="table table-sm table-striped mb-0">
+                                    <thead><tr><th>Status</th><th class="text-end">Count</th></tr></thead>
+                                    <tbody>
+                                        <t t-foreach="state.maintenance_by_status" t-as="item" t-key="item.label">
+                                            <tr><td><t t-esc="item.label"/></td><td class="text-end"><t t-esc="item.value"/></td></tr>
+                                        </t>
+                                        <tr t-if="!state.maintenance_by_status.length"><td colspan="2" class="text-center text-muted">No data</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>

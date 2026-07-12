@@ -4,14 +4,14 @@
         <field name="name">asset.flow.assignment.history.list</field>
         <field name="model">asset.flow.assignment.history</field>
         <field name="arch" type="xml">
-            <list string="Assignment History">
+            <list string="Assignment History" decoration-muted="state == 'returned'">
                 <field name="asset_id"/>
                 <field name="employee_id"/>
                 <field name="department_id"/>
                 <field name="request_id"/>
                 <field name="assigned_date"/>
                 <field name="returned_date"/>
-                <field name="state"/>
+                <field name="state" widget="badge" decoration-success="state == 'active'" decoration-info="state == 'transferred'" decoration-warning="state == 'returned'"/>
             </list>
         </field>
     </record>
@@ -21,6 +21,10 @@
         <field name="model">asset.flow.assignment.history</field>
         <field name="arch" type="xml">
             <form string="Assignment History">
+                <header>
+                    <button name="action_return" type="object" string="Mark Returned" class="btn-warning" invisible="state != 'active'" confirm="Mark this assignment as returned?"/>
+                    <field name="state" widget="statusbar" statusbar_visible="active,returned"/>
+                </header>
                 <sheet>
                     <group>
                         <group>
@@ -33,13 +37,13 @@
                             <field name="assigned_by_user_id"/>
                             <field name="assigned_date"/>
                             <field name="returned_date"/>
-                            <field name="state"/>
                         </group>
                     </group>
                     <group string="Notes">
                         <field name="notes"/>
                     </group>
                 </sheet>
+                <chatter/>
             </form>
         </field>
     </record>
@@ -57,7 +61,7 @@
                         <div class="oe_kanban_global_click">
                             <strong><field name="asset_id"/></strong>
                             <div><field name="employee_id"/></div>
-                            <div><field name="state"/></div>
+                            <div><field name="state" widget="badge"/></div>
                         </div>
                     </t>
                 </templates>

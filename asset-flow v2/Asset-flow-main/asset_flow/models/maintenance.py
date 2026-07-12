@@ -1,4 +1,5 @@
-from odoo import fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 
 
 class AssetFlowMaintenance(models.Model):
@@ -10,7 +11,10 @@ class AssetFlowMaintenance(models.Model):
     name = fields.Char(
         required=True,
         copy=False,
-        default=lambda self: self.env["ir.sequence"].next_by_code("asset.flow.maintenance") or "New",
+        default=lambda self: self.env["ir.sequence"].next_by_code(
+            "asset.flow.maintenance"
+        )
+        or "New",
         tracking=True,
     )
     asset_id = fields.Many2one(
@@ -73,4 +77,107 @@ class AssetFlowMaintenance(models.Model):
     description = fields.Text()
     resolution_notes = fields.Text()
 
-    # TODO: Implement maintenance workflow, technician assignment, and asset state sync.
+    def action_approve(self):
+        """Approve the maintenance request."""
+        for maintenance in self:
+            if maintenance.state != "pending":
+                raise UserError(
+                    _("Only pending maintenance requests can be approved.")
+                )
+            maintenance.write({"state": "approved"})
+            maintenance.message_post(
+                body=_("Maintenance request approved."),
+                subtype_xmlid="mail.mt_note",
+            )
+
+    def action_assign(self):
+        """Assign a technician to the maintenance request."""
+        for maintenance in self:
+            if maintenance.state != "approved":
+                raise UserError(
+                    _(
+                        "Only approved maintenance requests "
+                        "can have a technician assigned."
+                    )
+                )
+            if not maintenance.assigned_to_id:
+                raise UserError(
+                    _(
+                        "Please select a technician before "
+                        "assigning the maintenance request."
+                    )
+                )
+            maintenance.write({"state": "assigned"})
+            maintenance.message_post(
+                body=_(
+                    "Technician '%s' assigned to maintenance."
+                )
+                % maintenance.assigned_to_id.name,
+                subtype_xmlid="mail.mt_note",
+            )
+
+    def action_start(self):
+        """Start the maintenance work and set asset to maintenance state."""
+        for maintenance in self:
+            if maintenance.state != "assigned":
+                raise UserError(
+                    _(
+                        "Only assigned maintenance requests "
+                        "can be started."
+                    )
+                )
+            maintenance.asset_id.write({"state": "maintenance"})
+            maintenance.write({"state": "in_progress"})
+            maintenance.message_post(
+                body=_(
+                    "Maintenance started. Asset '%s' is now under maintenance."
+                )
+                % maintenance.asset_id.name,
+                subtype_xmlid="mail.mt_note",
+            )
+
+    def action_resolve(self):
+        """Resolve the maintenance and restore asset state."""
+        for maintenance in self:
+            if maintenance.state != "in_progress":
+                raise UserError(
+                    _(
+                        "Only in-progress maintenance requests "
+                        "can be resolved."
+                    )
+                )
+            maintenance.asset_id.write(
+                {
+                    "state": "available",
+                    "current_employee_id": False,
+                }
+            )
+            maintenance.write(
+                {
+                    "state": "resolved",
+                    "resolved_date": fields.Datetime.now(),
+                }
+            )
+            maintenance.message_post(
+                body=_(
+                    "Maintenance resolved. Asset '%s' is now available."
+                )
+                % maintenance.asset_id.name,
+                subtype_xmlid="mail.mt_note",
+            )
+
+    def action_cancel(self):
+        """Cancel the maintenance request."""
+        for maintenance in self:
+            if maintenance.state == "resolved":
+                raise UserError(
+                    _("Resolved maintenance requests cannot be cancelled.")
+                )
+            # Restore asset state if it was changed to maintenance
+            if maintenance.state == "in_progress":
+                maintenance.asset_id.write({"state": "available"})
+            maintenance.write({"state": "cancelled"})
+            maintenance.message_post(
+                body=_("Maintenance request cancelled."),
+                subtype_xmlid="mail.mt_note",
+            )

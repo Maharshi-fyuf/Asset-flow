@@ -4,7 +4,7 @@
         <field name="name">asset.flow.maintenance.list</field>
         <field name="model">asset.flow.maintenance</field>
         <field name="arch" type="xml">
-            <list string="Maintenance">
+            <list string="Maintenance" decoration-danger="priority == 'critical'" decoration-warning="priority == 'high'">
                 <field name="name"/>
                 <field name="asset_id"/>
                 <field name="department_id"/>
@@ -12,7 +12,7 @@
                 <field name="assigned_to_id"/>
                 <field name="maintenance_type"/>
                 <field name="priority"/>
-                <field name="state"/>
+                <field name="state" widget="badge" decoration-info="state in ('pending', 'approved')" decoration-warning="state in ('assigned', 'in_progress')" decoration-success="state == 'resolved'"/>
                 <field name="request_date"/>
             </list>
         </field>
@@ -23,19 +23,26 @@
         <field name="model">asset.flow.maintenance</field>
         <field name="arch" type="xml">
             <form string="Maintenance">
+                <header>
+                    <button name="action_approve" type="object" string="Approve" class="btn-primary" invisible="state != 'pending'" groups="asset_flow.group_asset_flow_asset_manager"/>
+                    <button name="action_assign" type="object" string="Assign Technician" class="btn-primary" invisible="state != 'approved'" groups="asset_flow.group_asset_flow_asset_manager"/>
+                    <button name="action_start" type="object" string="Start Work" class="btn-warning" invisible="state != 'assigned'"/>
+                    <button name="action_resolve" type="object" string="Resolve" class="btn-success" invisible="state != 'in_progress'" confirm="Mark this maintenance as resolved?"/>
+                    <button name="action_cancel" type="object" string="Cancel" class="btn-secondary" invisible="state in ('resolved', 'cancelled')" confirm="Cancel this maintenance request?"/>
+                    <field name="state" widget="statusbar" statusbar_visible="pending,approved,assigned,in_progress,resolved"/>
+                </header>
                 <sheet>
                     <group>
                         <group>
                             <field name="name"/>
-                            <field name="asset_id"/>
+                            <field name="asset_id" readonly="state != 'pending'"/>
                             <field name="department_id"/>
-                            <field name="requested_by_id"/>
-                            <field name="assigned_to_id"/>
+                            <field name="requested_by_id" readonly="state != 'pending'"/>
+                            <field name="assigned_to_id" readonly="state not in ('approved', 'assigned')"/>
                         </group>
                         <group>
-                            <field name="maintenance_type"/>
+                            <field name="maintenance_type" readonly="state != 'pending'"/>
                             <field name="priority"/>
-                            <field name="state"/>
                             <field name="request_date"/>
                             <field name="scheduled_date"/>
                             <field name="resolved_date"/>
@@ -50,6 +57,7 @@
                         </page>
                     </notebook>
                 </sheet>
+                <chatter/>
             </form>
         </field>
     </record>
@@ -69,7 +77,7 @@
                             <strong><field name="name"/></strong>
                             <div><field name="asset_id"/></div>
                             <div><field name="priority"/></div>
-                            <div><field name="state"/></div>
+                            <div><field name="state" widget="badge"/></div>
                         </div>
                     </t>
                 </templates>

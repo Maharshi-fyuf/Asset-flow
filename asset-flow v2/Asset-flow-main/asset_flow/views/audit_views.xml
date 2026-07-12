@@ -10,7 +10,8 @@
                 <field name="auditor_id"/>
                 <field name="planned_date"/>
                 <field name="completed_date"/>
-                <field name="state"/>
+                <field name="discrepancy_count"/>
+                <field name="state" widget="badge" decoration-info="state in ('draft', 'planned')" decoration-warning="state == 'in_progress'" decoration-success="state == 'completed'"/>
             </list>
         </field>
     </record>
@@ -20,28 +21,50 @@
         <field name="model">asset.flow.audit</field>
         <field name="arch" type="xml">
             <form string="Audit">
+                <header>
+                    <button name="action_plan" type="object" string="Plan" class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_start" type="object" string="Start Audit" class="btn-warning" invisible="state != 'planned'"/>
+                    <button name="action_complete" type="object" string="Complete" class="btn-success" invisible="state != 'in_progress'" confirm="Complete this audit cycle?"/>
+                    <button name="action_cancel" type="object" string="Cancel" class="btn-secondary" invisible="state in ('completed', 'cancelled')" confirm="Cancel this audit?"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,planned,in_progress,completed"/>
+                </header>
                 <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" type="object" name="action_plan" icon="fa-exclamation-triangle" invisible="discrepancy_count == 0">
+                            <field name="discrepancy_count" string="Discrepancies" widget="statinfo"/>
+                        </button>
+                    </div>
                     <group>
                         <group>
                             <field name="name"/>
-                            <field name="department_id"/>
-                            <field name="auditor_id"/>
+                            <field name="department_id" readonly="state not in ('draft', 'planned')"/>
+                            <field name="auditor_id" readonly="state not in ('draft', 'planned')"/>
                         </group>
                         <group>
-                            <field name="planned_date"/>
-                            <field name="completed_date"/>
-                            <field name="state"/>
+                            <field name="planned_date" readonly="state not in ('draft', 'planned')"/>
+                            <field name="completed_date" readonly="1"/>
                         </group>
                     </group>
                     <notebook>
                         <page string="Audit Lines">
-                            <field name="line_ids"/>
+                            <field name="line_ids">
+                                <list editable="bottom">
+                                    <field name="asset_id"/>
+                                    <field name="expected_employee_id"/>
+                                    <field name="actual_employee_id"/>
+                                    <field name="condition"/>
+                                    <field name="status" widget="badge" decoration-success="status == 'verified'" decoration-danger="status == 'discrepancy'" decoration-warning="status == 'pending'"/>
+                                    <field name="notes"/>
+                                    <button name="action_verify" type="object" string="Verify" icon="fa-check" class="btn-link"/>
+                                </list>
+                            </field>
                         </page>
                         <page string="Notes">
                             <field name="notes"/>
                         </page>
                     </notebook>
                 </sheet>
+                <chatter/>
             </form>
         </field>
     </record>
@@ -61,7 +84,7 @@
                             <strong><field name="name"/></strong>
                             <div><field name="department_id"/></div>
                             <div><field name="auditor_id"/></div>
-                            <div><field name="state"/></div>
+                            <div><field name="state" widget="badge"/></div>
                         </div>
                     </t>
                 </templates>
@@ -99,7 +122,7 @@
                 <field name="expected_employee_id"/>
                 <field name="actual_employee_id"/>
                 <field name="condition"/>
-                <field name="status"/>
+                <field name="status" widget="badge" decoration-success="status == 'verified'" decoration-danger="status == 'discrepancy'" decoration-warning="status == 'pending'"/>
             </list>
         </field>
     </record>
@@ -109,6 +132,11 @@
         <field name="model">asset.flow.audit.line</field>
         <field name="arch" type="xml">
             <form string="Audit Line">
+                <header>
+                    <button name="action_verify" type="object" string="Verify" class="btn-primary" invisible="status != 'pending'"/>
+                    <button name="action_mark_discrepancy" type="object" string="Mark Discrepancy" class="btn-danger" invisible="status != 'pending'"/>
+                    <field name="status" widget="statusbar"/>
+                </header>
                 <sheet>
                     <group>
                         <group>
@@ -119,7 +147,6 @@
                         </group>
                         <group>
                             <field name="condition"/>
-                            <field name="status"/>
                         </group>
                     </group>
                     <group string="Notes">
@@ -145,7 +172,7 @@
                             <strong><field name="asset_id"/></strong>
                             <div><field name="audit_id"/></div>
                             <div><field name="condition"/></div>
-                            <div><field name="status"/></div>
+                            <div><field name="status" widget="badge"/></div>
                         </div>
                     </t>
                 </templates>

@@ -9,6 +9,14 @@ class AssetFlowAssetCategory(models.Model):
     _parent_store = True
     _order = "complete_name"
 
+    _sql_constraints = [
+        (
+            "code_parent_unique",
+            "UNIQUE(code, parent_id)",
+            "Category code must be unique within the same parent.",
+        ),
+    ]
+
     name = fields.Char(required=True, tracking=True)
     complete_name = fields.Char(
         compute="_compute_complete_name",
@@ -54,6 +62,6 @@ class AssetFlowAssetCategory(models.Model):
             while current:
                 names.append(current.name or "")
                 current = current.parent_id
-            category.complete_name = " / ".join(reversed([name for name in names if name]))
-
-    # TODO: Add category-specific asset policies and naming standards.
+            category.complete_name = " / ".join(
+                reversed([name for name in names if name])
+            )

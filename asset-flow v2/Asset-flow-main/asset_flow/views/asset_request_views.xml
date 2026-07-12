@@ -4,7 +4,7 @@
         <field name="name">asset.flow.asset.request.list</field>
         <field name="model">asset.flow.asset.request</field>
         <field name="arch" type="xml">
-            <list string="Asset Requests">
+            <list string="Asset Requests" decoration-info="state == 'submitted'" decoration-success="state == 'approved'" decoration-muted="state in ('cancelled', 'rejected')">
                 <field name="name"/>
                 <field name="request_type"/>
                 <field name="employee_id"/>
@@ -12,7 +12,7 @@
                 <field name="category_id"/>
                 <field name="asset_id"/>
                 <field name="request_date"/>
-                <field name="state"/>
+                <field name="state" widget="badge" decoration-info="state == 'submitted'" decoration-success="state in ('approved', 'done')" decoration-danger="state == 'rejected'" decoration-warning="state == 'draft'"/>
             </list>
         </field>
     </record>
@@ -22,21 +22,29 @@
         <field name="model">asset.flow.asset.request</field>
         <field name="arch" type="xml">
             <form string="Asset Request">
+                <header>
+                    <button name="action_submit" type="object" string="Submit" class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_approve" type="object" string="Approve" class="btn-primary" invisible="state != 'submitted'" groups="asset_flow.group_asset_flow_asset_manager"/>
+                    <button name="action_reject" type="object" string="Reject" class="btn-danger" invisible="state != 'submitted'" groups="asset_flow.group_asset_flow_asset_manager" confirm="Reject this request?"/>
+                    <button name="action_allocate" type="object" string="Allocate" class="btn-success" invisible="state != 'approved'" groups="asset_flow.group_asset_flow_asset_manager"/>
+                    <button name="action_return" type="object" string="Return Asset" class="btn-warning" invisible="state != 'done' or request_type == 'return'" confirm="Process asset return?"/>
+                    <button name="action_cancel" type="object" string="Cancel" class="btn-secondary" invisible="state in ('done', 'cancelled', 'rejected')" confirm="Cancel this request?"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,submitted,approved,done"/>
+                </header>
                 <sheet>
                     <group>
                         <group>
                             <field name="name"/>
-                            <field name="request_type"/>
-                            <field name="employee_id"/>
+                            <field name="request_type" readonly="state != 'draft'"/>
+                            <field name="employee_id" readonly="state not in ('draft', 'submitted')"/>
                             <field name="department_id"/>
                             <field name="requested_by_user_id"/>
                         </group>
                         <group>
-                            <field name="category_id"/>
-                            <field name="asset_id"/>
+                            <field name="category_id" readonly="state not in ('draft', 'submitted', 'approved')"/>
+                            <field name="asset_id" readonly="state not in ('draft', 'submitted', 'approved')"/>
                             <field name="request_date"/>
-                            <field name="needed_by_date"/>
-                            <field name="state"/>
+                            <field name="needed_by_date" readonly="state not in ('draft', 'submitted')"/>
                         </group>
                     </group>
                     <notebook>
@@ -48,6 +56,7 @@
                         </page>
                     </notebook>
                 </sheet>
+                <chatter/>
             </form>
         </field>
     </record>
@@ -67,7 +76,7 @@
                             <strong><field name="name"/></strong>
                             <div><field name="request_type"/></div>
                             <div><field name="employee_id"/></div>
-                            <div><field name="state"/></div>
+                            <div><field name="state" widget="badge"/></div>
                         </div>
                     </t>
                 </templates>

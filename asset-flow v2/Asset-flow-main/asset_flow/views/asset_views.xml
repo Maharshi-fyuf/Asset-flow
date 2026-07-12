@@ -4,13 +4,13 @@
         <field name="name">asset.flow.asset.list</field>
         <field name="model">asset.flow.asset</field>
         <field name="arch" type="xml">
-            <list string="Assets">
+            <list string="Assets" decoration-danger="state == 'lost'" decoration-muted="state == 'retired'" decoration-warning="state == 'maintenance'">
                 <field name="asset_tag"/>
                 <field name="name"/>
                 <field name="category_id"/>
                 <field name="department_id"/>
                 <field name="current_employee_id"/>
-                <field name="state"/>
+                <field name="state" widget="badge" decoration-success="state == 'available'" decoration-info="state == 'allocated'" decoration-warning="state == 'maintenance'" decoration-danger="state in ('retired', 'lost')"/>
                 <field name="location"/>
             </list>
         </field>
@@ -21,6 +21,12 @@
         <field name="model">asset.flow.asset</field>
         <field name="arch" type="xml">
             <form string="Asset">
+                <header>
+                    <button name="action_set_available" type="object" string="Set Available" class="btn-primary" invisible="state not in ('maintenance', 'lost')" confirm="Mark this asset as available?"/>
+                    <button name="action_retire" type="object" string="Retire" class="btn-secondary" invisible="state not in ('available',)" confirm="This will permanently retire the asset. Continue?"/>
+                    <button name="action_mark_lost" type="object" string="Mark Lost" class="btn-danger" invisible="state not in ('available', 'allocated')" confirm="Mark this asset as lost?"/>
+                    <field name="state" widget="statusbar" statusbar_visible="available,allocated,maintenance,retired"/>
+                </header>
                 <sheet>
                     <group>
                         <group>
@@ -30,7 +36,7 @@
                             <field name="category_id"/>
                         </group>
                         <group>
-                            <field name="state"/>
+                            <field name="state" invisible="1"/>
                             <field name="department_id"/>
                             <field name="current_employee_id"/>
                             <field name="location"/>
@@ -39,7 +45,7 @@
                     <group>
                         <field name="purchase_date"/>
                         <field name="purchase_value"/>
-                        <field name="currency_id"/>
+                        <field name="currency_id" invisible="1"/>
                         <field name="active"/>
                     </group>
                     <notebook>
@@ -63,6 +69,7 @@
                         </page>
                     </notebook>
                 </sheet>
+                <chatter/>
             </form>
         </field>
     </record>
@@ -82,7 +89,7 @@
                             <strong><field name="name"/></strong>
                             <div><field name="asset_tag"/></div>
                             <div><field name="category_id"/></div>
-                            <div><field name="state"/></div>
+                            <div><field name="state" widget="badge"/></div>
                         </div>
                     </t>
                 </templates>

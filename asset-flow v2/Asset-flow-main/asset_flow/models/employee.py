@@ -1,4 +1,4 @@
-from odoo import fields, models
+from odoo import api, fields, models
 
 
 class AssetFlowEmployee(models.Model):
@@ -44,4 +44,12 @@ class AssetFlowEmployee(models.Model):
     active = fields.Boolean(default=True)
     notes = fields.Text()
 
-    # TODO: Optionally sync with hr.employee when the HR app is installed.
+    asset_count = fields.Integer(
+        compute="_compute_asset_count",
+        string="Assigned Asset Count",
+    )
+
+    @api.depends("asset_ids")
+    def _compute_asset_count(self):
+        for employee in self:
+            employee.asset_count = len(employee.asset_ids)

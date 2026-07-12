@@ -1,37 +1,147 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <record id="view_asset_flow_dashboard_form" model="ir.ui.view">
-        <field name="name">asset.flow.dashboard.form</field>
-        <field name="model">asset.flow.dashboard</field>
-        <field name="arch" type="xml">
-            <form string="AssetFlow Dashboard" create="false" edit="false">
-                <sheet>
-                    <group string="KPI Placeholders">
-                        <group>
-                            <field name="total_assets"/>
-                            <field name="available_assets"/>
-                            <field name="allocated_assets"/>
-                            <field name="maintenance_assets"/>
-                        </group>
-                        <group>
-                            <field name="pending_requests"/>
-                            <field name="active_bookings"/>
-                            <field name="open_maintenance"/>
-                            <field name="open_audits"/>
-                        </group>
-                    </group>
-                    <group string="Implementation Notes">
-                        <field name="notes"/>
-                    </group>
-                </sheet>
-            </form>
-        </field>
-    </record>
+    <!-- Dashboard QWeb Template -->
+    <template id="asset_flow_dashboard_template" name="AssetFlow Dashboard">
+        <div class="container-fluid o_asset_flow_dashboard p-3">
+            <h2 class="mb-4">
+                <i class="fa fa-tachometer"/> AssetFlow Dashboard
+            </h2>
 
-    <record id="action_asset_flow_dashboard" model="ir.actions.act_window">
+            <!-- KPI Cards Row -->
+            <div class="row mb-4">
+                <div class="col-md-3 col-sm-6 mb-3">
+                    <div class="card bg-primary text-white shadow-sm">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Total Assets</h5>
+                            <h2 class="mb-0" id="kpi_total_assets">-</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 mb-3">
+                    <div class="card bg-success text-white shadow-sm">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Available</h5>
+                            <h2 class="mb-0" id="kpi_available_assets">-</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 mb-3">
+                    <div class="card bg-info text-white shadow-sm">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Allocated</h5>
+                            <h2 class="mb-0" id="kpi_allocated_assets">-</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 mb-3">
+                    <div class="card bg-warning text-dark shadow-sm">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Maintenance</h5>
+                            <h2 class="mb-0" id="kpi_maintenance_assets">-</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-4">
+                <div class="col-md-3 col-sm-6 mb-3">
+                    <div class="card border-primary shadow-sm">
+                        <div class="card-body text-center">
+                            <h6 class="card-title text-muted">Pending Requests</h6>
+                            <h3 class="mb-0 text-primary" id="kpi_pending_requests">-</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 mb-3">
+                    <div class="card border-success shadow-sm">
+                        <div class="card-body text-center">
+                            <h6 class="card-title text-muted">Active Bookings</h6>
+                            <h3 class="mb-0 text-success" id="kpi_active_bookings">-</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 mb-3">
+                    <div class="card border-warning shadow-sm">
+                        <div class="card-body text-center">
+                            <h6 class="card-title text-muted">Open Maintenance</h6>
+                            <h3 class="mb-0 text-warning" id="kpi_open_maintenance">-</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 mb-3">
+                    <div class="card border-info shadow-sm">
+                        <div class="card-body text-center">
+                            <h6 class="card-title text-muted">Open Audits</h6>
+                            <h3 class="mb-0 text-info" id="kpi_open_audits">-</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Data Tables -->
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-light">
+                            <strong><i class="fa fa-cubes"/> Assets by Category</strong>
+                        </div>
+                        <div class="card-body p-0">
+                            <table class="table table-sm table-striped mb-0" id="table_by_category">
+                                <thead><tr><th>Category</th><th class="text-end">Count</th></tr></thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-light">
+                            <strong><i class="fa fa-building"/> Assets by Department</strong>
+                        </div>
+                        <div class="card-body p-0">
+                            <table class="table table-sm table-striped mb-0" id="table_by_department">
+                                <thead><tr><th>Department</th><th class="text-end">Count</th></tr></thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-light">
+                            <strong><i class="fa fa-clipboard"/> Request Status</strong>
+                        </div>
+                        <div class="card-body p-0">
+                            <table class="table table-sm table-striped mb-0" id="table_request_status">
+                                <thead><tr><th>Status</th><th class="text-end">Count</th></tr></thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-light">
+                            <strong><i class="fa fa-wrench"/> Maintenance Status</strong>
+                        </div>
+                        <div class="card-body p-0">
+                            <table class="table table-sm table-striped mb-0" id="table_maintenance_status">
+                                <thead><tr><th>Status</th><th class="text-end">Count</th></tr></thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- Client Action -->
+    <record id="action_asset_flow_dashboard" model="ir.actions.client">
         <field name="name">Dashboard</field>
-        <field name="res_model">asset.flow.dashboard</field>
-        <field name="view_mode">form</field>
-        <field name="target">current</field>
+        <field name="tag">asset_flow.dashboard</field>
     </record>
 </odoo>
