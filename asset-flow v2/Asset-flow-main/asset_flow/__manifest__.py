@@ -1,0 +1,41 @@
+{
+    "name": "AssetFlow",
+    "summary": "Enterprise Asset & Resource Management System",
+    "description": """
+AssetFlow provides a clean Odoo scaffold for managing departments, employees,
+assets, requests, bookings, maintenance, audits, assignment history, dashboards,
+and reports.
+    """,
+    "version": "18.0.1.0.0",
+    "category": "Operations/Asset Management",
+    "author": "Team SuperNova",
+    "website": "https://example.com",
+    "license": "LGPL-3",
+    "depends": [
+        "base",
+        "mail",
+    ],
+    "data": [
+        "security/asset_flow_groups.xml",
+        "security/ir.model.access.csv",
+        "data/asset_flow_sequence.xml",
+        "views/department_views.xml",
+        "views/employee_views.xml",
+        "views/asset_category_views.xml",
+        "views/asset_views.xml",
+        "views/asset_request_views.xml",
+        "views/resource_booking_views.xml",
+        "views/maintenance_views.xml",
+        "views/audit_views.xml",
+        "views/assignment_history_views.xml",
+        "views/dashboard_views.xml",
+        "views/report_wizard_views.xml",
+        "reports/asset_flow_report_templates.xml",
+        "views/asset_flow_menus.xml",
+    ],
+    "demo": [
+        "demo/asset_flow_demo.xml",
+    ],
+    "application": True,
+    "installable": True,
+}

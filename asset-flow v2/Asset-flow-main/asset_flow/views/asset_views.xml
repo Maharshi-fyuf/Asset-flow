@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_asset_flow_asset_list" model="ir.ui.view">
+        <field name="name">asset.flow.asset.list</field>
+        <field name="model">asset.flow.asset</field>
+        <field name="arch" type="xml">
+            <list string="Assets">
+                <field name="asset_tag"/>
+                <field name="name"/>
+                <field name="category_id"/>
+                <field name="department_id"/>
+                <field name="current_employee_id"/>
+                <field name="state"/>
+                <field name="location"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_asset_flow_asset_form" model="ir.ui.view">
+        <field name="name">asset.flow.asset.form</field>
+        <field name="model">asset.flow.asset</field>
+        <field name="arch" type="xml">
+            <form string="Asset">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="asset_tag"/>
+                            <field name="name"/>
+                            <field name="serial_number"/>
+                            <field name="category_id"/>
+                        </group>
+                        <group>
+                            <field name="state"/>
+                            <field name="department_id"/>
+                            <field name="current_employee_id"/>
+                            <field name="location"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="purchase_date"/>
+                        <field name="purchase_value"/>
+                        <field name="currency_id"/>
+                        <field name="active"/>
+                    </group>
+                    <notebook>
+                        <page string="Requests">
+                            <field name="request_ids"/>
+                        </page>
+                        <page string="Bookings">
+                            <field name="booking_ids"/>
+                        </page>
+                        <page string="Maintenance">
+                            <field name="maintenance_ids"/>
+                        </page>
+                        <page string="Assignment History">
+                            <field name="assignment_history_ids"/>
+                        </page>
+                        <page string="Audit Lines">
+                            <field name="audit_line_ids"/>
+                        </page>
+                        <page string="Notes">
+                            <field name="notes"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_asset_flow_asset_kanban" model="ir.ui.view">
+        <field name="name">asset.flow.asset.kanban</field>
+        <field name="model">asset.flow.asset</field>
+        <field name="arch" type="xml">
+            <kanban string="Assets" default_group_by="state">
+                <field name="asset_tag"/>
+                <field name="name"/>
+                <field name="category_id"/>
+                <field name="state"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <strong><field name="name"/></strong>
+                            <div><field name="asset_tag"/></div>
+                            <div><field name="category_id"/></div>
+                            <div><field name="state"/></div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_asset_flow_asset_search" model="ir.ui.view">
+        <field name="name">asset.flow.asset.search</field>
+        <field name="model">asset.flow.asset</field>
+        <field name="arch" type="xml">
+            <search string="Assets">
+                <field name="name"/>
+                <field name="asset_tag"/>
+                <field name="serial_number"/>
+                <field name="category_id"/>
+                <field name="department_id"/>
+                <field name="current_employee_id"/>
+                <filter name="available" string="Available" domain="[('state', '=', 'available')]"/>
+                <filter name="allocated" string="Allocated" domain="[('state', '=', 'allocated')]"/>
+                <filter name="maintenance" string="Under Maintenance" domain="[('state', '=', 'maintenance')]"/>
+                <filter name="retired" string="Retired" domain="[('state', '=', 'retired')]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_category" string="Category" context="{'group_by': 'category_id'}"/>
+                    <filter name="group_department" string="Department" context="{'group_by': 'department_id'}"/>
+                    <filter name="group_state" string="Status" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_asset_flow_asset" model="ir.actions.act_window">
+        <field name="name">Assets</field>
+        <field name="res_model">asset.flow.asset</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="search_view_id" ref="view_asset_flow_asset_search"/>
+    </record>
+</odoo>
