@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="seq_asset_flow_asset" model="ir.sequence">
+        <field name="name">AssetFlow Asset</field>
+        <field name="code">asset.flow.asset</field>
+        <field name="prefix">AF-AST-</field>
+        <field name="padding">5</field>
+    </record>
+
+    <record id="seq_asset_flow_asset_request" model="ir.sequence">
+        <field name="name">AssetFlow Asset Request</field>
+        <field name="code">asset.flow.asset.request</field>
+        <field name="prefix">AF-REQ-</field>
+        <field name="padding">5</field>
+    </record>
+
+    <record id="seq_asset_flow_resource_booking" model="ir.sequence">
+        <field name="name">AssetFlow Resource Booking</field>
+        <field name="code">asset.flow.resource.booking</field>
+        <field name="prefix">AF-BKG-</field>
+        <field name="padding">5</field>
+    </record>
+
+    <record id="seq_asset_flow_maintenance" model="ir.sequence">
+        <field name="name">AssetFlow Maintenance</field>
+        <field name="code">asset.flow.maintenance</field>
+        <field name="prefix">AF-MNT-</field>
+        <field name="padding">5</field>
+    </record>
+
+    <record id="seq_asset_flow_audit" model="ir.sequence">
+        <field name="name">AssetFlow Audit</field>
+        <field name="code">asset.flow.audit</field>
+        <field name="prefix">AF-AUD-</field>
+        <field name="padding">5</field>
+    </record>
+</odoo>

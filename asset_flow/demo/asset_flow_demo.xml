@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="department_it" model="asset.flow.department">
+        <field name="name">Information Technology</field>
+        <field name="code">IT</field>
+        <field name="notes">Demo department for laptops, projectors, and infrastructure assets.</field>
+    </record>
+
+    <record id="department_facilities" model="asset.flow.department">
+        <field name="name">Facilities</field>
+        <field name="code">FAC</field>
+        <field name="notes">Demo department for rooms, furniture, and shared workplace resources.</field>
+    </record>
+
+    <record id="department_finance" model="asset.flow.department">
+        <field name="name">Finance</field>
+        <field name="code">FIN</field>
+    </record>
+
+    <record id="employee_maharshi" model="asset.flow.employee">
+        <field name="name">Maharshi Khamar</field>
+        <field name="user_id" ref="base.user_admin"/>
+        <field name="department_id" ref="department_it"/>
+        <field name="job_title">System Architect</field>
+        <field name="work_email">maharshi@example.com</field>
+    </record>
+
+    <record id="employee_jigar" model="asset.flow.employee">
+        <field name="name">Jigar Vighani</field>
+        <field name="department_id" ref="department_it"/>
+        <field name="manager_id" ref="employee_maharshi"/>
+        <field name="job_title">Asset Management Developer</field>
+        <field name="work_email">jigar@example.com</field>
+    </record>
+
+    <record id="employee_rakshit" model="asset.flow.employee">
+        <field name="name">Rakshit Dave</field>
+        <field name="department_id" ref="department_finance"/>
+        <field name="manager_id" ref="employee_maharshi"/>
+        <field name="job_title">Dashboard Developer</field>
+        <field name="work_email">rakshit@example.com</field>
+    </record>
+
+    <record id="employee_jaydev" model="asset.flow.employee">
+        <field name="name">Jaydev Bunkar</field>
+        <field name="department_id" ref="department_facilities"/>
+        <field name="manager_id" ref="employee_maharshi"/>
+        <field name="job_title">Operations Developer</field>
+        <field name="work_email">jaydev@example.com</field>
+    </record>
+
+    <record id="department_it" model="asset.flow.department">
+        <field name="manager_id" ref="employee_maharshi"/>
+    </record>
+
+    <record id="department_facilities" model="asset.flow.department">
+        <field name="manager_id" ref="employee_jaydev"/>
+    </record>
+
+    <record id="category_equipment" model="asset.flow.asset.category">
+        <field name="name">Equipment</field>
+        <field name="code">EQP</field>
+        <field name="category_type">both</field>
+        <field name="maintenance_required">1</field>
+    </record>
+
+    <record id="category_laptop" model="asset.flow.asset.category">
+        <field name="name">Laptops</field>
+        <field name="code">LTP</field>
+        <field name="parent_id" ref="category_equipment"/>
+        <field name="category_type">asset</field>
+        <field name="maintenance_required">1</field>
+    </record>
+
+    <record id="category_meeting_room" model="asset.flow.asset.category">
+        <field name="name">Meeting Rooms</field>
+        <field name="code">ROOM</field>
+        <field name="category_type">resource</field>
+    </record>
+
+    <record id="category_projector" model="asset.flow.asset.category">
+        <field name="name">Projectors</field>
+        <field name="code">PRJ</field>
+        <field name="parent_id" ref="category_equipment"/>
+        <field name="category_type">both</field>
+        <field name="maintenance_required">1</field>
+    </record>
+
+    <record id="asset_laptop_001" model="asset.flow.asset">
+        <field name="asset_tag">AF-AST-DEMO-001</field>
+        <field name="name">Dell Latitude 7440</field>
+        <field name="serial_number">DL-DEMO-7440</field>
+        <field name="category_id" ref="category_laptop"/>
+        <field name="department_id" ref="department_it"/>
+        <field name="current_employee_id" ref="employee_jigar"/>
+        <field name="state">allocated</field>
+        <field name="location">IT Desk A1</field>
+    </record>
+
+    <record id="asset_laptop_002" model="asset.flow.asset">
+        <field name="asset_tag">AF-AST-DEMO-002</field>
+        <field name="name">MacBook Pro 14</field>
+        <field name="serial_number">MBP-DEMO-14</field>
+        <field name="category_id" ref="category_laptop"/>
+        <field name="department_id" ref="department_it"/>
+        <field name="state">available</field>
+        <field name="location">IT Store</field>
+    </record>
+
+    <record id="asset_room_alpha" model="asset.flow.asset">
+        <field name="asset_tag">AF-ROOM-DEMO-001</field>
+        <field name="name">Meeting Room Alpha</field>
+        <field name="category_id" ref="category_meeting_room"/>
+        <field name="department_id" ref="department_facilities"/>
+        <field name="state">available</field>
+        <field name="location">First Floor</field>
+    </record>
+
+    <record id="asset_projector_001" model="asset.flow.asset">
+        <field name="asset_tag">AF-PRJ-DEMO-001</field>
+        <field name="name">Epson Projector X1</field>
+        <field name="serial_number">EPSON-DEMO-X1</field>
+        <field name="category_id" ref="category_projector"/>
+        <field name="department_id" ref="department_facilities"/>
+        <field name="state">maintenance</field>
+        <field name="location">AV Store</field>
+    </record>
+
+    <record id="asset_request_demo_001" model="asset.flow.asset.request">
+        <field name="name">AF-REQ-DEMO-001</field>
+        <field name="request_type">allocation</field>
+        <field name="employee_id" ref="employee_rakshit"/>
+        <field name="requested_by_user_id" ref="base.user_admin"/>
+        <field name="category_id" ref="category_laptop"/>
+        <field name="asset_id" ref="asset_laptop_002"/>
+        <field name="state">submitted</field>
+        <field name="notes">Demo placeholder request. Approval workflow is intentionally not implemented.</field>
+    </record>
+
+    <record id="resource_booking_demo_001" model="asset.flow.resource.booking">
+        <field name="name">AF-BKG-DEMO-001</field>
+        <field name="asset_id" ref="asset_room_alpha"/>
+        <field name="employee_id" ref="employee_jaydev"/>
+        <field name="start_datetime">2026-07-13 09:00:00</field>
+        <field name="end_datetime">2026-07-13 10:00:00</field>
+        <field name="state">confirmed</field>
+        <field name="purpose">Hackathon standup meeting</field>
+    </record>
+
+    <record id="maintenance_demo_001" model="asset.flow.maintenance">
+        <field name="name">AF-MNT-DEMO-001</field>
+        <field name="asset_id" ref="asset_projector_001"/>
+        <field name="requested_by_id" ref="employee_jaydev"/>
+        <field name="assigned_to_id" ref="employee_jaydev"/>
+        <field name="maintenance_type">corrective</field>
+        <field name="priority">normal</field>
+        <field name="state">pending</field>
+        <field name="description">Demo maintenance placeholder. Workflow logic is intentionally not implemented.</field>
+    </record>
+
+    <record id="audit_demo_001" model="asset.flow.audit">
+        <field name="name">AF-AUD-DEMO-001</field>
+        <field name="department_id" ref="department_it"/>
+        <field name="auditor_id" ref="employee_maharshi"/>
+        <field name="planned_date">2026-07-14</field>
+        <field name="state">planned</field>
+        <field name="notes">Demo audit cycle placeholder.</field>
+    </record>
+
+    <record id="audit_line_demo_001" model="asset.flow.audit.line">
+        <field name="audit_id" ref="audit_demo_001"/>
+        <field name="asset_id" ref="asset_laptop_001"/>
+        <field name="expected_employee_id" ref="employee_jigar"/>
+        <field name="actual_employee_id" ref="employee_jigar"/>
+        <field name="condition">good</field>
+        <field name="status">pending</field>
+    </record>
+
+    <record id="assignment_history_demo_001" model="asset.flow.assignment.history">
+        <field name="asset_id" ref="asset_laptop_001"/>
+        <field name="employee_id" ref="employee_jigar"/>
+        <field name="department_id" ref="department_it"/>
+        <field name="request_id" ref="asset_request_demo_001"/>
+        <field name="assigned_by_user_id" ref="base.user_admin"/>
+        <field name="assigned_date">2026-07-12 09:00:00</field>
+        <field name="state">active</field>
+        <field name="notes">Demo assignment history placeholder.</field>
+    </record>
+</odoo>

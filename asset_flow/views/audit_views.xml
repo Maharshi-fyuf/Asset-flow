@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_asset_flow_audit_list" model="ir.ui.view">
+        <field name="name">asset.flow.audit.list</field>
+        <field name="model">asset.flow.audit</field>
+        <field name="arch" type="xml">
+            <list string="Audits">
+                <field name="name"/>
+                <field name="department_id"/>
+                <field name="auditor_id"/>
+                <field name="planned_date"/>
+                <field name="completed_date"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_asset_flow_audit_form" model="ir.ui.view">
+        <field name="name">asset.flow.audit.form</field>
+        <field name="model">asset.flow.audit</field>
+        <field name="arch" type="xml">
+            <form string="Audit">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="department_id"/>
+                            <field name="auditor_id"/>
+                        </group>
+                        <group>
+                            <field name="planned_date"/>
+                            <field name="completed_date"/>
+                            <field name="state"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Audit Lines">
+                            <field name="line_ids"/>
+                        </page>
+                        <page string="Notes">
+                            <field name="notes"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_asset_flow_audit_kanban" model="ir.ui.view">
+        <field name="name">asset.flow.audit.kanban</field>
+        <field name="model">asset.flow.audit</field>
+        <field name="arch" type="xml">
+            <kanban string="Audits" default_group_by="state">
+                <field name="name"/>
+                <field name="department_id"/>
+                <field name="auditor_id"/>
+                <field name="state"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <strong><field name="name"/></strong>
+                            <div><field name="department_id"/></div>
+                            <div><field name="auditor_id"/></div>
+                            <div><field name="state"/></div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_asset_flow_audit_search" model="ir.ui.view">
+        <field name="name">asset.flow.audit.search</field>
+        <field name="model">asset.flow.audit</field>
+        <field name="arch" type="xml">
+            <search string="Audits">
+                <field name="name"/>
+                <field name="department_id"/>
+                <field name="auditor_id"/>
+                <field name="planned_date"/>
+                <filter name="planned" string="Planned" domain="[('state', '=', 'planned')]"/>
+                <filter name="in_progress" string="In Progress" domain="[('state', '=', 'in_progress')]"/>
+                <filter name="completed" string="Completed" domain="[('state', '=', 'completed')]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_department" string="Department" context="{'group_by': 'department_id'}"/>
+                    <filter name="group_state" string="Status" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_asset_flow_audit_line_list" model="ir.ui.view">
+        <field name="name">asset.flow.audit.line.list</field>
+        <field name="model">asset.flow.audit.line</field>
+        <field name="arch" type="xml">
+            <list string="Audit Lines">
+                <field name="audit_id"/>
+                <field name="asset_id"/>
+                <field name="expected_employee_id"/>
+                <field name="actual_employee_id"/>
+                <field name="condition"/>
+                <field name="status"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_asset_flow_audit_line_form" model="ir.ui.view">
+        <field name="name">asset.flow.audit.line.form</field>
+        <field name="model">asset.flow.audit.line</field>
+        <field name="arch" type="xml">
+            <form string="Audit Line">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="audit_id"/>
+                            <field name="asset_id"/>
+                            <field name="expected_employee_id"/>
+                            <field name="actual_employee_id"/>
+                        </group>
+                        <group>
+                            <field name="condition"/>
+                            <field name="status"/>
+                        </group>
+                    </group>
+                    <group string="Notes">
+                        <field name="notes"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_asset_flow_audit_line_kanban" model="ir.ui.view">
+        <field name="name">asset.flow.audit.line.kanban</field>
+        <field name="model">asset.flow.audit.line</field>
+        <field name="arch" type="xml">
+            <kanban string="Audit Lines" default_group_by="status">
+                <field name="audit_id"/>
+                <field name="asset_id"/>
+                <field name="condition"/>
+                <field name="status"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <strong><field name="asset_id"/></strong>
+                            <div><field name="audit_id"/></div>
+                            <div><field name="condition"/></div>
+                            <div><field name="status"/></div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_asset_flow_audit_line_search" model="ir.ui.view">
+        <field name="name">asset.flow.audit.line.search</field>
+        <field name="model">asset.flow.audit.line</field>
+        <field name="arch" type="xml">
+            <search string="Audit Lines">
+                <field name="audit_id"/>
+                <field name="asset_id"/>
+                <field name="expected_employee_id"/>
+                <field name="actual_employee_id"/>
+                <filter name="pending" string="Pending" domain="[('status', '=', 'pending')]"/>
+                <filter name="verified" string="Verified" domain="[('status', '=', 'verified')]"/>
+                <filter name="discrepancy" string="Discrepancy" domain="[('status', '=', 'discrepancy')]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_asset_flow_audit" model="ir.actions.act_window">
+        <field name="name">Audits</field>
+        <field name="res_model">asset.flow.audit</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="search_view_id" ref="view_asset_flow_audit_search"/>
+    </record>
+
+    <record id="action_asset_flow_audit_line" model="ir.actions.act_window">
+        <field name="name">Audit Lines</field>
+        <field name="res_model">asset.flow.audit.line</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="search_view_id" ref="view_asset_flow_audit_line_search"/>
+    </record>
+</odoo>
