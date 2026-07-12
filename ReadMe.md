@@ -306,7 +306,7 @@ Retired
 
 ## 👨‍💻 Jigar Vighani
 
-- Departments
+- Departments and deployments
 - Employees
 - Asset Categories
 - Asset CRUD
