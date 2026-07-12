@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_asset_flow_report_wizard_list" model="ir.ui.view">
+        <field name="name">asset.flow.report.wizard.list</field>
+        <field name="model">asset.flow.report.wizard</field>
+        <field name="arch" type="xml">
+            <list string="Report Wizard">
+                <field name="report_type"/>
+                <field name="date_from"/>
+                <field name="date_to"/>
+                <field name="department_id"/>
+                <field name="category_id"/>
+                <field name="employee_id"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_asset_flow_report_wizard_form" model="ir.ui.view">
+        <field name="name">asset.flow.report.wizard.form</field>
+        <field name="model">asset.flow.report.wizard</field>
+        <field name="arch" type="xml">
+            <form string="AssetFlow Reports">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="report_type"/>
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                        </group>
+                        <group>
+                            <field name="department_id"/>
+                            <field name="category_id"/>
+                            <field name="employee_id"/>
+                        </group>
+                    </group>
+                    <group string="Implementation Notes">
+                        <field name="notes"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_asset_flow_report_wizard_kanban" model="ir.ui.view">
+        <field name="name">asset.flow.report.wizard.kanban</field>
+        <field name="model">asset.flow.report.wizard</field>
+        <field name="arch" type="xml">
+            <kanban string="Reports">
+                <field name="report_type"/>
+                <field name="department_id"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <strong><field name="report_type"/></strong>
+                            <div><field name="department_id"/></div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_asset_flow_report_wizard_search" model="ir.ui.view">
+        <field name="name">asset.flow.report.wizard.search</field>
+        <field name="model">asset.flow.report.wizard</field>
+        <field name="arch" type="xml">
+            <search string="AssetFlow Reports">
+                <field name="report_type"/>
+                <field name="date_from"/>
+                <field name="date_to"/>
+                <field name="department_id"/>
+                <field name="category_id"/>
+                <field name="employee_id"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_asset_flow_report_wizard" model="ir.actions.act_window">
+        <field name="name">Reports</field>
+        <field name="res_model">asset.flow.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+    </record>
+</odoo>

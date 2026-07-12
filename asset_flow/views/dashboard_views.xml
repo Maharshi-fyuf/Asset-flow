@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_asset_flow_dashboard_form" model="ir.ui.view">
+        <field name="name">asset.flow.dashboard.form</field>
+        <field name="model">asset.flow.dashboard</field>
+        <field name="arch" type="xml">
+            <form string="AssetFlow Dashboard" create="false" edit="false">
+                <sheet>
+                    <group string="KPI Placeholders">
+                        <group>
+                            <field name="total_assets"/>
+                            <field name="available_assets"/>
+                            <field name="allocated_assets"/>
+                            <field name="maintenance_assets"/>
+                        </group>
+                        <group>
+                            <field name="pending_requests"/>
+                            <field name="active_bookings"/>
+                            <field name="open_maintenance"/>
+                            <field name="open_audits"/>
+                        </group>
+                    </group>
+                    <group string="Implementation Notes">
+                        <field name="notes"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_asset_flow_dashboard" model="ir.actions.act_window">
+        <field name="name">Dashboard</field>
+        <field name="res_model">asset.flow.dashboard</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+    </record>
+</odoo>

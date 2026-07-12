@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_asset_flow_asset_request_list" model="ir.ui.view">
+        <field name="name">asset.flow.asset.request.list</field>
+        <field name="model">asset.flow.asset.request</field>
+        <field name="arch" type="xml">
+            <list string="Asset Requests">
+                <field name="name"/>
+                <field name="request_type"/>
+                <field name="employee_id"/>
+                <field name="department_id"/>
+                <field name="category_id"/>
+                <field name="asset_id"/>
+                <field name="request_date"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_asset_flow_asset_request_form" model="ir.ui.view">
+        <field name="name">asset.flow.asset.request.form</field>
+        <field name="model">asset.flow.asset.request</field>
+        <field name="arch" type="xml">
+            <form string="Asset Request">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="request_type"/>
+                            <field name="employee_id"/>
+                            <field name="department_id"/>
+                            <field name="requested_by_user_id"/>
+                        </group>
+                        <group>
+                            <field name="category_id"/>
+                            <field name="asset_id"/>
+                            <field name="request_date"/>
+                            <field name="needed_by_date"/>
+                            <field name="state"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Assignment History">
+                            <field name="assignment_history_ids"/>
+                        </page>
+                        <page string="Notes">
+                            <field name="notes"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_asset_flow_asset_request_kanban" model="ir.ui.view">
+        <field name="name">asset.flow.asset.request.kanban</field>
+        <field name="model">asset.flow.asset.request</field>
+        <field name="arch" type="xml">
+            <kanban string="Asset Requests" default_group_by="state">
+                <field name="name"/>
+                <field name="request_type"/>
+                <field name="employee_id"/>
+                <field name="state"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <strong><field name="name"/></strong>
+                            <div><field name="request_type"/></div>
+                            <div><field name="employee_id"/></div>
+                            <div><field name="state"/></div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_asset_flow_asset_request_search" model="ir.ui.view">
+        <field name="name">asset.flow.asset.request.search</field>
+        <field name="model">asset.flow.asset.request</field>
+        <field name="arch" type="xml">
+            <search string="Asset Requests">
+                <field name="name"/>
+                <field name="employee_id"/>
+                <field name="department_id"/>
+                <field name="category_id"/>
+                <field name="asset_id"/>
+                <filter name="draft" string="Draft" domain="[('state', '=', 'draft')]"/>
+                <filter name="submitted" string="Submitted" domain="[('state', '=', 'submitted')]"/>
+                <filter name="approved" string="Approved" domain="[('state', '=', 'approved')]"/>
+                <filter name="done" string="Done" domain="[('state', '=', 'done')]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_type" string="Request Type" context="{'group_by': 'request_type'}"/>
+                    <filter name="group_state" string="Status" context="{'group_by': 'state'}"/>
+                    <filter name="group_department" string="Department" context="{'group_by': 'department_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_asset_flow_asset_request" model="ir.actions.act_window">
+        <field name="name">Asset Requests</field>
+        <field name="res_model">asset.flow.asset.request</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="search_view_id" ref="view_asset_flow_asset_request_search"/>
+    </record>
+</odoo>

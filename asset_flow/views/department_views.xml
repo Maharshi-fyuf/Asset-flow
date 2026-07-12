@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_asset_flow_department_list" model="ir.ui.view">
+        <field name="name">asset.flow.department.list</field>
+        <field name="model">asset.flow.department</field>
+        <field name="arch" type="xml">
+            <list string="Departments">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="manager_id"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_asset_flow_department_form" model="ir.ui.view">
+        <field name="name">asset.flow.department.form</field>
+        <field name="model">asset.flow.department</field>
+        <field name="arch" type="xml">
+            <form string="Department">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="code"/>
+                            <field name="manager_id"/>
+                        </group>
+                        <group>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Employees">
+                            <field name="employee_ids"/>
+                        </page>
+                        <page string="Assets">
+                            <field name="asset_ids"/>
+                        </page>
+                        <page string="Notes">
+                            <field name="notes"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_asset_flow_department_kanban" model="ir.ui.view">
+        <field name="name">asset.flow.department.kanban</field>
+        <field name="model">asset.flow.department</field>
+        <field name="arch" type="xml">
+            <kanban string="Departments">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="manager_id"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <strong><field name="name"/></strong>
+                            <div><field name="code"/></div>
+                            <div><field name="manager_id"/></div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_asset_flow_department_search" model="ir.ui.view">
+        <field name="name">asset.flow.department.search</field>
+        <field name="model">asset.flow.department</field>
+        <field name="arch" type="xml">
+            <search string="Departments">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="manager_id"/>
+                <filter name="active" string="Active" domain="[('active', '=', True)]"/>
+                <filter name="archived" string="Archived" domain="[('active', '=', False)]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_asset_flow_department" model="ir.actions.act_window">
+        <field name="name">Departments</field>
+        <field name="res_model">asset.flow.department</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="search_view_id" ref="view_asset_flow_department_search"/>
+    </record>
+</odoo>
