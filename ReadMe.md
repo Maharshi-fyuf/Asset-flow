@@ -320,7 +320,7 @@ Retired
 - UI Components
 - Reports
 - Charts
-- Responsive Design
+- Responsive Design and dynamic UI
 
 ---
 
