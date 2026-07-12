@@ -18,6 +18,7 @@ and reports.
     "data": [
         "security/asset_flow_groups.xml",
         "security/ir.model.access.csv",
+        "security/asset_flow_record_rules.xml",
         "data/asset_flow_sequence.xml",
         "data/asset_flow_cron.xml",
         "views/department_views.xml",

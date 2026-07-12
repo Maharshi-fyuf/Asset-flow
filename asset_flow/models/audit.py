@@ -42,6 +42,10 @@ class AssetFlowAudit(models.Model):
     )
     notes = fields.Text()
 
+    def action_plan(self):
+        for audit in self:
+            audit.state = "planned"
+
     def action_start_audit(self):
         for audit in self:
             audit.state = "in_progress"

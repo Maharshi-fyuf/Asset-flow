@@ -4,7 +4,11 @@
         <field name="name">asset.flow.asset.request.list</field>
         <field name="model">asset.flow.asset.request</field>
         <field name="arch" type="xml">
-            <list string="Asset Requests">
+            <list string="Asset Requests"
+                  decoration-success="state == 'done'"
+                  decoration-warning="state == 'submitted'"
+                  decoration-danger="state in ('rejected', 'cancelled')"
+                  decoration-info="state == 'approved'">
                 <field name="name"/>
                 <field name="request_type"/>
                 <field name="employee_id"/>

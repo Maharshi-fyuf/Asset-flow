@@ -4,13 +4,21 @@
         <field name="name">asset.flow.asset.list</field>
         <field name="model">asset.flow.asset</field>
         <field name="arch" type="xml">
-            <list string="Assets">
+            <list string="Assets"
+                  decoration-success="state == 'available'"
+                  decoration-warning="state in ('maintenance', 'reserved')"
+                  decoration-danger="state in ('lost', 'retired', 'disposed')"
+                  decoration-muted="state == 'allocated'">
                 <field name="asset_tag"/>
                 <field name="name"/>
                 <field name="category_id"/>
                 <field name="department_id"/>
                 <field name="current_employee_id"/>
-                <field name="state"/>
+                <field name="state" widget="badge"
+                    decoration-success="state == 'available'"
+                    decoration-info="state == 'allocated'"
+                    decoration-warning="state in ('maintenance', 'reserved')"
+                    decoration-danger="state in ('lost', 'retired', 'disposed')"/>
                 <field name="location"/>
             </list>
         </field>

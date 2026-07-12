@@ -56,4 +56,3 @@ class AssetFlowAssetCategory(models.Model):
                 current = current.parent_id
             category.complete_name = " / ".join(reversed([name for name in names if name]))
 
-    # TODO: Add category-specific asset policies and naming standards.

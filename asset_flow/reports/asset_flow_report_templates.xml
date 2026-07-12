@@ -1,11 +1,222 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <template id="report_asset_flow_placeholder">
+    <!-- ============================================================
+         ASSET FLOW REPORTS — QWeb Templates
+         ============================================================ -->
+
+    <!-- Main report action — triggered by the wizard -->
+    <record id="action_report_asset_flow" model="ir.actions.report">
+        <field name="name">AssetFlow Report</field>
+        <field name="model">asset.flow.report.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">asset_flow.report_asset_flow_main</field>
+        <field name="report_file">asset_flow.report_asset_flow_main</field>
+        <field name="binding_model_id" ref="model_asset_flow_report_wizard"/>
+        <field name="print_report_name">'AssetFlow Report - ' + object.report_type</field>
+    </record>
+
+    <!-- Main Report Template -->
+    <template id="report_asset_flow_main">
         <t t-call="web.html_container">
             <t t-call="web.external_layout">
                 <div class="page">
-                    <h2>AssetFlow Report Placeholder</h2>
-                    <p>TODO: Implement report rendering for assets, departments, maintenance, audits, and bookings.</p>
+
+                    <!-- Report Header -->
+                    <div style="border-bottom: 2px solid #333; padding-bottom: 12px; margin-bottom: 24px;">
+                        <h2 style="margin: 0; font-size: 18pt;">AssetFlow — <t t-esc="docs[0].get_report_title()"/></h2>
+                        <p style="color: #666; margin: 4px 0 0 0; font-size: 10pt;">
+                            Generated on: <t t-esc="context_timestamp(datetime.datetime.now()).strftime('%d %b %Y %H:%M')"/>
+                            <t t-if="docs[0].department_id">
+                                | Department: <t t-esc="docs[0].department_id.name"/>
+                            </t>
+                            <t t-if="docs[0].date_from or docs[0].date_to">
+                                | Period: <t t-esc="docs[0].date_from or 'Start'"/> to <t t-esc="docs[0].date_to or 'Today'"/>
+                            </t>
+                        </p>
+                    </div>
+
+                    <!-- Asset Utilization Report -->
+                    <t t-if="docs[0].report_type == 'asset_utilization'">
+                        <h3>Asset Utilization — Full Registry</h3>
+                        <t t-set="assets" t-value="env['asset.flow.asset'].browse(data['record_ids'])"/>
+                        <table class="table table-sm" style="width: 100%; font-size: 9pt;">
+                            <thead style="background-color: #f0f0f0;">
+                                <tr>
+                                    <th>Tag</th>
+                                    <th>Name</th>
+                                    <th>Category</th>
+                                    <th>Department</th>
+                                    <th>Assigned To</th>
+                                    <th>Status</th>
+                                    <th>Condition</th>
+                                    <th>Location</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="assets" t-as="asset">
+                                    <tr>
+                                        <td><t t-esc="asset.asset_tag"/></td>
+                                        <td><t t-esc="asset.name"/></td>
+                                        <td><t t-esc="asset.category_id.name"/></td>
+                                        <td><t t-esc="asset.department_id.name or '-'"/></td>
+                                        <td><t t-esc="asset.current_employee_id.name or '-'"/></td>
+                                        <td><t t-esc="dict(asset.fields_get(['state'])['state']['selection'])[asset.state]"/></td>
+                                        <td><t t-esc="dict(asset.fields_get(['condition'])['condition']['selection']).get(asset.condition, '-')"/></td>
+                                        <td><t t-esc="asset.location or '-'"/></td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                        <!-- Summary -->
+                        <t t-set="total" t-value="len(assets)"/>
+                        <t t-set="avail" t-value="len(assets.filtered(lambda a: a.state == 'available'))"/>
+                        <t t-set="alloc" t-value="len(assets.filtered(lambda a: a.state == 'allocated'))"/>
+                        <t t-set="maint" t-value="len(assets.filtered(lambda a: a.state == 'maintenance'))"/>
+                        <div style="margin-top: 20px; padding: 12px; background: #f8f8f8; border-left: 4px solid #333;">
+                            <strong>Summary:</strong>
+                            Total: <t t-esc="total"/> |
+                            Available: <t t-esc="avail"/> |
+                            Allocated: <t t-esc="alloc"/> |
+                            Under Maintenance: <t t-esc="maint"/>
+                        </div>
+                    </t>
+
+                    <!-- Maintenance Report -->
+                    <t t-if="docs[0].report_type == 'maintenance'">
+                        <h3>Maintenance Report</h3>
+                        <t t-set="records" t-value="env['asset.flow.maintenance'].browse(data['record_ids'])"/>
+                        <table class="table table-sm" style="width: 100%; font-size: 9pt;">
+                            <thead style="background-color: #f0f0f0;">
+                                <tr>
+                                    <th>Ref</th>
+                                    <th>Asset</th>
+                                    <th>Type</th>
+                                    <th>Priority</th>
+                                    <th>Status</th>
+                                    <th>Requested By</th>
+                                    <th>Technician</th>
+                                    <th>Request Date</th>
+                                    <th>Resolved Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="records" t-as="rec">
+                                    <tr>
+                                        <td><t t-esc="rec.name"/></td>
+                                        <td><t t-esc="rec.asset_id.name"/></td>
+                                        <td><t t-esc="rec.maintenance_type"/></td>
+                                        <td><t t-esc="rec.priority"/></td>
+                                        <td><t t-esc="rec.state"/></td>
+                                        <td><t t-esc="rec.requested_by_id.name or '-'"/></td>
+                                        <td><t t-esc="rec.assigned_to_id.name or '-'"/></td>
+                                        <td><t t-esc="rec.request_date and str(rec.request_date.date()) or '-'"/></td>
+                                        <td><t t-esc="rec.resolved_date and str(rec.resolved_date.date()) or '-'"/></td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </t>
+
+                    <!-- Audit Report -->
+                    <t t-if="docs[0].report_type == 'audit'">
+                        <h3>Audit Report</h3>
+                        <t t-set="records" t-value="env['asset.flow.audit'].browse(data['record_ids'])"/>
+                        <t t-foreach="records" t-as="audit">
+                            <div style="margin-bottom: 24px; page-break-inside: avoid;">
+                                <h4 style="margin-bottom: 4px;"><t t-esc="audit.name"/></h4>
+                                <p style="color: #666; font-size: 9pt;">
+                                    Department: <t t-esc="audit.department_id.name or '-'"/> |
+                                    Auditor: <t t-esc="audit.auditor_id.name or '-'"/> |
+                                    Planned: <t t-esc="audit.planned_date or '-'"/> |
+                                    Status: <t t-esc="audit.state"/>
+                                </p>
+                                <table class="table table-sm" style="width: 100%; font-size: 9pt;">
+                                    <thead style="background-color: #f0f0f0;">
+                                        <tr>
+                                            <th>Asset</th>
+                                            <th>Expected Employee</th>
+                                            <th>Actual Employee</th>
+                                            <th>Condition</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-foreach="audit.line_ids" t-as="line">
+                                            <tr t-attf-style="background-color: #{line.status == 'discrepancy' and '#fff3cd' or ''};">
+                                                <td><t t-esc="line.asset_id.name"/></td>
+                                                <td><t t-esc="line.expected_employee_id.name or '-'"/></td>
+                                                <td><t t-esc="line.actual_employee_id.name or '-'"/></td>
+                                                <td><t t-esc="line.condition"/></td>
+                                                <td><t t-esc="line.status"/></td>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </t>
+                    </t>
+
+                    <!-- Booking Report -->
+                    <t t-if="docs[0].report_type == 'booking'">
+                        <h3>Resource Booking Report</h3>
+                        <t t-set="records" t-value="env['asset.flow.resource.booking'].browse(data['record_ids'])"/>
+                        <table class="table table-sm" style="width: 100%; font-size: 9pt;">
+                            <thead style="background-color: #f0f0f0;">
+                                <tr>
+                                    <th>Ref</th>
+                                    <th>Resource</th>
+                                    <th>Booked By</th>
+                                    <th>Department</th>
+                                    <th>Start</th>
+                                    <th>End</th>
+                                    <th>Purpose</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="records" t-as="rec">
+                                    <tr>
+                                        <td><t t-esc="rec.name"/></td>
+                                        <td><t t-esc="rec.asset_id.name"/></td>
+                                        <td><t t-esc="rec.employee_id.name"/></td>
+                                        <td><t t-esc="rec.department_id.name or '-'"/></td>
+                                        <td><t t-esc="rec.start_datetime"/></td>
+                                        <td><t t-esc="rec.end_datetime"/></td>
+                                        <td><t t-esc="rec.purpose or '-'"/></td>
+                                        <td><t t-esc="rec.state"/></td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </t>
+
+                    <!-- Department Summary -->
+                    <t t-if="docs[0].report_type == 'department_summary'">
+                        <h3>Department Asset Summary</h3>
+                        <t t-set="assets" t-value="env['asset.flow.asset'].browse(data['record_ids'])"/>
+                        <t t-set="departments" t-value="assets.mapped('department_id')"/>
+                        <t t-foreach="departments" t-as="dept">
+                            <h4><t t-esc="dept.name or 'No Department'"/></h4>
+                            <t t-set="dept_assets" t-value="assets.filtered(lambda a: a.department_id == dept)"/>
+                            <table class="table table-sm" style="width: 100%; font-size: 9pt; margin-bottom: 16px;">
+                                <thead style="background-color: #f0f0f0;">
+                                    <tr><th>Tag</th><th>Name</th><th>Category</th><th>Status</th><th>Assigned To</th></tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="dept_assets" t-as="a">
+                                        <tr>
+                                            <td><t t-esc="a.asset_tag"/></td>
+                                            <td><t t-esc="a.name"/></td>
+                                            <td><t t-esc="a.category_id.name"/></td>
+                                            <td><t t-esc="a.state"/></td>
+                                            <td><t t-esc="a.current_employee_id.name or '-'"/></td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </t>
+                    </t>
+
                 </div>
             </t>
         </t>

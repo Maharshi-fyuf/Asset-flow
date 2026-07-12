@@ -26,5 +26,3 @@ class AssetFlowDepartment(models.Model):
     )
     active = fields.Boolean(default=True)
     notes = fields.Text()
-
-    # TODO: Add department-level reporting helpers and record rules if required.

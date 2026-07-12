@@ -3,36 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AssetFlow</title>
+    <title>AssetFlow — Enterprise Asset Management</title>
+    <meta name="description" content="AssetFlow: Centralized asset lifecycle, booking, maintenance, and audit management.">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- Login Screen -->
+    <!-- ==============================
+         LOGIN SCREEN
+    ============================== -->
     <div id="view-login" class="view-container active login-container">
         <div class="card glass login-card">
-            <div class="login-title">AssetFlow - Login</div>
+            <div class="login-title">AssetFlow — Login</div>
             <div class="form-group">
-                <label>Email</label>
-                <input type="email" class="form-control" value="name@company.com">
+                <label for="login-email">Email</label>
+                <input id="login-email" type="email" class="form-control" value="name@company.com">
             </div>
             <div class="form-group">
-                <label>Password</label>
-                <input type="password" class="form-control" value="••••••••">
-                <div style="text-align: right; margin-top: 8px; font-size: 0.8rem; color: var(--text-secondary);">Forgot password</div>
+                <label for="login-password">Password</label>
+                <input id="login-password" type="password" class="form-control" value="••••••••">
+                <div style="text-align: right; margin-top: 8px; font-size: 0.8rem; color: var(--text-secondary); cursor: pointer;">Forgot password?</div>
             </div>
-            <div style="margin: 32px 0;">
+            <div style="margin: 24px 0;">
                 <div style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 8px;">New here?</div>
-                <div style="border: 1px solid var(--border-color); padding: 12px; border-radius: 6px; font-size: 0.8rem;">
-                    Sign up creates an employee account<br>admin roles assigned later
+                <div style="border: 1px solid var(--border-color); padding: 12px; border-radius: 6px; font-size: 0.8rem; color: var(--text-secondary);">
+                    Sign up creates an employee account.<br>Admin roles are assigned later by your administrator.
                 </div>
             </div>
-            <button class="btn btn-primary" style="width: 100%;" onclick="navigateTo('view-dashboard')">Create Account / Login</button>
+            <button class="btn btn-primary" id="btn-login" style="width: 100%;" onclick="navigateTo('view-dashboard')">Login / Create Account</button>
         </div>
     </div>
 
-    <!-- Main App Layout -->
+    <!-- ==============================
+         MAIN APP LAYOUT
+    ============================== -->
     <div id="app-layout" style="display: none; width: 100%; height: 100%;">
+
         <!-- Sidebar -->
         <div class="sidebar">
             <div class="sidebar-header">AssetFlow</div>
@@ -40,7 +46,7 @@
                 <div class="nav-item active" onclick="navigateTo('view-dashboard')">Dashboard</div>
                 <div class="nav-item" onclick="navigateTo('view-org-setup')">Organization setup</div>
                 <div class="nav-item" onclick="navigateTo('view-assets')">Assets</div>
-                <div class="nav-item" onclick="navigateTo('view-allocation')">Allocation & Transfer</div>
+                <div class="nav-item" onclick="navigateTo('view-allocation')">Allocation &amp; Transfer</div>
                 <div class="nav-item" onclick="navigateTo('view-booking')">Resource Booking</div>
                 <div class="nav-item" onclick="navigateTo('view-maintenance')">Maintenance</div>
                 <div class="nav-item" onclick="navigateTo('view-audit')">Audit</div>
@@ -52,25 +58,25 @@
         <!-- Main Content Area -->
         <div class="main-content">
 
-            <!-- Dashboard Screen -->
+            <!-- ==============================  DASHBOARD  -->
             <div id="view-dashboard" class="view-container">
                 <div class="screen-header">Today's Overview</div>
-                
+
                 <div class="card-grid">
                     <div class="card">
                         <div class="card-title">Available</div>
-                        <div class="card-value">128</div>
+                        <div class="card-value" style="color: var(--accent-green);">128</div>
                     </div>
                     <div class="card">
                         <div class="card-title">Allocated</div>
-                        <div class="card-value">35</div>
+                        <div class="card-value" style="color: var(--accent-blue);">35</div>
                     </div>
                     <div class="card">
-                        <div class="card-title">Available</div>
-                        <div class="card-value">4</div>
+                        <div class="card-title">Under Maintenance</div>
+                        <div class="card-value" style="color: var(--accent-yellow);">4</div>
                     </div>
                 </div>
-                
+
                 <div class="card-grid">
                     <div class="card">
                         <div class="card-title">Active Bookings</div>
@@ -81,346 +87,372 @@
                         <div class="card-value">3</div>
                     </div>
                     <div class="card">
-                        <div class="card-title">Upcoming returns</div>
+                        <div class="card-title">Upcoming Returns</div>
                         <div class="card-value">12</div>
                     </div>
                 </div>
 
                 <div class="alert-banner">
-                    3 assets overdue for return - flagged for follow-up
+                    ⚠ 3 assets overdue for return — flagged for follow-up
                 </div>
 
-                <div style="display: flex; gap: 12px; margin-bottom: 32px;">
-                    <button class="btn btn-success">+ register asset</button>
-                    <button class="btn">Book resource</button>
-                    <button class="btn">Raise requests</button>
+                <div style="display: flex; gap: 12px; margin-bottom: 32px; flex-wrap: wrap;">
+                    <button class="btn btn-success" id="btn-register-asset">+ Register Asset</button>
+                    <button class="btn" id="btn-book-resource">Book Resource</button>
+                    <button class="btn" id="btn-raise-request">Raise Request</button>
                 </div>
 
                 <h3>Recent Activity</h3>
                 <div class="activity-feed">
                     <div class="activity-item">
-                        <span>Laptop AF-0114 - allocated to Priya shah - IT dept</span>
+                        <span><span style="color: var(--accent-blue); margin-right: 8px;">●</span>Laptop AF-0114 — allocated to Priya Shah — IT dept</span>
+                        <span class="activity-time">2m ago</span>
                     </div>
                     <div class="activity-item">
-                        <span>Room B2 - booking confirmed - 2:00 to 3:00 PM</span>
+                        <span><span style="color: var(--text-secondary); margin-right: 8px;">●</span>Room B2 — booking confirmed — 2:00 to 3:00 PM</span>
+                        <span class="activity-time">15m ago</span>
                     </div>
                     <div class="activity-item">
-                        <span>Projector AF-0092 - maintenance resolved</span>
+                        <span><span style="color: var(--accent-green); margin-right: 8px;">●</span>Projector AF-0092 — maintenance resolved</span>
+                        <span class="activity-time">1h ago</span>
                     </div>
                 </div>
             </div>
 
-            <!-- Organization Setup Screen -->
+            <!-- ==============================  ORGANIZATION SETUP  -->
             <div id="view-org-setup" class="view-container">
                 <div class="screen-header">
-                    Organization setup
+                    Organization Setup
                     <button class="btn btn-success">+ Add</button>
                 </div>
-                <div class="tabs">
+                <div class="tabs" id="org-tabs">
                     <div class="tab active">Departments</div>
                     <div class="tab">Categories</div>
-                    <div class="tab">Employee</div>
+                    <div class="tab">Employees</div>
                 </div>
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Department</th>
-                                <th>Head</th>
-                                <th>Parent Dept</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Engineering</td>
-                                <td>aditi sen</td>
-                                <td>-</td>
-                                <td><span class="badge green">Active</span></td>
-                            </tr>
-                            <tr>
-                                <td>Facilities</td>
-                                <td>rohan mehta</td>
-                                <td>-</td>
-                                <td><span class="badge green">Active</span></td>
-                            </tr>
-                            <tr>
-                                <td>Field ops (east)</td>
-                                <td>samir iqbal</td>
-                                <td>Field Ops</td>
-                                <td><span class="badge gray">Inactive</span></td>
-                            </tr>
-                        </tbody>
-                    </table>
+
+                <!-- Tab Panel: Departments -->
+                <div class="tab-panel">
+                    <div class="table-container">
+                        <table>
+                            <thead><tr><th>Department</th><th>Head</th><th>Parent Dept</th><th>Status</th></tr></thead>
+                            <tbody>
+                                <tr><td>Engineering</td><td>Aditi Sen</td><td>—</td><td><span class="badge green">Active</span></td></tr>
+                                <tr><td>Facilities</td><td>Rohan Mehta</td><td>—</td><td><span class="badge green">Active</span></td></tr>
+                                <tr><td>Field Ops (East)</td><td>Samir Iqbal</td><td>Field Ops</td><td><span class="badge gray">Inactive</span></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div style="margin-top: 12px; font-size: 0.85rem; color: var(--text-secondary);">Adding a department here also drives the picklists in Asset Registration and Allocation forms.</div>
                 </div>
-                <div style="margin-top: 16px; font-size: 0.85rem; color: var(--text-secondary);">
-                    Adding a department here also drives the picklists in Screen 4 & 5
+
+                <!-- Tab Panel: Categories -->
+                <div class="tab-panel" style="display:none;">
+                    <div class="table-container">
+                        <table>
+                            <thead><tr><th>Category</th><th>Code</th><th>Type</th><th>Maintenance Required</th></tr></thead>
+                            <tbody>
+                                <tr><td>Equipment / Laptops</td><td>LTP</td><td>Asset</td><td><span class="badge green">Yes</span></td></tr>
+                                <tr><td>Equipment / Projectors</td><td>PRJ</td><td>Asset &amp; Resource</td><td><span class="badge green">Yes</span></td></tr>
+                                <tr><td>Meeting Rooms</td><td>ROOM</td><td>Bookable Resource</td><td><span class="badge gray">No</span></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Tab Panel: Employees -->
+                <div class="tab-panel" style="display:none;">
+                    <div class="table-container">
+                        <table>
+                            <thead><tr><th>Name</th><th>Department</th><th>Role</th><th>Email</th></tr></thead>
+                            <tbody>
+                                <tr><td>Maharshi Khamar</td><td>IT</td><td><span class="badge yellow">Admin</span></td><td>maharshi@example.com</td></tr>
+                                <tr><td>Jigar Vighani</td><td>IT</td><td><span class="badge gray">Employee</span></td><td>jigar@example.com</td></tr>
+                                <tr><td>Jaydev Bunkar</td><td>Facilities</td><td><span class="badge gray">Employee</span></td><td>jaydev@example.com</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 
-            <!-- Asset Directory Screen -->
+            <!-- ==============================  ASSET DIRECTORY  -->
             <div id="view-assets" class="view-container">
                 <div class="screen-header">
-                    Asset registrations and directory
+                    Asset Registration &amp; Directory
                     <button class="btn btn-success">+ Register Asset</button>
                 </div>
-                
                 <div style="margin-bottom: 24px;">
-                    <input type="text" class="form-control" placeholder="Search by tag, serial, or QR code..." style="margin-bottom: 12px;">
-                    <div style="display: flex; gap: 8px;">
+                    <input id="asset-search-input" type="text" class="form-control" placeholder="Search by tag, name, serial or QR code..." style="margin-bottom: 12px;">
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
                         <button class="btn">Category</button>
                         <button class="btn">Status</button>
                         <button class="btn">Department</button>
                     </div>
                 </div>
-
                 <div class="table-container">
                     <table>
-                        <thead>
-                            <tr>
-                                <th>Tag</th>
-                                <th>Name</th>
-                                <th>Category</th>
-                                <th>Status</th>
-                                <th>Location</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>AF-0012</td>
-                                <td>Dell Laptop</td>
-                                <td>Electronics</td>
-                                <td><span class="badge gray">Allocated</span></td>
-                                <td>bangalore</td>
-                            </tr>
-                            <tr>
-                                <td>AF-0042</td>
-                                <td>Projector</td>
-                                <td>Electronics</td>
-                                <td><span class="badge yellow">Maintenance</span></td>
-                                <td>HQ Floor 2</td>
-                            </tr>
-                            <tr>
-                                <td>AF-0201</td>
-                                <td>Office Chair</td>
-                                <td>Furniture</td>
-                                <td><span class="badge green">Available</span></td>
-                                <td>warehouse</td>
-                            </tr>
+                        <thead><tr><th>Tag</th><th>Name</th><th>Category</th><th>Status</th><th>Location</th></tr></thead>
+                        <tbody id="asset-table-body">
+                            <tr><td>AF-0012</td><td>Dell Laptop</td><td>Electronics</td><td><span class="badge gray">Allocated</span></td><td>Bangalore</td></tr>
+                            <tr><td>AF-0042</td><td>Epson Projector</td><td>Electronics</td><td><span class="badge yellow">Maintenance</span></td><td>HQ Floor 2</td></tr>
+                            <tr><td>AF-0201</td><td>Office Chair</td><td>Furniture</td><td><span class="badge green">Available</span></td><td>Warehouse</td></tr>
+                            <tr><td>AF-ROOM-001</td><td>Meeting Room Alpha</td><td>Meeting Rooms</td><td><span class="badge green">Available</span></td><td>First Floor</td></tr>
                         </tbody>
                     </table>
                 </div>
             </div>
 
-            <!-- Asset Allocation Screen -->
+            <!-- ==============================  ALLOCATION & TRANSFER  -->
             <div id="view-allocation" class="view-container">
-                <div class="screen-header">Asset allocation & Transfer</div>
-                
+                <div class="screen-header">Asset Allocation &amp; Transfer</div>
                 <div class="card">
                     <div class="form-group">
                         <label>Asset</label>
-                        <input type="text" class="form-control" value="AF-0114 - Dell laptop" readonly>
+                        <input type="text" class="form-control" value="AF-0114 — Dell Laptop" readonly>
                     </div>
-
                     <div class="alert-banner">
-                        Already allocated to Priya shah (Engineering)
-                        Direct re-allocation is blocked - submit a transfer request below
+                        ⛔ Already allocated to Priya Shah (Engineering). Direct re-allocation is blocked — submit a transfer request below.
                     </div>
-
                     <h4 style="margin: 24px 0 16px 0;">Transfer Request</h4>
-                    <div style="display: flex; gap: 16px; margin-bottom: 16px;">
-                        <div class="form-group" style="flex: 1;">
+                    <div style="display: flex; gap: 16px; margin-bottom: 16px; flex-wrap: wrap;">
+                        <div class="form-group" style="flex: 1; min-width: 200px;">
                             <label>From</label>
                             <input type="text" class="form-control" value="Priya Shah" readonly>
                         </div>
-                        <div class="form-group" style="flex: 1;">
+                        <div class="form-group" style="flex: 1; min-width: 200px;">
                             <label>To</label>
-                            <select class="form-control">
-                                <option>Select Employee...</option>
+                            <select class="form-control" id="transfer-to-select">
+                                <option value="">Select Employee...</option>
+                                <option value="jigar">Jigar Vighani — IT</option>
+                                <option value="rakshit">Rakshit Dave — Finance</option>
+                                <option value="jaydev">Jaydev Bunkar — Facilities</option>
                             </select>
                         </div>
                     </div>
-                    
                     <div class="form-group">
                         <label>Reason</label>
-                        <textarea class="form-control" rows="3"></textarea>
+                        <textarea class="form-control" id="transfer-reason" rows="3" placeholder="Explain why this transfer is needed..."></textarea>
                     </div>
-                    
-                    <button class="btn btn-success">Submit Request</button>
+                    <button class="btn btn-success" id="btn-submit-transfer" onclick="submitTransferRequest()">Submit Request</button>
+                    <div id="transfer-success-note" style="display:none; margin-top: 12px; color: var(--accent-green); font-size: 0.85rem;">
+                        ✓ Transfer request submitted. An Asset Manager will review and approve.
+                    </div>
 
-                    <h4 style="margin: 32px 0 16px 0;">Allocation history</h4>
-                    <div style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">
-                        Mar 12 - Allocated to Priya shah - Engineering<br>
-                        Jan 04 - Returned by Arjun dev - condition good
+                    <h4 style="margin: 32px 0 16px 0;">Allocation History</h4>
+                    <div style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.8;">
+                        Mar 12 — Allocated to Priya Shah — Engineering<br>
+                        Jan 04 — Returned by Arjun Dev — condition: good
                     </div>
                 </div>
             </div>
 
-            <!-- Resource Booking Screen -->
+            <!-- ==============================  RESOURCE BOOKING  -->
             <div id="view-booking" class="view-container">
-                <div class="screen-header">Resource booking</div>
-                
+                <div class="screen-header">Resource Booking</div>
                 <div class="card">
                     <div class="form-group">
                         <label>Resource</label>
-                        <input type="text" class="form-control" value="Conference room B2 - Cap: 8 pax" readonly>
+                        <input type="text" class="form-control" value="Conference Room B2 — Capacity: 8 pax" readonly>
                     </div>
-                    
-                    <div style="margin: 24px 0; position: relative;">
-                        <div style="display: flex; margin-bottom: 8px; font-size: 0.85rem;">
-                            <div style="width: 50px;">9:00</div>
-                            <div style="flex: 1; background: var(--accent-blue); padding: 4px 8px; border-radius: 4px; color: white;">Booked - Procurement Team - 9 to 10</div>
+
+                    <div style="font-size: 0.85rem; font-weight: 600; color: var(--text-secondary); margin: 16px 0 8px 0; text-transform: uppercase; letter-spacing: 0.05em;">Timeline — Today</div>
+                    <div style="position: relative; margin-bottom: 24px;">
+                        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px; font-size: 0.85rem;">
+                            <div style="width: 55px; color: var(--text-secondary);">9:00</div>
+                            <div style="flex: 1; background: var(--accent-blue); padding: 8px 12px; border-radius: 4px; color: white; font-weight: 500;">Booked — Procurement Team (9:00 – 10:00)</div>
                         </div>
-                        <div style="display: flex; margin-bottom: 8px; font-size: 0.85rem;">
-                            <div style="width: 50px;">10:00</div>
-                            <div style="flex: 1; border: 1px dashed var(--accent-red); padding: 4px 8px; border-radius: 4px; color: var(--accent-red);">Requested 9:30 to 11:00 - conflict - slot is unavailble</div>
+                        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px; font-size: 0.85rem;">
+                            <div style="width: 55px; color: var(--text-secondary);">10:00</div>
+                            <div style="flex: 1; border: 1px dashed var(--accent-red); padding: 8px 12px; border-radius: 4px; color: var(--accent-red); font-weight: 500;">⛔ Your request (9:30 – 11:00) — conflict, slot is unavailable</div>
                         </div>
-                        <div style="display: flex; margin-bottom: 8px; font-size: 0.85rem;">
-                            <div style="width: 50px;">11:00</div>
+                        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px; font-size: 0.85rem;">
+                            <div style="width: 55px; color: var(--text-secondary);">11:00</div>
+                            <div style="flex: 1; border: 1px dashed var(--accent-green); padding: 8px 12px; border-radius: 4px; color: var(--accent-green);">✓ Available from 11:00 onwards</div>
                         </div>
                     </div>
 
-                    <button class="btn btn-success">Book a slot</button>
+                    <button class="btn btn-success" onclick="showBookingForm()">+ Book a Slot</button>
+
+                    <div id="booking-form-area" style="display:none; margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--border-color);">
+                        <h4 style="margin-bottom: 16px;">New Booking</h4>
+                        <div style="display: flex; gap: 16px; flex-wrap: wrap;">
+                            <div class="form-group" style="flex: 1; min-width: 160px;">
+                                <label>Start Time</label>
+                                <input type="datetime-local" class="form-control" value="2026-07-12T11:00">
+                            </div>
+                            <div class="form-group" style="flex: 1; min-width: 160px;">
+                                <label>End Time</label>
+                                <input type="datetime-local" class="form-control" value="2026-07-12T12:00">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Purpose</label>
+                            <input type="text" class="form-control" placeholder="e.g. Sprint review, client meeting...">
+                        </div>
+                        <button class="btn btn-success">Confirm Booking</button>
+                    </div>
                 </div>
             </div>
 
-            <!-- Maintenance Screen -->
+            <!-- ==============================  MAINTENANCE  -->
             <div id="view-maintenance" class="view-container">
                 <div class="screen-header">Maintenance Management</div>
-                
                 <div class="kanban-board">
                     <div class="kanban-column">
                         <div class="kanban-header">Pending</div>
                         <div class="kanban-card">
-                            <div class="kanban-card-title">AF-0062</div>
-                            <div>Projector bulb not turning on</div>
+                            <div class="kanban-card-title">AF-MNT-00062</div>
+                            <div style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 4px;">Projector bulb not turning on</div>
+                            <div style="margin-top: 8px;"><span class="badge yellow">Normal</span></div>
                         </div>
                     </div>
                     <div class="kanban-column">
                         <div class="kanban-header">Approved</div>
                         <div class="kanban-card">
-                            <div class="kanban-card-title">AF-0113</div>
-                            <div>AC unit noisy compressor</div>
+                            <div class="kanban-card-title">AF-MNT-00113</div>
+                            <div style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 4px;">AC unit noisy compressor</div>
+                            <div style="margin-top: 8px;"><span class="badge red">Critical</span></div>
                         </div>
                     </div>
                     <div class="kanban-column">
-                        <div class="kanban-header">Technician assigned</div>
+                        <div class="kanban-header">Technician Assigned</div>
                         <div class="kanban-card">
-                            <div class="kanban-card-title">AF-0098</div>
-                            <div>Forklift needs oil service</div>
+                            <div class="kanban-card-title">AF-MNT-00098</div>
+                            <div style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 4px;">Forklift needs oil service</div>
+                            <div style="margin-top: 8px;"><span class="badge gray">Low</span></div>
                         </div>
                     </div>
                     <div class="kanban-column">
-                        <div class="kanban-header">in progress</div>
+                        <div class="kanban-header">In Progress</div>
                         <div class="kanban-card">
-                            <div class="kanban-card-title">AF-0192</div>
-                            <div>Printer jam, parts ordered</div>
+                            <div class="kanban-card-title">AF-MNT-00192</div>
+                            <div style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 4px;">Printer jam, parts ordered</div>
+                            <div style="margin-top: 8px;"><span class="badge yellow">High</span></div>
                         </div>
                     </div>
                     <div class="kanban-column">
                         <div class="kanban-header">Resolved</div>
-                        <div class="kanban-card" style="border-color: rgba(16, 185, 129, 0.5);">
-                            <div class="kanban-card-title">AF-1122</div>
-                            <div>Chair repair resolved 2 Jul</div>
+                        <div class="kanban-card" style="border-color: rgba(16, 185, 129, 0.4);">
+                            <div class="kanban-card-title" style="color: var(--accent-green);">AF-MNT-01122</div>
+                            <div style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 4px;">Chair repair — resolved 2 Jul</div>
+                            <div style="margin-top: 8px;"><span class="badge green">Done</span></div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Audit Screen -->
+            <!-- ==============================  AUDIT  -->
             <div id="view-audit" class="view-container">
                 <div class="screen-header">Asset Audit</div>
-                
                 <div class="card">
-                    <div style="font-weight: 600; margin-bottom: 16px;">Q3 audits engineering dept - 1-15 jul</div>
-                    <div style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 24px;">Auditors: A. Mehra, R. Rajput</div>
-                    
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 8px; margin-bottom: 16px;">
+                        <div>
+                            <div style="font-weight: 600; font-size: 1rem;">Q3 Audit — Engineering Dept</div>
+                            <div style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 4px;">Period: 1–15 Jul 2026 | Auditors: A. Mehra, R. Rajput</div>
+                        </div>
+                        <span class="badge yellow">In Progress</span>
+                    </div>
+
                     <div class="table-container" style="margin-bottom: 24px;">
                         <table>
-                            <thead>
-                                <tr>
-                                    <th>Asset</th>
-                                    <th>Expected location</th>
-                                    <th>Verification</th>
-                                </tr>
-                            </thead>
+                            <thead><tr><th>Asset</th><th>Expected Location</th><th>Verification</th></tr></thead>
                             <tbody>
                                 <tr>
-                                    <td>AF-0114 Dell laptop</td>
-                                    <td>Desk 402</td>
-                                    <td><span class="badge gray" style="border: 1px solid var(--accent-green); color: var(--accent-green); background: transparent;">Verified</span></td>
+                                    <td>AF-0114 Dell Laptop</td><td>Desk 402</td>
+                                    <td><button class="badge gray" data-state="verified" style="border: 1px solid var(--accent-green); color: var(--accent-green); background: transparent; cursor: pointer;" onclick="toggleVerification(this)">Verified</button></td>
                                 </tr>
                                 <tr>
-                                    <td>AF-0221 Office chair</td>
-                                    <td>Desk 402</td>
-                                    <td><span class="badge gray" style="border: 1px solid var(--accent-red); color: var(--accent-red); background: transparent;">Missing</span></td>
+                                    <td>AF-0221 Office Chair</td><td>Desk 402</td>
+                                    <td><button class="badge gray" data-state="discrepancy" style="border: 1px solid var(--accent-red); color: var(--accent-red); background: transparent; cursor: pointer;" onclick="toggleVerification(this)">Missing/Damaged</button></td>
                                 </tr>
                                 <tr>
-                                    <td>AF-9822 Monitor</td>
-                                    <td>Desk 403</td>
-                                    <td><span class="badge gray" style="border: 1px solid var(--accent-yellow); color: var(--accent-yellow); background: transparent;">Damaged</span></td>
+                                    <td>AF-9822 Monitor</td><td>Desk 403</td>
+                                    <td><button class="badge gray" data-state="pending" style="cursor: pointer;" onclick="toggleVerification(this)">Pending</button></td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
 
-                    <div class="alert-banner" style="background: rgba(245, 158, 11, 0.1); border-color: rgba(245, 158, 11, 0.3); color: #fbbf24;">
-                        2 assets flagged - discrepancy report generated automatically
+                    <div id="audit-discrepancy-banner" class="alert-banner" style="background: rgba(245,158,11,0.1); border-color: rgba(245,158,11,0.3); color: #fbbf24;">
+                        ⚠ <span id="audit-disc-count">1 asset flagged — discrepancy report generated automatically</span>
                     </div>
-                    
-                    <button class="btn btn-success">Close audit cycle</button>
+
+                    <div style="margin-top: 24px; display: flex; gap: 12px; flex-wrap: wrap;">
+                        <button class="btn btn-success" id="btn-close-audit" onclick="closeAuditCycle()">Close Audit Cycle</button>
+                    </div>
+                    <div id="audit-close-note" style="display:none; margin-top: 12px; color: var(--accent-green); font-size: 0.85rem;">
+                        ✓ Audit cycle closed. Discrepancy report filed. Flagged assets updated to "Lost" state.
+                    </div>
                 </div>
             </div>
 
-            <!-- Reports Screen -->
+            <!-- ==============================  REPORTS  -->
             <div id="view-reports" class="view-container">
-                <div class="screen-header">Reports & Analytics</div>
-                
-                <div style="display: flex; gap: 16px; margin-bottom: 32px;">
-                    <div class="card" style="flex: 1;">
-                        <div class="card-title">Utilization by department</div>
-                        <div style="height: 150px; display: flex; align-items: flex-end; gap: 12px; margin-top: 16px;">
-                            <div style="width: 30px; height: 60%; background: var(--accent-blue);"></div>
-                            <div style="width: 30px; height: 90%; background: var(--accent-blue);"></div>
-                            <div style="width: 30px; height: 40%; background: var(--accent-blue);"></div>
-                            <div style="width: 30px; height: 75%; background: var(--accent-blue);"></div>
+                <div class="screen-header">Reports &amp; Analytics</div>
+
+                <div style="display: flex; gap: 16px; margin-bottom: 32px; flex-wrap: wrap;">
+                    <div class="card" style="flex: 1; min-width: 250px;">
+                        <div class="card-title">Utilization by Department</div>
+                        <div style="height: 140px; display: flex; align-items: flex-end; gap: 16px; margin-top: 16px; padding: 0 8px;">
+                            <div style="display: flex; flex-direction: column; align-items: center; flex: 1; gap: 4px;">
+                                <div style="width: 100%; height: 60%; background: var(--accent-blue); border-radius: 2px 2px 0 0; transition: height 0.3s;"></div>
+                                <div style="font-size: 0.7rem; color: var(--text-secondary);">IT</div>
+                            </div>
+                            <div style="display: flex; flex-direction: column; align-items: center; flex: 1; gap: 4px;">
+                                <div style="width: 100%; height: 90%; background: var(--accent-blue); border-radius: 2px 2px 0 0;"></div>
+                                <div style="font-size: 0.7rem; color: var(--text-secondary);">Ops</div>
+                            </div>
+                            <div style="display: flex; flex-direction: column; align-items: center; flex: 1; gap: 4px;">
+                                <div style="width: 100%; height: 40%; background: var(--accent-blue); border-radius: 2px 2px 0 0;"></div>
+                                <div style="font-size: 0.7rem; color: var(--text-secondary);">Finance</div>
+                            </div>
+                            <div style="display: flex; flex-direction: column; align-items: center; flex: 1; gap: 4px;">
+                                <div style="width: 100%; height: 75%; background: var(--accent-blue); border-radius: 2px 2px 0 0;"></div>
+                                <div style="font-size: 0.7rem; color: var(--text-secondary);">Facilities</div>
+                            </div>
                         </div>
                     </div>
-                    <div class="card" style="flex: 1;">
-                        <div class="card-title">Maintenance frequency</div>
-                        <div style="height: 150px; display: flex; align-items: center; justify-content: center; color: var(--accent-blue);">
-                            <!-- simple mock line chart path -->
-                            <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none">
-                                <path d="M0 80 Q 25 20, 50 60 T 100 10" stroke="currentColor" fill="none" stroke-width="2"/>
+                    <div class="card" style="flex: 1; min-width: 250px;">
+                        <div class="card-title">Maintenance Frequency</div>
+                        <div style="height: 140px; margin-top: 16px; color: var(--accent-blue);">
+                            <svg width="100%" height="100%" viewBox="0 0 200 120" preserveAspectRatio="none">
+                                <defs>
+                                    <linearGradient id="lineGrad" x1="0" y1="0" x2="0" y2="1">
+                                        <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.3"/>
+                                        <stop offset="100%" stop-color="#3b82f6" stop-opacity="0"/>
+                                    </linearGradient>
+                                </defs>
+                                <path d="M0 90 Q 40 30, 80 70 T 200 20" stroke="#3b82f6" fill="none" stroke-width="2.5"/>
+                                <path d="M0 90 Q 40 30, 80 70 T 200 20 V 120 H 0 Z" fill="url(#lineGrad)"/>
                             </svg>
                         </div>
                     </div>
                 </div>
 
-                <div style="display: flex; gap: 32px;">
-                    <div style="flex: 1;">
-                        <h4>Most used assets</h4>
-                        <div style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 8px;">
-                            Room B2: 24 bookings this month<br>
-                            Van AF-332: 21 trips this month<br>
-                            Projector AF-228: 18 uses
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+                    <div class="card">
+                        <div class="card-title" style="margin-bottom: 12px;">Most Used Assets</div>
+                        <div style="font-size: 0.85rem; line-height: 2;">
+                            <div style="display: flex; justify-content: space-between;"><span>Room B2</span><span style="color: var(--accent-green);">24 bookings</span></div>
+                            <div style="display: flex; justify-content: space-between;"><span>Van AF-332</span><span style="color: var(--accent-green);">21 trips</span></div>
+                            <div style="display: flex; justify-content: space-between;"><span>Projector AF-228</span><span style="color: var(--accent-green);">18 uses</span></div>
                         </div>
                     </div>
-                    <div style="flex: 1;">
-                        <h4>Idle assets</h4>
-                        <div style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 8px;">
-                            Scanner AF-0021 : unused 120 days<br>
-                            Chair AF-2410 : unused 45 days
+                    <div class="card">
+                        <div class="card-title" style="margin-bottom: 12px;">Idle Assets (Flag for Review)</div>
+                        <div style="font-size: 0.85rem; line-height: 2;">
+                            <div style="display: flex; justify-content: space-between;"><span>Scanner AF-0021</span><span style="color: var(--accent-red);">120 days</span></div>
+                            <div style="display: flex; justify-content: space-between;"><span>Chair AF-2410</span><span style="color: var(--accent-yellow);">45 days</span></div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Notifications Screen -->
+            <!-- ==============================  NOTIFICATIONS  -->
             <div id="view-notifications" class="view-container">
-                <div class="screen-header">Activity logs & Notifications</div>
-                
-                <div class="tabs" style="justify-content: center; margin-bottom: 32px;">
+                <div class="screen-header">Activity Logs &amp; Notifications</div>
+
+                <div class="tabs" style="margin-bottom: 24px;">
                     <div class="tab active">All</div>
                     <div class="tab">Alerts</div>
                     <div class="tab">Approvals</div>
@@ -429,28 +461,28 @@
 
                 <div class="card">
                     <div class="activity-feed" style="margin-top: 0;">
-                        <div class="activity-item">
-                            <span><span style="color: var(--accent-blue); margin-right: 8px;">●</span> Laptop AF-0114 assigned to Priya shah</span>
+                        <div class="activity-item" data-type="approval">
+                            <span><span style="color: var(--accent-blue); margin-right: 8px;">●</span>Laptop AF-0114 assigned to Priya Shah</span>
                             <span class="activity-time">2m ago</span>
                         </div>
-                        <div class="activity-item">
-                            <span><span style="color: var(--accent-green); margin-right: 8px;">●</span> Maintenance request AF-0022 approved</span>
+                        <div class="activity-item" data-type="approval">
+                            <span><span style="color: var(--accent-green); margin-right: 8px;">●</span>Maintenance request AF-0022 approved</span>
                             <span class="activity-time">15m ago</span>
                         </div>
-                        <div class="activity-item">
-                            <span><span style="color: var(--text-secondary); margin-right: 8px;">●</span> Booking confirmed : Room B2 : 2:00 to 3:00 PM</span>
+                        <div class="activity-item" data-type="booking">
+                            <span><span style="color: var(--text-secondary); margin-right: 8px;">●</span>Booking confirmed: Room B2 — 2:00 to 3:00 PM</span>
                             <span class="activity-time">1h ago</span>
                         </div>
-                        <div class="activity-item">
-                            <span><span style="color: var(--accent-blue); margin-right: 8px;">●</span> Transfer approved : AF-0033 to facilities dept</span>
+                        <div class="activity-item" data-type="approval">
+                            <span><span style="color: var(--accent-blue); margin-right: 8px;">●</span>Transfer approved: AF-0033 to Facilities dept</span>
                             <span class="activity-time">2h ago</span>
                         </div>
-                        <div class="activity-item">
-                            <span><span style="color: var(--accent-red); margin-right: 8px;">●</span> Overdue return : AF-0021 was due 3 days ago</span>
+                        <div class="activity-item" data-type="alert">
+                            <span><span style="color: var(--accent-red); margin-right: 8px;">●</span>Overdue return: AF-0021 was due 3 days ago</span>
                             <span class="activity-time">1d ago</span>
                         </div>
-                        <div class="activity-item">
-                            <span><span style="color: var(--accent-yellow); margin-right: 8px;">●</span> Audit discrepancy flagged : AF-0098 damaged</span>
+                        <div class="activity-item" data-type="alert">
+                            <span><span style="color: var(--accent-yellow); margin-right: 8px;">●</span>Audit discrepancy flagged: AF-0098 damaged</span>
                             <span class="activity-time">2d ago</span>
                         </div>
                     </div>

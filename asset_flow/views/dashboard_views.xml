@@ -6,23 +6,73 @@
         <field name="arch" type="xml">
             <form string="AssetFlow Dashboard" create="false" edit="false">
                 <sheet>
-                    <group string="KPI Placeholders">
-                        <group>
-                            <field name="total_assets"/>
-                            <field name="available_assets"/>
-                            <field name="allocated_assets"/>
-                            <field name="maintenance_assets"/>
-                        </group>
-                        <group>
-                            <field name="pending_requests"/>
-                            <field name="active_bookings"/>
-                            <field name="open_maintenance"/>
-                            <field name="open_audits"/>
-                        </group>
-                    </group>
-                    <group string="Implementation Notes">
-                        <field name="notes"/>
-                    </group>
+                    <!-- Row 1: Asset state KPIs -->
+                    <div class="oe_stat_button_group">
+                        <div class="oe_stat_button" icon="fa-cubes">
+                            <div class="o_stat_info">
+                                <field name="total_assets" class="o_stat_value"/>
+                                <span class="o_stat_text">Total Assets</span>
+                            </div>
+                        </div>
+                        <div class="oe_stat_button" icon="fa-check-circle" style="color: #10b981;">
+                            <div class="o_stat_info">
+                                <field name="available_assets" class="o_stat_value"/>
+                                <span class="o_stat_text">Available</span>
+                            </div>
+                        </div>
+                        <div class="oe_stat_button" icon="fa-user" style="color: #3b82f6;">
+                            <div class="o_stat_info">
+                                <field name="allocated_assets" class="o_stat_value"/>
+                                <span class="o_stat_text">Allocated</span>
+                            </div>
+                        </div>
+                        <div class="oe_stat_button" icon="fa-wrench" style="color: #f59e0b;">
+                            <div class="o_stat_info">
+                                <field name="maintenance_assets" class="o_stat_value"/>
+                                <span class="o_stat_text">In Maintenance</span>
+                            </div>
+                        </div>
+                        <div class="oe_stat_button" icon="fa-bookmark" style="color: #8b5cf6;">
+                            <div class="o_stat_info">
+                                <field name="reserved_assets" class="o_stat_value"/>
+                                <span class="o_stat_text">Reserved</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Row 2: Operational KPIs -->
+                    <div class="oe_stat_button_group" style="margin-top: 16px;">
+                        <div class="oe_stat_button" icon="fa-clock-o" style="color: #f59e0b;">
+                            <div class="o_stat_info">
+                                <field name="pending_requests" class="o_stat_value"/>
+                                <span class="o_stat_text">Pending Requests</span>
+                            </div>
+                        </div>
+                        <div class="oe_stat_button" icon="fa-calendar-check-o" style="color: #3b82f6;">
+                            <div class="o_stat_info">
+                                <field name="active_bookings" class="o_stat_value"/>
+                                <span class="o_stat_text">Active Bookings</span>
+                            </div>
+                        </div>
+                        <div class="oe_stat_button" icon="fa-wrench" style="color: #f59e0b;">
+                            <div class="o_stat_info">
+                                <field name="open_maintenance" class="o_stat_value"/>
+                                <span class="o_stat_text">Open Maintenance</span>
+                            </div>
+                        </div>
+                        <div class="oe_stat_button" icon="fa-search" style="color: #6366f1;">
+                            <div class="o_stat_info">
+                                <field name="open_audits" class="o_stat_value"/>
+                                <span class="o_stat_text">Open Audits</span>
+                            </div>
+                        </div>
+                        <div class="oe_stat_button" icon="fa-exclamation-triangle" style="color: #ef4444;">
+                            <div class="o_stat_info">
+                                <field name="overdue_allocations" class="o_stat_value"/>
+                                <span class="o_stat_text">Overdue Returns</span>
+                            </div>
+                        </div>
+                    </div>
                 </sheet>
             </form>
         </field>
@@ -31,7 +81,16 @@
     <record id="action_asset_flow_dashboard" model="ir.actions.act_window">
         <field name="name">Dashboard</field>
         <field name="res_model">asset.flow.dashboard</field>
+        <field name="binding_model_id" ref="model_asset_flow_dashboard"/>
         <field name="view_mode">form</field>
         <field name="target">current</field>
+    </record>
+
+    <!-- Server action to auto-create transient record on menu click -->
+    <record id="action_open_assetflow_dashboard" model="ir.actions.server">
+        <field name="name">Open AssetFlow Dashboard</field>
+        <field name="model_id" ref="model_asset_flow_dashboard"/>
+        <field name="state">code</field>
+        <field name="code">action = model.action_open_dashboard()</field>
     </record>
 </odoo>

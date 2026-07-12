@@ -21,25 +21,37 @@
         <field name="arch" type="xml">
             <form string="AssetFlow Reports">
                 <sheet>
+                    <div class="oe_title">
+                        <h1>Generate Report</h1>
+                    </div>
                     <group>
-                        <group>
+                        <group string="Report Settings">
                             <field name="report_type"/>
-                            <field name="date_from"/>
-                            <field name="date_to"/>
-                        </group>
-                        <group>
                             <field name="department_id"/>
                             <field name="category_id"/>
                             <field name="employee_id"/>
                         </group>
+                        <group string="Date Range (optional)">
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                        </group>
                     </group>
-                    <group string="Implementation Notes">
-                        <field name="notes"/>
-                    </group>
+                    <div class="oe_chatter" style="margin-top: 24px;">
+                        <p class="text-muted">
+                            Select a report type and optional filters above, then click
+                            <strong>Generate PDF Report</strong> to download.
+                        </p>
+                    </div>
                 </sheet>
+                <footer>
+                    <button name="action_generate_report" string="Generate PDF Report"
+                            type="object" class="btn-primary"/>
+                    <button string="Close" class="btn-secondary" special="cancel"/>
+                </footer>
             </form>
         </field>
     </record>
+
 
     <record id="view_asset_flow_report_wizard_kanban" model="ir.ui.view">
         <field name="name">asset.flow.report.wizard.kanban</field>

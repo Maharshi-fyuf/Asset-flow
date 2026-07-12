@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ============================================================
+         RECORD RULES — Row-level security for AssetFlow
+         Employees can only see records from their own department.
+         Department Heads see their department only.
+         Asset Managers and Admins see everything.
+         ============================================================ -->
+
+    <!-- Asset Requests: Employees see only their own requests -->
+    <record id="rule_asset_request_employee_own" model="ir.rule">
+        <field name="name">Asset Request: Employee sees own requests</field>
+        <field name="model_id" ref="model_asset_flow_asset_request"/>
+        <field name="groups" eval="[(4, ref('asset_flow.group_asset_flow_employee'))]"/>
+        <field name="domain_force">[('requested_by_user_id', '=', user.id)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <!-- Asset Requests: Department Heads see their department -->
+    <record id="rule_asset_request_dept_head" model="ir.rule">
+        <field name="name">Asset Request: Dept Head sees department requests</field>
+        <field name="model_id" ref="model_asset_flow_asset_request"/>
+        <field name="groups" eval="[(4, ref('asset_flow.group_asset_flow_department_head'))]"/>
+        <field name="domain_force">[('department_id.manager_id.user_id', '=', user.id)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <!-- Asset Requests: Asset Managers and Admins see all -->
+    <record id="rule_asset_request_manager_all" model="ir.rule">
+        <field name="name">Asset Request: Manager sees all</field>
+        <field name="model_id" ref="model_asset_flow_asset_request"/>
+        <field name="groups" eval="[(4, ref('asset_flow.group_asset_flow_asset_manager'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+    </record>
+
+    <!-- Resource Bookings: Employees see only their own bookings -->
+    <record id="rule_resource_booking_employee_own" model="ir.rule">
+        <field name="name">Resource Booking: Employee sees own bookings</field>
+        <field name="model_id" ref="model_asset_flow_resource_booking"/>
+        <field name="groups" eval="[(4, ref('asset_flow.group_asset_flow_employee'))]"/>
+        <field name="domain_force">[('employee_id.user_id', '=', user.id)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <!-- Resource Bookings: Department Heads see department bookings -->
+    <record id="rule_resource_booking_dept_head" model="ir.rule">
+        <field name="name">Resource Booking: Dept Head sees department bookings</field>
+        <field name="model_id" ref="model_asset_flow_resource_booking"/>
+        <field name="groups" eval="[(4, ref('asset_flow.group_asset_flow_department_head'))]"/>
+        <field name="domain_force">[('department_id.manager_id.user_id', '=', user.id)]</field>
+    </record>
+
+    <!-- Resource Bookings: Managers see all -->
+    <record id="rule_resource_booking_manager_all" model="ir.rule">
+        <field name="name">Resource Booking: Manager sees all</field>
+        <field name="model_id" ref="model_asset_flow_resource_booking"/>
+        <field name="groups" eval="[(4, ref('asset_flow.group_asset_flow_asset_manager'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+    </record>
+
+    <!-- Maintenance: Employees see only their own requests -->
+    <record id="rule_maintenance_employee_own" model="ir.rule">
+        <field name="name">Maintenance: Employee sees own requests</field>
+        <field name="model_id" ref="model_asset_flow_maintenance"/>
+        <field name="groups" eval="[(4, ref('asset_flow.group_asset_flow_employee'))]"/>
+        <field name="domain_force">[('requested_by_id.user_id', '=', user.id)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <!-- Maintenance: Department Heads see department -->
+    <record id="rule_maintenance_dept_head" model="ir.rule">
+        <field name="name">Maintenance: Dept Head sees department</field>
+        <field name="model_id" ref="model_asset_flow_maintenance"/>
+        <field name="groups" eval="[(4, ref('asset_flow.group_asset_flow_department_head'))]"/>
+        <field name="domain_force">[('department_id.manager_id.user_id', '=', user.id)]</field>
+    </record>
+
+    <!-- Maintenance: Managers see all -->
+    <record id="rule_maintenance_manager_all" model="ir.rule">
+        <field name="name">Maintenance: Manager sees all</field>
+        <field name="model_id" ref="model_asset_flow_maintenance"/>
+        <field name="groups" eval="[(4, ref('asset_flow.group_asset_flow_asset_manager'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+    </record>
+</odoo>

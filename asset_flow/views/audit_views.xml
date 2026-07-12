@@ -21,6 +21,7 @@
         <field name="arch" type="xml">
             <form string="Audit">
                 <header>
+                    <button name="action_plan" string="Plan Audit" type="object" class="oe_highlight" invisible="state != 'draft'"/>
                     <button name="action_start_audit" string="Start Audit" type="object" class="oe_highlight" invisible="state != 'planned'"/>
                     <button name="action_close_audit" string="Close Audit" type="object" class="oe_highlight" invisible="state != 'in_progress'"/>
                     <button name="action_cancel" string="Cancel" type="object" invisible="state in ('completed', 'cancelled')"/>

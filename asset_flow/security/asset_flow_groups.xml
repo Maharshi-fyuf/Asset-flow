@@ -31,5 +31,4 @@
         <field name="users" eval="[(4, ref('base.user_admin'))]"/>
     </record>
 
-    <!-- TODO: Add record rules to restrict employees and department heads by ownership/department. -->
 </odoo>

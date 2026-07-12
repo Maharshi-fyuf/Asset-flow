@@ -134,7 +134,7 @@
         <field name="category_id" ref="category_laptop"/>
         <field name="asset_id" ref="asset_laptop_002"/>
         <field name="state">submitted</field>
-        <field name="notes">Demo placeholder request. Approval workflow is intentionally not implemented.</field>
+        <field name="notes">Requesting a laptop for new data analytics project assignment starting next sprint.</field>
     </record>
 
     <record id="resource_booking_demo_001" model="asset.flow.resource.booking">
@@ -155,7 +155,7 @@
         <field name="maintenance_type">corrective</field>
         <field name="priority">normal</field>
         <field name="state">pending</field>
-        <field name="description">Demo maintenance placeholder. Workflow logic is intentionally not implemented.</field>
+        <field name="description">Epson projector is not turning on. Bulb replacement or power board inspection required.</field>
     </record>
 
     <record id="audit_demo_001" model="asset.flow.audit">

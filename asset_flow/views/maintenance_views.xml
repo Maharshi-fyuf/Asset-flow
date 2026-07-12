@@ -4,7 +4,11 @@
         <field name="name">asset.flow.maintenance.list</field>
         <field name="model">asset.flow.maintenance</field>
         <field name="arch" type="xml">
-            <list string="Maintenance">
+            <list string="Maintenance"
+                  decoration-success="state == 'resolved'"
+                  decoration-warning="state == 'in_progress'"
+                  decoration-danger="priority == 'critical' and state not in ('resolved', 'cancelled')"
+                  decoration-muted="state == 'cancelled'">
                 <field name="name"/>
                 <field name="asset_id"/>
                 <field name="department_id"/>

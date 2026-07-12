@@ -44,5 +44,3 @@ class AssetFlowAssignmentHistory(models.Model):
         tracking=True,
     )
     notes = fields.Text()
-
-    # TODO: Auto-create history records from allocation, transfer, and return flows.

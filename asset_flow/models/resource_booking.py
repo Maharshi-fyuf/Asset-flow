@@ -68,7 +68,7 @@ class AssetFlowResourceBooking(models.Model):
                 # Check for overlapping bookings
                 domain = [
                     ("asset_id", "=", booking.asset_id.id),
-                    ("state", "in", ["confirmed", "draft"]),
+                    ("state", "=", "confirmed"),
                     ("id", "!=", booking.id),
                     ("start_datetime", "<", booking.end_datetime),
                     ("end_datetime", ">", booking.start_datetime),

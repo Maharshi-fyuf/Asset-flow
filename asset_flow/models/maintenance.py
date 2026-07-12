@@ -1,4 +1,5 @@
 from odoo import fields, models
+from odoo.exceptions import ValidationError
 
 
 class AssetFlowMaintenance(models.Model):
@@ -81,6 +82,8 @@ class AssetFlowMaintenance(models.Model):
 
     def action_assign(self):
         for req in self:
+            if not req.assigned_to_id:
+                raise ValidationError("Please select a Technician before assigning the maintenance request.")
             req.state = "assigned"
 
     def action_in_progress(self):

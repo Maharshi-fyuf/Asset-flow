@@ -8,7 +8,7 @@
     <menuitem id="menu_asset_flow_dashboard"
               name="Dashboard"
               parent="menu_asset_flow_root"
-              action="action_asset_flow_dashboard"
+              action="action_open_assetflow_dashboard"
               sequence="10"/>
 
     <menuitem id="menu_asset_flow_master_data"
