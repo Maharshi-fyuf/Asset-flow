@@ -32,3 +32,24 @@ function navigateTo(viewId) {
         targetNavItem.classList.add('active');
     }
 }
+// Dashboard Active Metrics
+
+function random(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function updateDashboard() {
+    const cards = document.querySelectorAll(".card-value");
+
+    if (cards.length >= 6) {
+        cards[0].innerText = random(120, 140); // Available Assets
+        cards[1].innerText = random(30, 45);   // Allocated
+        cards[2].innerText = random(2, 10);    // Available Resources
+        cards[3].innerText = random(1, 6);     // Active Bookings
+        cards[4].innerText = random(0, 5);     // Pending Maintenance
+        cards[5].innerText = random(5, 15);    // Upcoming Returns
+    }
+}
+updateDashboard();
+setInterval(updateDashboard, 5000);
+
