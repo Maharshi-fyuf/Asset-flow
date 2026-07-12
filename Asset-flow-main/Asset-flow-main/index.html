@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AssetFlow - Enterprise Asset & Resource Management</title>
+  
+  <!-- CDNs for Icons & Charts -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+  
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="src/css/main.css">
+  <link rel="stylesheet" href="src/css/components.css">
+  <link rel="stylesheet" href="src/css/views.css">
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- GLOBAL SIDEBAR -->
+    <aside class="app-sidebar" id="app-sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">
+          <div class="logo-icon">
+            <i data-lucide="package" style="width: 18px; height: 18px;"></i>
+          </div>
+          <span>AssetFlow</span>
+        </div>
+      </div>
+      
+      <nav class="sidebar-nav">
+        <a class="sidebar-link active" data-target="landing">
+          <i data-lucide="home"></i>
+          <span>Welcome Portal</span>
+        </a>
+        <a class="sidebar-link" data-target="dashboard">
+          <i data-lucide="layout-dashboard"></i>
+          <span>Analytics Desk</span>
+        </a>
+        <a class="sidebar-link" data-target="assets">
+          <i data-lucide="laptop"></i>
+          <span>Assets Registry</span>
+        </a>
+        <a class="sidebar-link" data-target="bookings">
+          <i data-lucide="calendar"></i>
+          <span>Bookings Hub</span>
+        </a>
+        <a class="sidebar-link" data-target="maintenance">
+          <i data-lucide="wrench"></i>
+          <span>Maintenance Board</span>
+        </a>
+        <a class="sidebar-link" data-target="reports">
+          <i data-lucide="bar-chart-3"></i>
+          <span>Reports Desk</span>
+        </a>
+      </nav>
+      
+      <div class="sidebar-footer">
+        <button class="btn btn-secondary theme-toggle" style="width: 100%;">
+          <i data-lucide="sun" style="width: 16px; height: 16px;"></i>
+          <span style="margin-left: 8px;">Switch Theme</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- MAIN VIEWS CONTAINER -->
+    <div class="main-wrapper">
+      
+      <!-- NAVBAR -->
+      <header class="app-navbar">
+        <div class="navbar-left">
+          <button class="menu-toggle-btn" id="menu-toggle">
+            <i data-lucide="menu" style="width: 22px; height: 22px;"></i>
+          </button>
+          <div class="breadcrumbs">
+            <span>AssetFlow</span>
+            <span class="separator">/</span>
+            <span class="current" id="breadcrumb-current">Welcome Portal</span>
+          </div>
+        </div>
+        
+        <div class="navbar-right">
+          <button class="nav-action-btn">
+            <i data-lucide="bell" style="width: 20px; height: 20px;"></i>
+            <span class="btn-badge"></span>
+          </button>
+          
+          <div class="user-profile">
+            <div class="avatar">JV</div>
+            <div class="user-info">
+              <span class="user-name">Jigar Vighani</span>
+              <span class="user-role">Asset Manager</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- VIEW PANES CONTAINER -->
+      <main class="main-content">
+        
+        <!-- 1. LANDING PORTAL VIEW -->
+        <section class="view-pane active" id="view-landing">
+          <div class="landing-hero">
+            <h1 class="landing-title">Enterprise Assets, Handled Smarter.</h1>
+            <p class="landing-subtitle">Centralize tracking, reservation schedules, audits, and hardware maintenance tickets inside a unified ERP dashboard.</p>
+            <div style="display: flex; gap: 16px;">
+              <button class="btn btn-primary" data-target="dashboard">Launch Dashboard</button>
+              <button class="btn btn-secondary" data-target="assets">View Assets</button>
+            </div>
+            
+            <div class="landing-stats-row">
+              <div class="card landing-stat-card">
+                <div class="landing-stat-val">500+</div>
+                <div style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 4px;">Tracked Items</div>
+              </div>
+              <div class="card landing-stat-card">
+                <div class="landing-stat-val">100%</div>
+                <div style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 4px;">Allocation Accuracy</div>
+              </div>
+              <div class="card landing-stat-card">
+                <div class="landing-stat-val">0</div>
+                <div style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 4px;">Conflict Overlaps</div>
+              </div>
+            </div>
+          </div>
+
+          <h2 style="font-size: 1.5rem; margin-bottom: 20px;">Platform Services</h2>
+          <div class="landing-features-grid">
+            <div class="card feature-box">
+              <div class="feature-icon-wrapper"><i data-lucide="laptop"></i></div>
+              <h3>Lifecycle Management</h3>
+              <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 8px; line-height: 1.4;">Track assignment history, cost values, check-ins, and return dates.</p>
+            </div>
+            <div class="card feature-box">
+              <div class="feature-icon-wrapper"><i data-lucide="calendar"></i></div>
+              <h3>Resource Bookings</h3>
+              <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 8px; line-height: 1.4;">Book meeting rooms, company vehicles, and projector devices conflict-free.</p>
+            </div>
+            <div class="card feature-box">
+              <div class="feature-icon-wrapper"><i data-lucide="wrench"></i></div>
+              <h3>Maintenance Pipeline</h3>
+              <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 8px; line-height: 1.4;">Report failures, dispatch internal technicians, and track progress.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- 2. ANALYTICS DESK (DASHBOARD) -->
+        <section class="view-pane" id="view-dashboard">
+          <div class="view-header">
+            <div class="view-title-group">
+              <h1>Operational Metrics</h1>
+              <p>Real-time activity diagnostics of resources.</p>
+            </div>
+          </div>
+
+          <!-- KPI STATS CARDS -->
+          <div class="dashboard-kpi-grid">
+            <div class="card kpi-card" style="--card-glow: var(--color-success);">
+              <div class="kpi-header">
+                <span class="kpi-title">AVAILABLE</span>
+                <div class="kpi-icon-container" style="color: var(--color-success);"><i data-lucide="check"></i></div>
+              </div>
+              <div class="kpi-val" id="kpi-val-available">0</div>
+            </div>
+            <div class="card kpi-card" style="--card-glow: var(--accent-secondary);">
+              <div class="kpi-header">
+                <span class="kpi-title">ALLOCATED</span>
+                <div class="kpi-icon-container" style="color: var(--accent-secondary);"><i data-lucide="user-check"></i></div>
+              </div>
+              <div class="kpi-val" id="kpi-val-allocated">0</div>
+            </div>
+            <div class="card kpi-card" style="--card-glow: var(--color-warning);">
+              <div class="kpi-header">
+                <span class="kpi-title">MAINTENANCE</span>
+                <div class="kpi-icon-container" style="color: var(--color-warning);"><i data-lucide="tool"></i></div>
+              </div>
+              <div class="kpi-val" id="kpi-val-maintenance">0</div>
+            </div>
+            <div class="card kpi-card" style="--card-glow: var(--accent-primary);">
+              <div class="kpi-header">
+                <span class="kpi-title">PENDING REQS</span>
+                <div class="kpi-icon-container" style="color: var(--accent-primary);"><i data-lucide="clock"></i></div>
+              </div>
+              <div class="kpi-val" id="kpi-val-requests">0</div>
+            </div>
+          </div>
+
+          <!-- CHARTS & ACTIVITIES -->
+          <div class="dashboard-charts-grid">
+            <div class="card">
+              <h3 style="margin-bottom: 20px;">Category Allocations</h3>
+              <div id="chart-categories"></div>
+            </div>
+            
+            <div class="card" style="display: flex; flex-direction: column;">
+              <h3>Active Bookings today</h3>
+              <div class="kpi-val" id="kpi-val-bookings" style="font-size: 2.5rem; margin: 10px 0; color: var(--accent-secondary)">0</div>
+              
+              <h3 style="margin-top: 10px;">Audit Compliance</h3>
+              <div class="kpi-val" id="kpi-val-compliance" style="font-size: 2.5rem; margin: 10px 0; color: var(--color-success)">0%</div>
+            </div>
+          </div>
+
+          <div class="dashboard-charts-grid">
+            <div class="card">
+              <h3 style="margin-bottom: 20px;">Tickets Breakdown by Urgency</h3>
+              <div id="chart-maintenance"></div>
+            </div>
+            
+            <div class="card">
+              <h3>Live Activity Feed</h3>
+              <div class="activity-feed-container" id="activity-feed">
+                <!-- Injected dynamically -->
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 3. ASSET REGISTRY VIEW -->
+        <section class="view-pane" id="view-assets">
+          <div class="view-header">
+            <div class="view-title-group">
+              <h1>Inventory Registry</h1>
+              <p>View, filter, search, and assign hardware resources.</p>
+            </div>
+            <button class="btn btn-primary" id="btn-open-request-modal">
+              <i data-lucide="plus"></i>
+              <span>Request Asset</span>
+            </button>
+          </div>
+
+          <!-- Filter Toolbar -->
+          <div class="filters-bar">
+            <div class="form-group">
+              <label class="form-label" for="asset-search">Search name / tag</label>
+              <input class="form-input" type="text" id="asset-search" placeholder="Type tag code or name...">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="asset-category-filter">Category</label>
+              <select class="form-select" id="asset-category-filter">
+                <option value="">All Categories</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Asset List Datatable -->
+          <div class="card" style="padding: 0; overflow: hidden;">
+            <div class="table-container">
+              <table class="custom-table">
+                <thead>
+                  <tr>
+                    <th>Asset Tag</th>
+                    <th>Asset Name</th>
+                    <th>Category</th>
+                    <th>Status</th>
+                    <th>Purchase Cost</th>
+                    <th>Purchase Date</th>
+                  </tr>
+                </thead>
+                <tbody id="assets-table-body">
+                  <!-- Injected dynamically -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- 4. RESOURCE BOOKINGS HUB -->
+        <section class="view-pane" id="view-bookings">
+          <div class="view-header">
+            <div class="view-title-group">
+              <h1>Shared Bookings</h1>
+              <p>Reserve spaces, vehicles, and projectors conflict-free.</p>
+            </div>
+            <button class="btn btn-primary" id="btn-open-book-modal">
+              <i data-lucide="calendar-plus"></i>
+              <span>Reserve Timeslot</span>
+            </button>
+          </div>
+
+          <div class="resource-booking-grid">
+            
+            <!-- Resources selection list -->
+            <div class="resource-selector-list" id="resource-list">
+              <button class="resource-btn active" data-resource="Boardroom Alfa (Floor 2)">
+                <div class="resource-btn-title">Boardroom Alfa</div>
+                <div class="resource-btn-desc">12 Person Meeting Room</div>
+              </button>
+              <button class="resource-btn" data-resource="Huddle Room Beta (Floor 1)">
+                <div class="resource-btn-title">Huddle Room Beta</div>
+                <div class="resource-btn-desc">6 Person Huddle Space</div>
+              </button>
+              <button class="resource-btn" data-resource="Epson Pro EX11000 Projector">
+                <div class="resource-btn-title">Epson Pro Projector</div>
+                <div class="resource-btn-desc">Shared Media Projector</div>
+              </button>
+              <button class="resource-btn" data-resource="Tesla Model Y Long Range">
+                <div class="resource-btn-title">Tesla Model Y</div>
+                <div class="resource-btn-desc">Operations Transit Car</div>
+              </button>
+            </div>
+
+            <!-- Calendar Display -->
+            <div class="card" style="display: flex; flex-direction: column;">
+              <div class="calendar-header">
+                <h3 id="calendar-date-display">Select Date</h3>
+                <div class="calendar-nav-group">
+                  <input type="date" class="form-input" id="calendar-date-selector" style="padding: 6px 12px; width: 160px;">
+                </div>
+              </div>
+
+              <!-- Main slots list -->
+              <div class="calendar-grid" id="calendar-grid-body">
+                <!-- Injected dynamically -->
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- 5. MAINTENANCE BOARD -->
+        <section class="view-pane" id="view-maintenance">
+          <div class="view-header">
+            <div class="view-title-group">
+              <h1>Maintenance Tickets</h1>
+              <p>Track hardware issues, failures, and resolution queues.</p>
+            </div>
+            <button class="btn btn-secondary" id="btn-open-maint-modal">
+              <i data-lucide="alert-circle"></i>
+              <span>Report Issue</span>
+            </button>
+          </div>
+
+          <!-- KANBAN BOARD -->
+          <div class="maintenance-board" id="maintenance-kanban-board">
+            
+            <div class="maintenance-column">
+              <div class="column-header">
+                <div class="column-title"><span style="color: var(--accent-primary)">●</span> Pending</div>
+                <span class="column-count" id="maint-count-pending">0</span>
+              </div>
+              <div class="maintenance-cards-list" id="maint-col-pending"></div>
+            </div>
+            
+            <div class="maintenance-column">
+              <div class="column-header">
+                <div class="column-title"><span style="color: var(--color-warning)">●</span> Approved</div>
+                <span class="column-count" id="maint-count-approved">0</span>
+              </div>
+              <div class="maintenance-cards-list" id="maint-col-approved"></div>
+            </div>
+            
+            <div class="maintenance-column">
+              <div class="column-header">
+                <div class="column-title"><span style="color: var(--accent-secondary)">●</span> In Progress</div>
+                <span class="column-count" id="maint-count-progress">0</span>
+              </div>
+              <div class="maintenance-cards-list" id="maint-col-progress"></div>
+            </div>
+            
+            <div class="maintenance-column">
+              <div class="column-header">
+                <div class="column-title"><span style="color: var(--color-success)">●</span> Resolved</div>
+                <span class="column-count" id="maint-count-resolved">0</span>
+              </div>
+              <div class="maintenance-cards-list" id="maint-col-resolved"></div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- 6. REPORTS VIEW -->
+        <section class="view-pane" id="view-reports">
+          <div class="view-header">
+            <div class="view-title-group">
+              <h1>Reports Analytics</h1>
+              <p>Filter, sort, inspect, and export system audits.</p>
+            </div>
+            <button class="btn btn-primary" id="btn-export-csv">
+              <i data-lucide="download"></i>
+              <span>Export CSV</span>
+            </button>
+          </div>
+
+          <!-- Filters Toolbar -->
+          <div class="filters-bar">
+            <div class="form-group" style="min-width: 220px;">
+              <label class="form-label" for="report-type-select">Select Report Type</label>
+              <select class="form-select" id="report-type-select">
+                <option value="utilization">Asset Utilization / Inventory</option>
+                <option value="maintenance">Maintenance Ticket Log</option>
+                <option value="bookings">Resource Booking Occupancy</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label" for="report-search">Search Keyword</label>
+              <input class="form-input" type="text" id="report-search" placeholder="Type key term...">
+            </div>
+
+            <div class="form-group" id="filter-group-status">
+              <label class="form-label" for="report-status-filter">Status</label>
+              <select class="form-select" id="report-status-filter">
+                <option value="">All Statuses</option>
+                <option value="Available">Available</option>
+                <option value="Allocated">Allocated</option>
+                <option value="Maintenance">Maintenance</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="report-dept-filter">Department filter</label>
+              <select class="form-select" id="report-dept-filter">
+                <option value="">All Departments</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Table rendering card -->
+          <div class="card" style="padding: 0; overflow: hidden;">
+            <div class="table-container">
+              <table class="custom-table">
+                <thead id="reports-table-head">
+                  <!-- Dynamic headers -->
+                </thead>
+                <tbody id="reports-table-body">
+                  <!-- Dynamic rows -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- TOAST ALERT PANEL CONTAINER -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- MODALS PORTAL -->
+  
+  <!-- 1. Asset Request Modal -->
+  <div class="modal-overlay" id="modal-asset-request">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h2>Request Allocation</h2>
+        <button class="modal-close-btn" data-close-modal><i data-lucide="x"></i></button>
+      </div>
+      <form id="form-asset-request">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label" for="form-req-category">Requested Category</label>
+            <select class="form-select" id="form-req-category" name="req-category"></select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="form-req-urgency">Urgency Priority</label>
+            <select class="form-select" id="form-req-urgency" name="req-urgency">
+              <option value="Low">Low - Normal Request</option>
+              <option value="Medium">Medium - Hardware Swap</option>
+              <option value="High">High - Critical Project Need</option>
+            </select>
+          </div>
+          <div style="display: flex; gap: 16px;">
+            <div class="form-group" style="flex: 1;">
+              <label class="form-label" for="form-req-start-date">Required From</label>
+              <input type="date" class="form-input" id="form-req-start-date" name="req-start-date">
+            </div>
+            <div class="form-group" style="flex: 1;">
+              <label class="form-label" for="form-req-end-date">Required Until</label>
+              <input type="date" class="form-input" id="form-req-end-date" name="req-end-date">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="form-req-justification">Business Justification</label>
+            <textarea class="form-textarea" id="form-req-justification" name="req-justification" placeholder="Provide business justification..."></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-close-modal>Cancel</button>
+          <button type="submit" class="btn btn-primary">Submit Request</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 2. Resource Booking Modal -->
+  <div class="modal-overlay" id="modal-resource-booking">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h2>Reserve Timeslot</h2>
+        <button class="modal-close-btn" data-close-modal><i data-lucide="x"></i></button>
+      </div>
+      <form id="form-resource-booking">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label" for="form-book-resource-name">Resource Selected</label>
+            <input class="form-input" type="text" id="form-book-resource-name" name="book-resource-name" readonly>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="form-book-date">Booking Date</label>
+            <input class="form-input" type="date" id="form-book-date" name="book-date">
+          </div>
+          <div style="display: flex; gap: 16px;">
+            <div class="form-group" style="flex: 1;">
+              <label class="form-label" for="form-book-start-time">Start Time</label>
+              <select class="form-select" id="form-book-start-time" name="book-start-time">
+                <option value="08:00">08:00 AM</option>
+                <option value="10:00">10:00 AM</option>
+                <option value="12:00">12:00 PM</option>
+                <option value="14:00">02:00 PM</option>
+                <option value="16:00">04:00 PM</option>
+              </select>
+            </div>
+            <div class="form-group" style="flex: 1;">
+              <label class="form-label" for="form-book-end-time">End Time</label>
+              <select class="form-select" id="form-book-end-time" name="book-end-time">
+                <option value="10:00">10:00 AM</option>
+                <option value="12:00">12:00 PM</option>
+                <option value="14:00">02:00 PM</option>
+                <option value="16:00">04:00 PM</option>
+                <option value="18:00">06:00 PM</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="form-book-purpose">Reservation Purpose</label>
+            <input class="form-input" type="text" id="form-book-purpose" name="book-purpose" placeholder="e.g. Weekly Standup, Project Presentation">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-close-modal>Cancel</button>
+          <button type="submit" class="btn btn-primary">Confirm Reservation</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 3. Maintenance Ticket Modal -->
+  <div class="modal-overlay" id="modal-maintenance-report">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h2>Report Equipment Issue</h2>
+        <button class="modal-close-btn" data-close-modal><i data-lucide="x"></i></button>
+      </div>
+      <form id="form-maintenance-report">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label" for="form-maint-asset">Asset with issues</label>
+            <select class="form-select" id="form-maint-asset" name="maint-asset"></select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="form-maint-category">Issue Category</label>
+            <select class="form-select" id="form-maint-category" name="maint-category">
+              <option value="Hardware Failure">Hardware Damage / Component Failure</option>
+              <option value="Software OS Upgrade">Software Upgrade / Driver Failure</option>
+              <option value="Physical Damage">Physical Scratch / Screen Shatter</option>
+              <option value="Accessory Lost">Charger / Cables / Peripherals Lost</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="form-maint-urgency">Urgency Level</label>
+            <select class="form-select" id="form-maint-urgency" name="maint-urgency">
+              <option value="Low">Low - Cosmetic Issue</option>
+              <option value="Medium">Medium - Daily operations impacted</option>
+              <option value="Critical">Critical - Blocked from working</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="form-maint-description">Details of Defect</label>
+            <textarea class="form-textarea" id="form-maint-description" name="maint-description" placeholder="Describe the problem, when it occurred..."></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-close-modal>Cancel</button>
+          <button type="submit" class="btn btn-primary">File Ticket</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Core App Init Script Loader -->
+  <script type="module" src="src/js/app.js"></script>
+
+</body>
+</html>
